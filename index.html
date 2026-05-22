@@ -1620,7 +1620,7 @@
 
         <div class="layout-3">
           <div class="panel">
-            <div class="panel-header"><h2 class="panel-title">年级质量对比</h2><div class="panel-filters"><select id="qualityCompareStageSelect" class="chart-select overview-filter"><option value="all">全部学段</option><option value="primary">小学</option><option value="middle">初中</option><option value="high">高中</option></select></div></div>
+            <div class="panel-header"><h2 class="panel-title">学科知识掌握度对比</h2><div class="panel-filters"><select id="qualityCompareStageSelect" class="chart-select overview-filter"><option value="all">全部学段</option><option value="primary">小学</option><option value="middle">初中</option><option value="high">高中</option></select><select id="qualityCompareSubjectSelect" class="chart-select overview-filter"><option value="all">全部学科</option><option value="语文">语文</option><option value="数学" selected>数学</option><option value="英语">英语</option><option value="物理">物理</option><option value="化学">化学</option><option value="道法">道法</option></select></div></div>
             <div class="panel-body"><canvas id="overviewBar"></canvas></div>
           </div>
           <div class="panel big-canvas">
@@ -7706,6 +7706,133 @@ function drawSubjectLevelStackedByClass(id) {
       attachCanvasTip('overviewLine', `校情运行趋势：横坐标按当前时间范围等分为8个日期节点，当前范围 ${getOverviewScope('operationStageSelect', 'operationGradeSelect')}。`);
     }
     drawOperationTrendByStageGrade();
+
+
+
+    /* === V2.17 按需求优化：学科知识掌握度对比/百分比坐标/教师职称结构 === */
+    function drawVerticalPercentBar(id, labels, values, maxValue = 100, title = '占比') {
+      const canvas = document.getElementById(id);
+      if (!canvas) return;
+      const { ctx, w, h } = resizeCanvas(canvas);
+      resetChartHover(id);
+      clear(ctx, w, h);
+      const pad = { top: 30, right: 20, bottom: 36, left: 58, yMax: maxValue, yFormatter: v => Math.round(v) + '%' };
+      grid(ctx, w, h, pad);
+      const areaW = w - pad.left - pad.right;
+      const areaH = h - pad.top - pad.bottom;
+      ctx.font = '12px Microsoft YaHei';
+      labels.forEach((label, i) => {
+        const v = Math.max(0, Math.min(maxValue, Number(values[i]) || 0));
+        const colW = areaW / labels.length;
+        const barW = Math.min(38, colW * 0.52);
+        const x = pad.left + colW * i + (colW - barW) / 2;
+        const bh = areaH * v / maxValue;
+        const y = pad.top + areaH - bh;
+        const grd = ctx.createLinearGradient(0, y, 0, y + bh);
+        grd.addColorStop(0, colors.cyan);
+        grd.addColorStop(1, colors.purple);
+        roundRect(ctx, x, y, barW, bh, 9, grd);
+        addChartHover(id, { type: 'rect', x, y, w: barW, h: bh, tip: `${label}\n${title}：${v}%` });
+        ctx.fillStyle = colors.text;
+        ctx.textAlign = 'center';
+        ctx.fillText(v + '%', x + barW / 2, y - 8);
+        ctx.fillStyle = colors.muted;
+        ctx.fillText(label, x + barW / 2, h - 12);
+      });
+      ctx.textAlign = 'left';
+    }
+
+    function drawQualityCompareByStage() {
+      const stage = getSelectValue('qualityCompareStageSelect', 'all');
+      const subject = getSelectValue('qualityCompareSubjectSelect', '数学');
+      const subjectLabel = subject === 'all' ? '全部学科' : subject;
+      const masteryData = {
+        all: {
+          labels: ['小学', '初中', '高中'],
+          all: [84, 86, 88],
+          '语文': [86, 87, 89],
+          '数学': [83, 85, 88],
+          '英语': [85, 86, 87],
+          '物理': [0, 82, 86],
+          '化学': [0, 84, 87],
+          '道法': [88, 89, 90]
+        },
+        primary: {
+          labels: ['一年级', '二年级', '三年级', '四年级', '五年级', '六年级'],
+          all: [82, 84, 85, 86, 84, 87],
+          '语文': [84, 86, 87, 88, 86, 89],
+          '数学': [81, 83, 84, 85, 84, 86],
+          '英语': [82, 84, 85, 86, 85, 87],
+          '物理': [0, 0, 0, 0, 0, 0],
+          '化学': [0, 0, 0, 0, 0, 0],
+          '道法': [86, 87, 88, 89, 88, 90]
+        },
+        middle: {
+          labels: ['七年级', '八年级', '九年级'],
+          all: [84, 86, 88],
+          '语文': [86, 87, 89],
+          '数学': [82, 85, 88],
+          '英语': [84, 86, 87],
+          '物理': [0, 81, 85],
+          '化学': [0, 0, 86],
+          '道法': [87, 89, 90]
+        },
+        high: {
+          labels: ['高一', '高二', '高三'],
+          all: [85, 87, 89],
+          '语文': [87, 88, 90],
+          '数学': [84, 86, 89],
+          '英语': [85, 87, 88],
+          '物理': [83, 85, 88],
+          '化学': [84, 86, 89],
+          '道法': [88, 89, 91]
+        }
+      };
+      const cfg = masteryData[stage] || masteryData.all;
+      let labels = cfg.labels;
+      let values = (cfg[subject] || cfg.all).slice();
+      const disabledSubject = values.every(v => v === 0);
+      if (disabledSubject) {
+        values = cfg.all.slice();
+      }
+      drawVerticalPercentBar('overviewBar', labels, values, 100, '知识掌握度');
+      const rangeLabel = stage === 'all' ? '各学段' : `${overviewStageLabelMap[stage]}各年级`;
+      const extra = disabledSubject ? `（${overviewStageLabelMap[stage]}暂无${subjectLabel}数据，已展示全部学科）` : '';
+      attachCanvasTip('overviewBar', `学科知识掌握度对比：当前展示${rangeLabel}，筛选学科：${subjectLabel}${extra}。纵坐标以百分比展示。`);
+    }
+
+    function drawTeacherTitleDonut() {
+      const prefix = 'teacherTitle';
+      const seed = typeof scopedSeed === 'function' ? scopedSeed(prefix) : 0;
+      const values = [
+        Math.max(12, 22 + Math.round(seed / 3)),
+        Math.max(36, 62 + Math.round(seed / 2)),
+        Math.max(48, 78 + seed),
+        Math.max(26, 46 - Math.round(seed / 3)),
+        Math.max(4, 10 + Math.round(seed / 5))
+      ];
+      drawDonut('teacherDonut', ['三级教师','二级教师','一级教师','高级教师','正高级教师'], values, [colors.green, colors.cyan, colors.blue, colors.purple, colors.yellow]);
+      attachCanvasTip('teacherDonut', `教师职称结构：按三级教师、二级教师、一级教师、高级教师、正高级教师展示，当前范围 ${scopedText(prefix)}。`);
+    }
+
+    function drawTeacherQualityIndex() {
+      const prefix = 'teacherQuality';
+      const grade = typeof scopedGrade === 'function' ? scopedGrade(prefix) : 'school';
+      const gradeSeed = ({ school: 0, grade7: -1, grade8: 1, grade9: 2 }[grade] || 0) + (typeof getTimeSeed === 'function' ? getTimeSeed() : 0);
+      const labels = ['语文','数学','英语','物理','化学','道法'];
+      const values = [88, 90, 85, 83, 86, 89].map((v, i) => Math.max(0, Math.min(100, v + gradeSeed - (i % 3))));
+      drawVerticalPercentBar('teacherBar', labels, values, 100, '教学成效');
+      attachCanvasTip('teacherBar', `学科教学成效：纵坐标以百分比展示，当前范围 ${getTimeLabel()} · ${gradeLabelMap[grade]}。`);
+    }
+
+    function applyRequestedDashboardFixV217() {
+      const title = document.querySelector('#overview #overviewBar')?.closest('.panel')?.querySelector('.panel-title');
+      if (title) title.textContent = '学科知识掌握度对比';
+      if (typeof renderOverviewCharts === 'function') renderOverviewCharts();
+      if (typeof renderTeacherCharts === 'function') renderTeacherCharts();
+    }
+
+    applyRequestedDashboardFixV217();
 
   </script>
 
