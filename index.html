@@ -1990,10 +1990,10 @@
     <main>
       <section class="page active" id="overview">
         <div class="kpi-grid">
-          <div class="kpi-card"><div class="kpi-label">学生数</div><div class="kpi-value">3,286</div><div class="kpi-sub">▲ 较上学期 +83人</div></div>
+          <div class="kpi-card"><div class="kpi-label">学生数</div><div class="kpi-value">3,286</div><div class="kpi-sub">▲较上月+83人</div></div>
           <div class="kpi-card"><div class="kpi-label">教师数</div><div class="kpi-value">218</div><div class="kpi-sub">师生比 1:15.1</div></div>
-          <div class="kpi-card" data-tip="班级数：统计当前筛选条件下纳入分析的行政班数量。"><div class="kpi-label">班级数</div><div class="kpi-value">54</div><div class="kpi-sub">▲ 较上学期 +4个班</div></div>
-          <div class="kpi-card"><div class="kpi-label">校本资源数量</div><div class="kpi-value">12,610</div><div class="kpi-sub">▲ 本月新增 895 个</div></div>
+          <div class="kpi-card" data-tip="班级数：统计当前筛选条件下纳入分析的行政班数量。"><div class="kpi-label">班级数</div><div class="kpi-value">54</div><div class="kpi-sub">▲较上月+4个班</div></div>
+          <div class="kpi-card"><div class="kpi-label">校本资源数量</div><div class="kpi-value">12,610</div><div class="kpi-sub">▲ 较上月+895个</div></div>
         </div>
 
         <div class="overview-dashboard-layout">
@@ -2034,10 +2034,10 @@
                 <div class="brain-node subject" style="--angle:0deg;--radius:218px"><div class="brain-node-name">化学</div><div class="brain-node-value">85%</div></div>
                 <div class="brain-node subject" style="--angle:-138deg;--radius:220px"><div class="brain-node-name">数学</div><div class="brain-node-value">88%</div></div>
                 <div class="brain-node subject" style="--angle:180deg;--radius:218px"><div class="brain-node-name">物理</div><div class="brain-node-value">84%</div></div>
-                <div class="brain-node quality" style="--angle:32deg;--radius:232px"><div class="brain-node-name">学业</div><div class="brain-node-value">89</div></div>
-                <div class="brain-node quality" style="--angle:58deg;--radius:232px"><div class="brain-node-name">劳动</div><div class="brain-node-value">88</div></div>
-                <div class="brain-node quality" style="--angle:90deg;--radius:222px"><div class="brain-node-name">艺术</div><div class="brain-node-value">83</div></div>
-                <div class="brain-node quality" style="--angle:122deg;--radius:232px"><div class="brain-node-name">体质</div><div class="brain-node-value">85</div></div>
+                <div class="brain-node quality" style="--angle:32deg;--radius:232px"><div class="brain-node-name">智育</div><div class="brain-node-value">89</div></div>
+                <div class="brain-node quality" style="--angle:58deg;--radius:232px"><div class="brain-node-name">劳育</div><div class="brain-node-value">88</div></div>
+                <div class="brain-node quality" style="--angle:90deg;--radius:222px"><div class="brain-node-name">美育</div><div class="brain-node-value">83</div></div>
+                <div class="brain-node quality" style="--angle:122deg;--radius:232px"><div class="brain-node-name">体育</div><div class="brain-node-value">85</div></div>
                 <div class="brain-node quality" style="--angle:152deg;--radius:232px"><div class="brain-node-name">德育</div><div class="brain-node-value">92</div></div>
               </div>
             </div>
@@ -2045,11 +2045,11 @@
 
           <div class="overview-side-column overview-right-column">
             <div class="panel big-canvas">
-              <div class="panel-header"><h2 class="panel-title">校情运行趋势</h2><div class="panel-filters"><select id="operationStageSelect" class="chart-select overview-filter"><option value="all">全部学段</option><option value="primary">小学</option><option value="middle">初中</option><option value="high">高中</option></select><select id="operationGradeSelect" class="chart-select overview-filter"><option value="all">全部年级</option><option value="grade7">七年级</option><option value="grade8">八年级</option><option value="grade9">九年级</option></select></div></div>
+              <div class="panel-header"><h2 class="panel-title">学校运行趋势</h2><div class="panel-filters"><select id="operationStageSelect" class="chart-select overview-filter"><option value="all">全部学段</option><option value="primary">小学</option><option value="middle">初中</option><option value="high">高中</option></select><select id="operationGradeSelect" class="chart-select overview-filter"><option value="all">全部年级</option><option value="grade7">七年级</option><option value="grade8">八年级</option><option value="grade9">九年级</option></select></div></div>
               <div class="panel-body"><canvas id="overviewLine"></canvas></div>
             </div>
             <div class="panel">
-              <div class="panel-header"><h2 class="panel-title">学科知识掌握度对比</h2><div class="panel-filters"><select id="qualityCompareStageSelect" class="chart-select overview-filter"><option value="all">全部学段</option><option value="primary">小学</option><option value="middle">初中</option><option value="high">高中</option></select><select id="qualityCompareSubjectSelect" class="chart-select overview-filter"><option value="all">全部学科</option><option value="语文">语文</option><option value="数学" selected>数学</option><option value="英语">英语</option><option value="物理">物理</option><option value="化学">化学</option><option value="道法">道法</option></select></div></div>
+              <div class="panel-header"><h2 class="panel-title">学情水平趋势</h2><div class="panel-filters"><select id="qualityCompareGradeSelect" class="chart-select overview-filter"><option value="school">全部年级</option></select><select id="qualityCompareClassSelect" class="chart-select overview-filter"><option value="all">全部班级</option></select></div></div>
               <div class="panel-body"><canvas id="overviewBar"></canvas></div>
             </div>
             <div class="panel">
@@ -2184,11 +2184,11 @@
 
       <section class="page" id="process">
         <div class="kpi-grid">
-          <div class="kpi-card" data-tip="教学资源建设量：当前筛选条件下教师创建的课件、AI活动、模板活动、随堂测、学案、教案、听写、场景对话、趣味抽奖、单词评测、智能体、对话评测等校本资源总数。"><div class="kpi-label">教学资源建设量</div><div class="kpi-value">895</div><div class="kpi-sub">▲ 较上月 +86</div></div>
+          <div class="kpi-card" data-tip="教学资源建设量：当前筛选条件下教师创建的课件、AI活动、模板活动、随堂测、学案、教案、听写、场景对话、趣味抽奖、单词评测、智能体、对话评测等校本资源总数。"><div class="kpi-label">教学资源建设量</div><div class="kpi-value">895</div><div class="kpi-sub">▲ 较上月 +86个</div></div>
           <div class="kpi-card" data-tip="教学资源应用次数：当前筛选条件下校本资源被备课、授课、训练、课堂活动调用的累计次数。"><div class="kpi-label">教学资源应用次数</div><div class="kpi-value">12,610</div><div class="kpi-sub">▲ 较上月 +986次</div></div>
           <div class="kpi-card"><div class="kpi-label">作业提交率</div><div class="kpi-value">91.7%</div><div class="kpi-sub">▲ 较上月 +1.4%</div></div>
           <div class="kpi-card"><div class="kpi-label">作业批改率</div><div class="kpi-value">96.8%</div><div class="kpi-sub">▲ +2.2%</div></div>
-          <div class="kpi-card" data-tip="个性化备课次数：教师基于班级或学生画像生成差异化备课方案的次数。"><div class="kpi-label">个性化备课次数</div><div class="kpi-value">128</div><div class="kpi-sub">▲ 较上月 +18</div></div>
+          <div class="kpi-card" data-tip="个性化备课次数：教师基于班级或学生画像生成差异化备课方案的次数。"><div class="kpi-label">个性化备课次数</div><div class="kpi-value">128</div><div class="kpi-sub">▲ 较上月 +18次</div></div>
           <div class="kpi-card" data-tip="个性化训练次数：系统为薄弱知识点、临界生和分层作业生成训练任务的次数。"><div class="kpi-label">个性化训练次数</div><div class="kpi-value">486</div><div class="kpi-sub">▲ 较上月 +68次</div></div>
         </div>
 
@@ -2256,11 +2256,10 @@
       <section class="page" id="student">
         <div class="kpi-grid">
           <div class="kpi-card"><div class="kpi-label">综合素养均分</div><div class="kpi-value">88.2</div><div class="kpi-sub">▲ 较上月 +1.6</div></div>
-          <div class="kpi-card"><div class="kpi-label">体测达标率</div><div class="kpi-value">93.4%</div><div class="kpi-sub">▲ 较上月 +1.5%</div></div>
-          <div class="kpi-card" data-tip="自主学习时长：统计学生在自主学习、在线练习、资源学习、错题巩固等场景中的累计学习时长。"><div class="kpi-label">自主学习时长</div><div class="kpi-value">12,486h</div><div class="kpi-sub">本月人均 3.8h</div></div>
-          <div class="kpi-card"><div class="kpi-label">积极表现数</div><div class="kpi-value">1,246</div><div class="kpi-sub">▲ 较上月 +126</div></div>
-          <div class="kpi-card" data-tip="待提升表现数：包括课堂纪律、作业习惯、协作沟通等需要持续引导的行为事件。"><div class="kpi-label">待提升表现数</div><div class="kpi-value">68</div><div class="kpi-sub">▼ 较上月 -8</div></div>
-          <div class="kpi-card"><div class="kpi-label">心理关注学生</div><div class="kpi-value">23</div><div class="kpi-sub danger">高关注 4 人</div></div>
+          <div class="kpi-card" data-tip="自主学习时长：统计学生在自主学习、在线练习、资源学习、错题巩固等场景中的累计学习时长。"><div class="kpi-label">自主学习时长</div><div class="kpi-value">12,486h</div><div class="kpi-sub">▲ 较上月+38h</div></div>
+          <div class="kpi-card"><div class="kpi-label">积极表现数</div><div class="kpi-value">1,246</div><div class="kpi-sub">▲ 较上月 +126次</div></div>
+          <div class="kpi-card" data-tip="待提升表现数：包括课堂纪律、作业习惯、协作沟通等需要持续引导的行为事件。"><div class="kpi-label">待提升表现数</div><div class="kpi-value">68</div><div class="kpi-sub">▼ 较上月 -8次</div></div>
+          <div class="kpi-card"><div class="kpi-label">心理关注学生</div><div class="kpi-value">23</div><div class="kpi-sub danger">▲ 较上月 +4 人</div></div>
         </div>
 
         <div class="layout-3 student-overview-layout">
@@ -2332,7 +2331,7 @@
           <div class="kpi-card"><div class="kpi-label">高级职称占比</div><div class="kpi-value">32.6%</div><div class="kpi-sub">▲ 较上学期 +1.8%</div></div>
           <div class="kpi-card" data-tip="课堂分析次数：统计教师开展课堂分析、课堂诊断、课堂观察或课堂数据复盘的累计次数。"><div class="kpi-label">课堂分析次数（暂无）</div><div class="kpi-value">895</div><div class="kpi-sub">▲ 较上月 +86次</div></div>
           <div class="kpi-card" data-tip="课堂互动次数：统计课堂问答、举手发言、随堂反馈、互动活动参与等课堂互动行为次数。"><div class="kpi-label">课堂互动次数</div><div class="kpi-value">18,642</div><div class="kpi-sub">▲ 较上月 +1,986次</div></div>
-          <div class="kpi-card"><div class="kpi-label">校本资源贡献次数</div><div class="kpi-value">1,268</div><div class="kpi-sub">▲ 较上月 +96</div></div>
+          <div class="kpi-card"><div class="kpi-label">校本资源贡献次数</div><div class="kpi-value">1,268</div><div class="kpi-sub">▲ 较上月 +96次</div></div>
           <div class="kpi-card" data-tip="个性化教学次数 = 个性化备课次数 + 个性化训练次数。"><div class="kpi-label">个性化教学次数</div><div class="kpi-value">614</div><div class="kpi-sub">▲ 较上月 +86次</div></div>
         </div>
 
@@ -2367,9 +2366,9 @@
         <div class="kpi-grid">
           <div class="kpi-card" data-tip="活跃教师：统计当前时间范围内登录、备课、授课、创建或使用资源的教师人数。"><div class="kpi-label">活跃教师</div><div class="kpi-value">186</div><div class="kpi-sub">▲ 较上月 +12人</div></div>
           <div class="kpi-card" data-tip="活跃学生：统计当前时间范围内登录学习、参与课堂互动、完成练习或使用资源的学生人数。"><div class="kpi-label">活跃学生</div><div class="kpi-value">1,656</div><div class="kpi-sub">▲ 较上月 +138人</div></div>
-          <div class="kpi-card" data-tip="教师活跃率 = 活跃教师人数 / 平台教师总人数。"><div class="kpi-label">教师活跃率</div><div class="kpi-value">85.3%</div><div class="kpi-sub">186 / 218</div></div>
-          <div class="kpi-card" data-tip="学生活跃率 = 活跃学生人数 / 平台学生总人数。"><div class="kpi-label">学生活跃率</div><div class="kpi-value">50.4%</div><div class="kpi-sub">1,656 / 3,286</div></div>
-          <div class="kpi-card" data-tip="资源上传量：统计教师上传课件、教案、学案、活动等数字资源的数量。"><div class="kpi-label">资源上传量</div><div class="kpi-value">895</div><div class="kpi-sub">▲ 较上月 +86</div></div>
+          <div class="kpi-card" data-tip="教师活跃率 = 活跃教师人数 / 平台教师总人数。"><div class="kpi-label">教师活跃率</div><div class="kpi-value">85.3%</div><div class="kpi-sub">▲ 较上月 +12%</div></div>
+          <div class="kpi-card" data-tip="学生活跃率 = 活跃学生人数 / 平台学生总人数。"><div class="kpi-label">学生活跃率</div><div class="kpi-value">50.4%</div><div class="kpi-sub">▲ 较上月 +10%</div></div>
+          <div class="kpi-card" data-tip="资源上传量：统计教师上传课件、教案、学案、活动等数字资源的数量。"><div class="kpi-label">资源上传量</div><div class="kpi-value">895</div><div class="kpi-sub">▲ 较上月 +86次</div></div>
           <div class="kpi-card" data-tip="资源下载量：统计校本资源被教师下载、复用、共享后的下载次数。"><div class="kpi-label">资源下载量</div><div class="kpi-value">7,286</div><div class="kpi-sub">▲ 较上月 +716次</div></div>
         </div>
 
@@ -14236,12 +14235,13 @@ function drawSubjectLevelStackedByClass(id) {
 
 
   <script>
-    /* === V5.6 校情总览最终修复：全局学段/年级联动 + 各年级/各班级人数展示 + 删除 pill 后稳定渲染 === */
+    /* === V6.0 安全收敛：校情图表稳定渲染 + 学生行为特征维度修复 === */
     (function () {
-      const STAGE_OPTIONS_V56 = [
+      const STABLE_CANVAS_IDS = new Set(['gradeStudentBar', 'gradeStudentBarStable', 'classPopulationHeat', 'genderDonut', 'overviewLine', 'overviewBar', 'overviewBarStable', 'studentStack']);
+      const STAGE_OPTIONS_FINAL = [
         ['all', '全部学段'], ['primary', '小学'], ['middle', '初中'], ['high', '高中']
       ];
-      const GRADE_BY_STAGE_V56 = {
+      const GRADE_OPTIONS_BY_STAGE_FINAL = {
         all: [
           ['school', '全部年级'], ['grade1', '一年级'], ['grade2', '二年级'], ['grade3', '三年级'],
           ['grade4', '四年级'], ['grade5', '五年级'], ['grade6', '六年级'],
@@ -14252,538 +14252,28 @@ function drawSubjectLevelStackedByClass(id) {
         middle: [['school', '全部年级'], ['grade7', '七年级'], ['grade8', '八年级'], ['grade9', '九年级']],
         high: [['school', '全部年级'], ['grade10', '高一'], ['grade11', '高二'], ['grade12', '高三']]
       };
-      const GRADE_STAGE_V56 = {
+      const GRADE_STAGE_FINAL = {
         grade1: 'primary', grade2: 'primary', grade3: 'primary', grade4: 'primary', grade5: 'primary', grade6: 'primary',
         grade7: 'middle', grade8: 'middle', grade9: 'middle',
         grade10: 'high', grade11: 'high', grade12: 'high'
       };
-      const GRADE_LABEL_V56 = Object.fromEntries(GRADE_BY_STAGE_V56.all);
-      const STAGE_LABEL_V56 = Object.fromEntries(STAGE_OPTIONS_V56);
-      const GRADE_STUDENTS_V56 = {
+      const GRADE_LABEL_FINAL = Object.fromEntries(GRADE_OPTIONS_BY_STAGE_FINAL.all);
+      const STAGE_LABEL_FINAL = Object.fromEntries(STAGE_OPTIONS_FINAL);
+      const GRADE_STUDENTS_FINAL = {
         grade1: 198, grade2: 205, grade3: 214, grade4: 210, grade5: 216, grade6: 217,
         grade7: 1098, grade8: 1114, grade9: 1074,
         grade10: 638, grade11: 620, grade12: 598
       };
-      const SUBJECT_SEED_V56 = { all: 0, '语文': 2, '数学': 0, '英语': 1, '物理': -2, '化学': -1, '道法': 3 };
-
-      function optionHtmlV56(options, selected) {
-        return options.map(([value, label]) => `<option value="${value}"${value === selected ? ' selected' : ''}>${label}</option>`).join('');
-      }
-      function setOptionsV56(select, options, selected) {
-        if (!select) return;
-        const safe = options.some(([value]) => value === selected) ? selected : options[0][0];
-        select.innerHTML = optionHtmlV56(options, safe);
-        select.value = safe;
-      }
-      function normalizeGradeV56(value) {
-        return (!value || value === 'all') ? 'school' : value;
-      }
-      function ensureGlobalStageV56() {
-        let hidden = document.getElementById('globalStageSelect');
-        if (!hidden) {
-          hidden = document.createElement('select');
-          hidden.id = 'globalStageSelect';
-          hidden.style.display = 'none';
-          hidden.innerHTML = optionHtmlV56(STAGE_OPTIONS_V56, 'all');
-          document.querySelector('.global-filter-state')?.appendChild(hidden);
-        }
-        setOptionsV56(hidden, STAGE_OPTIONS_V56, hidden.value || 'all');
-        document.querySelectorAll('.top-global-filters').forEach(box => {
-          let stage = box.querySelector('.page-global-select[data-filter="stage"]');
-          if (!stage) {
-            stage = document.createElement('select');
-            stage.className = 'chart-select page-global-select';
-            stage.dataset.filter = 'stage';
-            const label = box.querySelector('.filter-label');
-            if (label) label.insertAdjacentElement('afterend', stage); else box.prepend(stage);
-          }
-          setOptionsV56(stage, STAGE_OPTIONS_V56, hidden.value || 'all');
-        });
-      }
-      function readGlobalStageV56() {
-        return document.getElementById('globalStageSelect')?.value || document.querySelector('.page-global-select[data-filter="stage"]')?.value || 'all';
-      }
-      function readGlobalGradeV56() {
-        return normalizeGradeV56(document.getElementById('globalGradeSelect')?.value || document.querySelector('.page-global-select[data-filter="grade"]')?.value || 'school');
-      }
-      function writeGlobalV56(key, value) {
-        const hidden = document.getElementById(key === 'stage' ? 'globalStageSelect' : key === 'grade' ? 'globalGradeSelect' : key === 'subject' ? 'globalSubjectSelect' : 'globalTimeSelect');
-        if (hidden) hidden.value = key === 'grade' ? normalizeGradeV56(value) : value;
-        document.querySelectorAll(`.page-global-select[data-filter="${key}"]`).forEach(select => { select.value = key === 'grade' ? normalizeGradeV56(value) : value; });
-      }
-      function syncGlobalGradeOptionsV56(preferred) {
-        const stage = readGlobalStageV56();
-        const options = GRADE_BY_STAGE_V56[stage] || GRADE_BY_STAGE_V56.all;
-        const current = normalizeGradeV56(preferred || readGlobalGradeV56());
-        const safe = options.some(([value]) => value === current) ? current : 'school';
-        setOptionsV56(document.getElementById('globalGradeSelect'), options, safe);
-        document.querySelectorAll('.page-global-select[data-filter="grade"]').forEach(select => setOptionsV56(select, options, safe));
-      }
-      function gradeKeysForStageV56(stage) {
-        return (GRADE_BY_STAGE_V56[stage] || GRADE_BY_STAGE_V56.all).filter(([value]) => value !== 'school').map(([value]) => value);
-      }
-      function activeStageForPanelV56(panelStageId) {
-        const globalGrade = readGlobalGradeV56();
-        if (globalGrade !== 'school') return GRADE_STAGE_V56[globalGrade] || 'all';
-        const globalStage = readGlobalStageV56();
-        if (globalStage !== 'all') return globalStage;
-        return document.getElementById(panelStageId)?.value || 'all';
-      }
-      function classValuesForGradeV56(grade) {
-        const total = GRADE_STUDENTS_V56[grade] || 0;
-        const weights = [0.158, 0.172, 0.166, 0.171, 0.164, 0.169];
-        let values = weights.map(w => Math.round(total * w));
-        values[values.length - 1] += total - values.reduce((sum, value) => sum + value, 0);
-        return values;
-      }
-      function gradeScopeV56(stage, grade) {
-        return grade && grade !== 'school' ? [grade] : gradeKeysForStageV56(stage || 'all');
-      }
-      function syncOverviewControlsV56() {
-        ensureGlobalStageV56();
-        const globalStage = readGlobalStageV56();
-        const globalGrade = readGlobalGradeV56();
-        const forcedStage = globalGrade !== 'school' ? (GRADE_STAGE_V56[globalGrade] || globalStage) : globalStage;
-        ['gradeStudentStageSelect','classPopulationStageSelect','genderStageSelect','operationStageSelect','qualityCompareStageSelect'].forEach(id => {
-          const select = document.getElementById(id);
-          if (!select) return;
-          const desired = forcedStage || 'all';
-          setOptionsV56(select, STAGE_OPTIONS_V56, desired);
-          select.disabled = globalStage !== 'all' || globalGrade !== 'school';
-          select.title = select.disabled ? `跟随全局筛选：${STAGE_LABEL_V56[desired] || '全部学段'}` : '学段筛选';
-        });
-        ['genderGradeSelect','operationGradeSelect','qualityCompareGradeSelect'].forEach(id => {
-          const select = document.getElementById(id);
-          if (!select) return;
-          const stageId = id === 'genderGradeSelect' ? 'genderStageSelect' : id === 'operationGradeSelect' ? 'operationStageSelect' : 'qualityCompareStageSelect';
-          const stage = activeStageForPanelV56(stageId);
-          const options = GRADE_BY_STAGE_V56[stage] || GRADE_BY_STAGE_V56.all;
-          const preferred = globalGrade !== 'school' ? globalGrade : (select.value || 'school');
-          setOptionsV56(select, options, options.some(([value]) => value === preferred) ? preferred : 'school');
-          select.disabled = globalGrade !== 'school';
-          select.title = select.disabled ? `跟随全局筛选：${GRADE_LABEL_V56[globalGrade] || '全部年级'}` : '年级筛选';
-        });
-      }
-      function drawGradeStudentV56() {
-        const globalGrade = readGlobalGradeV56();
-        const stage = activeStageForPanelV56('gradeStudentStageSelect');
-        const grades = gradeScopeV56(stage, globalGrade);
-        const labels = grades.map(grade => GRADE_LABEL_V56[grade] || grade);
-        const values = grades.map(grade => GRADE_STUDENTS_V56[grade] || 0);
-        if (typeof drawBar === 'function') drawBar('gradeStudentBar', labels, values, Math.max(240, Math.ceil(Math.max(...values, 1) * 1.15)));
-        if (typeof attachCanvasTip === 'function') {
-          const scope = globalGrade !== 'school' ? `${GRADE_LABEL_V56[globalGrade]}学生数` : `${STAGE_LABEL_V56[stage] || '全部学段'}各年级学生数`;
-          attachCanvasTip('gradeStudentBar', `年级学生分布：当前展示${scope}。`);
-        }
-      }
-      function drawClassPopulationV56() {
-        const canvas = document.getElementById('classPopulationHeat');
-        if (!canvas || typeof resizeCanvas !== 'function') return;
-        const { ctx, w, h } = resizeCanvas(canvas);
-        if (typeof resetChartHover === 'function') resetChartHover(canvas.id);
-        if (typeof clear === 'function') clear(ctx, w, h); else ctx.clearRect(0, 0, w, h);
-        const globalGrade = readGlobalGradeV56();
-        const stage = activeStageForPanelV56('classPopulationStageSelect');
-        const grades = gradeScopeV56(stage, globalGrade);
-        const cols = ['1班','2班','3班','4班','5班','6班'];
-        const pad = { top: 18, right: 14, bottom: 28, left: grades.length > 6 ? 42 : 54 };
-        const cellW = (w - pad.left - pad.right) / cols.length;
-        const cellH = (h - pad.top - pad.bottom) / Math.max(1, grades.length);
-        const allValues = grades.flatMap(classValuesForGradeV56);
-        const min = Math.min(...allValues, 1);
-        const max = Math.max(...allValues, 1);
-        ctx.font = grades.length > 9 ? '10px Microsoft YaHei' : '12px Microsoft YaHei';
-        ctx.textAlign = 'left';
-        grades.forEach((grade, r) => {
-          const rowValues = classValuesForGradeV56(grade);
-          const gradeLabel = (GRADE_LABEL_V56[grade] || grade).replace('年级','').replace('年','');
-          ctx.fillStyle = colors.muted;
-          ctx.fillText(gradeLabel, 6, pad.top + r * cellH + cellH * 0.60);
-          rowValues.forEach((value, c) => {
-            const alpha = 0.16 + ((value - min) / Math.max(1, max - min)) * 0.62;
-            const fill = value >= max * 0.96 ? `rgba(48,242,163,${alpha})` : value >= max * 0.88 ? `rgba(53,221,255,${alpha})` : `rgba(255,209,102,${alpha})`;
-            const x = pad.left + c * cellW + 4;
-            const y = pad.top + r * cellH + 3;
-            const cw = Math.max(4, cellW - 8);
-            const ch = Math.max(4, cellH - 6);
-            if (typeof roundRect === 'function') roundRect(ctx, x, y, cw, ch, 6, fill); else { ctx.fillStyle = fill; ctx.fillRect(x, y, cw, ch); }
-            if (typeof addChartHover === 'function') addChartHover(canvas.id, { type: 'rect', x, y, w: cw, h: ch, tip: `${GRADE_LABEL_V56[grade] || grade}${cols[c]}\n人数：${value}` });
-            if (cellH > 14 && cellW > 32) {
-              ctx.fillStyle = '#fff';
-              ctx.textAlign = 'center';
-              ctx.fillText(value, x + cw / 2, y + ch / 2 + 4);
-              ctx.textAlign = 'left';
-            }
-          });
-        });
-        ctx.fillStyle = colors.muted;
-        ctx.font = '11px Microsoft YaHei';
-        ctx.textAlign = 'center';
-        cols.forEach((col, c) => ctx.fillText(col, pad.left + c * cellW + cellW / 2, h - 9));
-        ctx.textAlign = 'left';
-        if (typeof attachCanvasTip === 'function') {
-          const scope = globalGrade !== 'school' ? `${GRADE_LABEL_V56[globalGrade]}各班级人数` : `${STAGE_LABEL_V56[stage] || '全部学段'}各班级人数`;
-          attachCanvasTip(canvas.id, `班级学生分布：当前展示${scope}。`);
-        }
-      }
-      function drawGenderV56() {
-        const globalGrade = readGlobalGradeV56();
-        const stage = activeStageForPanelV56('genderStageSelect');
-        const localGrade = normalizeGradeV56(document.getElementById('genderGradeSelect')?.value || 'school');
-        const grade = globalGrade !== 'school' ? globalGrade : localGrade;
-        const seed = grade !== 'school' ? (Number(grade.replace('grade','')) || 0) : (stage === 'primary' ? 1 : stage === 'middle' ? 2 : stage === 'high' ? 3 : 0);
-        if (typeof drawDonut === 'function') drawDonut('genderDonut', ['男生', '女生'], [52 + (seed % 3), 48 - (seed % 3)], [colors.cyan, colors.purple]);
-      }
-      function drawOperationV56() {
-        const globalGrade = readGlobalGradeV56();
-        const stage = activeStageForPanelV56('operationStageSelect');
-        const localGrade = normalizeGradeV56(document.getElementById('operationGradeSelect')?.value || 'school');
-        const grades = gradeScopeV56(stage, globalGrade !== 'school' ? globalGrade : localGrade);
-        const labels = ['8-01','8-07','8-15','8-23','8-31','9-08','9-12'];
-        const series = grades.slice(0, 6).map((grade, index) => ({
-          name: GRADE_LABEL_V56[grade] || grade,
-          color: [colors.cyan, colors.green, colors.yellow, colors.purple, colors.blue, colors.red][index % 6],
-          data: labels.map((_, i) => Math.max(70, Math.min(99, 82 + (index % 4) * 2 + ((i * 3 + (GRADE_STUDENTS_V56[grade] || 0)) % 9))))
-        }));
-        if (typeof drawLine === 'function') drawLine('overviewLine', labels, series);
-        if (typeof attachCanvasTip === 'function') attachCanvasTip('overviewLine', `校情运行趋势：当前展示${globalGrade !== 'school' ? GRADE_LABEL_V56[globalGrade] : (STAGE_LABEL_V56[stage] || '全部学段')}数据。`);
-      }
-      function drawQualityCompareV56() {
-        const globalGrade = readGlobalGradeV56();
-        const stage = activeStageForPanelV56('qualityCompareStageSelect');
-        const localGrade = normalizeGradeV56(document.getElementById('qualityCompareGradeSelect')?.value || 'school');
-        const subject = document.getElementById('qualityCompareSubjectSelect')?.value || 'all';
-        const seed = SUBJECT_SEED_V56[subject] || 0;
-        if (globalGrade !== 'school' || localGrade !== 'school') {
-          const grade = globalGrade !== 'school' ? globalGrade : localGrade;
-          const labels = ['1班','2班','3班','4班','5班','6班'];
-          const values = labels.map((_, i) => Math.max(0, Math.min(100, 80 + seed + ((i * 4 + grade.length) % 10))));
-          if (typeof drawVerticalPercentBar === 'function') drawVerticalPercentBar('overviewBar', labels, values, 100, '知识掌握度');
-          else if (typeof drawBar === 'function') drawBar('overviewBar', labels, values, 100);
-          if (typeof attachCanvasTip === 'function') attachCanvasTip('overviewBar', `学科知识掌握度对比：当前展示${GRADE_LABEL_V56[grade]}各班级数据。`);
-          return;
-        }
-        const grades = gradeKeysForStageV56(stage);
-        const labels = grades.map(grade => GRADE_LABEL_V56[grade] || grade);
-        const values = grades.map((grade, i) => Math.max(0, Math.min(100, 82 + seed + ((GRADE_STUDENTS_V56[grade] + i) % 7))));
-        if (typeof drawVerticalPercentBar === 'function') drawVerticalPercentBar('overviewBar', labels, values, 100, '知识掌握度');
-        else if (typeof drawBar === 'function') drawBar('overviewBar', labels, values, 100);
-      }
-      function renderOverviewV56() {
-        syncOverviewControlsV56();
-        drawGradeStudentV56();
-        drawClassPopulationV56();
-        drawGenderV56();
-        drawOperationV56();
-        drawQualityCompareV56();
-        document.querySelectorAll('#overview .overview-brain-panel .pill, #overview .risk-warning-list').forEach(node => {
-          if (node.classList?.contains('pill')) node.remove();
-        });
-        document.querySelectorAll('#overview .panel-header .pill').forEach(node => node.remove());
-      }
-      function scheduleOverviewV56() {
-        [0, 30, 90, 180, 360, 720, 1200].forEach(delay => setTimeout(renderOverviewV56, delay));
-      }
-
-      const oldRenderOverviewV56 = window.renderOverviewCharts;
-      window.renderOverviewCharts = function () {
-        if (typeof oldRenderOverviewV56 === 'function') {
-          try { oldRenderOverviewV56.apply(this, arguments); } catch (e) {}
-        }
-        scheduleOverviewV56();
-      };
-      try { renderOverviewCharts = window.renderOverviewCharts; } catch (e) {}
-
-      document.addEventListener('change', function (event) {
-        const target = event.target;
-        if (!target) return;
-        if (target.classList?.contains('page-global-select')) {
-          if (target.dataset.filter === 'stage') {
-            writeGlobalV56('stage', target.value || 'all');
-            syncGlobalGradeOptionsV56('school');
-          } else if (target.dataset.filter === 'grade') {
-            const grade = normalizeGradeV56(target.value);
-            if (grade !== 'school') writeGlobalV56('stage', GRADE_STAGE_V56[grade] || readGlobalStageV56());
-            syncGlobalGradeOptionsV56(grade);
-            writeGlobalV56('grade', grade);
-          } else {
-            writeGlobalV56(target.dataset.filter, target.value);
-          }
-          scheduleOverviewV56();
-        }
-        if (target.id === 'globalStageSelect') {
-          syncGlobalGradeOptionsV56('school');
-          scheduleOverviewV56();
-        }
-        if (target.id === 'globalGradeSelect') {
-          const grade = normalizeGradeV56(target.value);
-          if (grade !== 'school') writeGlobalV56('stage', GRADE_STAGE_V56[grade] || readGlobalStageV56());
-          syncGlobalGradeOptionsV56(grade);
-          scheduleOverviewV56();
-        }
-        if (target.classList?.contains('overview-filter') || ['qualityCompareSubjectSelect'].includes(target.id)) {
-          scheduleOverviewV56();
-        }
-      }, true);
-
-      document.addEventListener('click', function (event) {
-        if (event.target?.classList?.contains('global-filter-reset-btn')) {
-          writeGlobalV56('stage', 'all');
-          syncGlobalGradeOptionsV56('school');
-          writeGlobalV56('grade', 'school');
-          scheduleOverviewV56();
-        }
-      }, true);
-
-      document.addEventListener('DOMContentLoaded', function () {
-        ensureGlobalStageV56();
-        syncGlobalGradeOptionsV56(readGlobalGradeV56());
-        scheduleOverviewV56();
-      });
-      window.addEventListener('load', function () {
-        ensureGlobalStageV56();
-        syncGlobalGradeOptionsV56(readGlobalGradeV56());
-        scheduleOverviewV56();
-      });
-      scheduleOverviewV56();
-    })();
-  </script>
-
-
-
-  <script>
-    /* === V5.7 校情总览最终修复：全局选择具体年级时，仅展示该年级数据 === */
-    (function () {
-      const GRADE_LABEL_V57 = {
-        grade1: '一年级', grade2: '二年级', grade3: '三年级', grade4: '四年级', grade5: '五年级', grade6: '六年级',
-        grade7: '七年级', grade8: '八年级', grade9: '九年级',
-        grade10: '高一', grade11: '高二', grade12: '高三'
-      };
-      const GRADE_STAGE_V57 = {
-        grade1: 'primary', grade2: 'primary', grade3: 'primary', grade4: 'primary', grade5: 'primary', grade6: 'primary',
-        grade7: 'middle', grade8: 'middle', grade9: 'middle',
-        grade10: 'high', grade11: 'high', grade12: 'high'
-      };
-      const STAGE_LABEL_V57 = { all: '全部学段', primary: '小学', middle: '初中', high: '高中' };
-      const GRADE_STUDENTS_V57 = {
-        grade1: 246, grade2: 252, grade3: 258, grade4: 264, grade5: 268, grade6: 272,
-        grade7: 326, grade8: 318, grade9: 305,
-        grade10: 276, grade11: 260, grade12: 241
-      };
-      const GRADES_BY_STAGE_V57 = {
-        all: ['grade1','grade2','grade3','grade4','grade5','grade6','grade7','grade8','grade9','grade10','grade11','grade12'],
-        primary: ['grade1','grade2','grade3','grade4','grade5','grade6'],
-        middle: ['grade7','grade8','grade9'],
-        high: ['grade10','grade11','grade12']
-      };
-      const SUBJECT_SEED_V57 = { all: 0, '语文': 2, '数学': 0, '英语': 1, '物理': -1, '化学': -2, '道法': 3 };
-
-      function normalizeGradeV57(value) {
-        if (!value || value === 'all' || value === 'school') return 'school';
-        return value;
-      }
-      function readGlobalGradeV57() {
-        return normalizeGradeV57(document.getElementById('globalGradeSelect')?.value || document.querySelector('.page-global-select[data-filter="grade"]')?.value || 'school');
-      }
-      function readGlobalStageV57() {
-        return document.getElementById('globalStageSelect')?.value || document.querySelector('.page-global-select[data-filter="stage"]')?.value || 'all';
-      }
-      function readSubjectV57() {
-        return document.getElementById('qualityCompareSubjectSelect')?.value || document.getElementById('globalSubjectSelect')?.value || 'all';
-      }
-      function activeStageV57(panelStageId) {
-        const grade = readGlobalGradeV57();
-        if (grade !== 'school') return GRADE_STAGE_V57[grade] || 'all';
-        const globalStage = readGlobalStageV57();
-        if (globalStage !== 'all') return globalStage;
-        return document.getElementById(panelStageId)?.value || 'all';
-      }
-      function gradeScopeV57(panelStageId, localGradeId) {
-        const globalGrade = readGlobalGradeV57();
-        if (globalGrade !== 'school') return [globalGrade];
-        const localGrade = normalizeGradeV57(document.getElementById(localGradeId)?.value || 'school');
-        if (localGrade !== 'school') return [localGrade];
-        return GRADES_BY_STAGE_V57[activeStageV57(panelStageId)] || GRADES_BY_STAGE_V57.all;
-      }
-      function setSelectValueV57(id, value, disabled) {
-        const select = document.getElementById(id);
-        if (!select) return;
-        if ([...select.options].some(option => option.value === value)) select.value = value;
-        select.disabled = !!disabled;
-      }
-      function syncOverviewSelectStateV57() {
-        const globalGrade = readGlobalGradeV57();
-        if (globalGrade === 'school') return;
-        const stage = GRADE_STAGE_V57[globalGrade] || 'all';
-        ['gradeStudentStageSelect','classPopulationStageSelect','genderStageSelect','operationStageSelect','qualityCompareStageSelect'].forEach(id => setSelectValueV57(id, stage, true));
-        ['genderGradeSelect','operationGradeSelect'].forEach(id => setSelectValueV57(id, globalGrade, true));
-      }
-      function drawGradeStudentV57() {
-        const grades = gradeScopeV57('gradeStudentStageSelect');
-        const labels = grades.map(grade => GRADE_LABEL_V57[grade] || grade);
-        const values = grades.map(grade => GRADE_STUDENTS_V57[grade] || 0);
-        const maxValue = Math.max(240, Math.ceil(Math.max(...values, 1) * 1.18));
-        if (typeof drawBar === 'function') drawBar('gradeStudentBar', labels, values, maxValue);
-        if (typeof attachCanvasTip === 'function') {
-          const grade = readGlobalGradeV57();
-          const stage = activeStageV57('gradeStudentStageSelect');
-          const scope = grade !== 'school' ? `${GRADE_LABEL_V57[grade]}人数` : `${STAGE_LABEL_V57[stage] || '全部学段'}各年级人数`;
-          attachCanvasTip('gradeStudentBar', `年级学生分布：当前展示${scope}。`);
-        }
-      }
-      function drawQualityCompareV57() {
-        const grades = gradeScopeV57('qualityCompareStageSelect', 'qualityCompareGradeSelect');
-        const subject = readSubjectV57();
-        const seed = SUBJECT_SEED_V57[subject] || 0;
-        const labels = grades.map(grade => GRADE_LABEL_V57[grade] || grade);
-        const values = grades.map((grade, i) => Math.max(0, Math.min(100, 82 + seed + ((GRADE_STUDENTS_V57[grade] + i) % 7))));
-        if (typeof drawVerticalPercentBar === 'function') drawVerticalPercentBar('overviewBar', labels, values, 100, '知识掌握度');
-        else if (typeof drawBar === 'function') drawBar('overviewBar', labels, values, 100);
-        if (typeof attachCanvasTip === 'function') {
-          const grade = readGlobalGradeV57();
-          const stage = activeStageV57('qualityCompareStageSelect');
-          const scope = grade !== 'school' ? `${GRADE_LABEL_V57[grade]}数据` : `${STAGE_LABEL_V57[stage] || '全部学段'}数据`;
-          attachCanvasTip('overviewBar', `学科知识掌握度对比：当前展示${scope}。`);
-        }
-      }
-      function renderOverviewV57() {
-        syncOverviewSelectStateV57();
-        drawGradeStudentV57();
-        drawQualityCompareV57();
-      }
-      function scheduleOverviewV57() {
-        [0, 40, 100, 220, 520, 900, 1400, 1800].forEach(delay => setTimeout(renderOverviewV57, delay));
-      }
-
-      const previousRenderOverviewChartsV57 = window.renderOverviewCharts;
-      window.renderOverviewCharts = function () {
-        if (typeof previousRenderOverviewChartsV57 === 'function') {
-          try { previousRenderOverviewChartsV57.apply(this, arguments); } catch (e) {}
-        }
-        scheduleOverviewV57();
-      };
-      try { renderOverviewCharts = window.renderOverviewCharts; } catch (e) {}
-
-      document.addEventListener('change', function (event) {
-        const target = event.target;
-        if (!target) return;
-        if (target.classList?.contains('page-global-select') || target.id === 'globalGradeSelect' || target.id === 'globalStageSelect' || target.classList?.contains('overview-filter') || target.id === 'qualityCompareSubjectSelect') {
-          scheduleOverviewV57();
-        }
-      }, true);
-      document.addEventListener('click', function (event) {
-        if (event.target?.classList?.contains('global-filter-reset-btn')) scheduleOverviewV57();
-      }, true);
-      document.addEventListener('DOMContentLoaded', scheduleOverviewV57);
-      window.addEventListener('load', scheduleOverviewV57);
-      scheduleOverviewV57();
-    })();
-  </script>
-
-
-  <script>
-    /* === V5.8 校情总览：移除顶部全局年级筛选 === */
-    (function () {
-      function isOverviewActiveV58(pageId) {
-        return (pageId || document.querySelector('.page.active')?.id || 'overview') === 'overview';
-      }
-
-      function applyOverviewGlobalGradeHiddenV58(pageId) {
-        const overviewActive = isOverviewActiveV58(pageId);
-        const topFilters = document.querySelector('.top-global-filters');
-        if (topFilters) {
-          topFilters.querySelectorAll('.page-global-select[data-filter="grade"]').forEach(select => {
-            select.classList.toggle('overview-global-filter-hide', overviewActive);
-            if (overviewActive && [...select.options].some(option => option.value === 'school')) select.value = 'school';
-          });
-        }
-
-        if (overviewActive) {
-          const hiddenGrade = document.getElementById('globalGradeSelect');
-          if (hiddenGrade && hiddenGrade.value !== 'school') {
-            hiddenGrade.value = 'school';
-            if (typeof window.syncVisibleGlobalFilters === 'function') {
-              try { window.syncVisibleGlobalFilters(); } catch (e) {}
-            }
-            setTimeout(() => {
-              if (typeof window.renderOverviewCharts === 'function') window.renderOverviewCharts();
-              else if (typeof window.renderCharts === 'function') window.renderCharts();
-            }, 0);
-          }
-        }
-      }
-
-      const previousUpdateTopV58 = window.updateTopGlobalFiltersVisibility || (typeof updateTopGlobalFiltersVisibility === 'function' ? updateTopGlobalFiltersVisibility : null);
-      window.updateTopGlobalFiltersVisibility = function (pageId) {
-        const result = typeof previousUpdateTopV58 === 'function' ? previousUpdateTopV58.apply(this, arguments) : undefined;
-        applyOverviewGlobalGradeHiddenV58(pageId);
-        return result;
-      };
-      try { updateTopGlobalFiltersVisibility = window.updateTopGlobalFiltersVisibility; } catch (e) {}
-
-      document.addEventListener('click', function () {
-        setTimeout(applyOverviewGlobalGradeHiddenV58, 0);
-        setTimeout(applyOverviewGlobalGradeHiddenV58, 80);
-      }, true);
-      document.addEventListener('change', function () {
-        setTimeout(applyOverviewGlobalGradeHiddenV58, 0);
-        setTimeout(applyOverviewGlobalGradeHiddenV58, 80);
-      }, true);
-      document.addEventListener('DOMContentLoaded', function () {
-        applyOverviewGlobalGradeHiddenV58();
-        setTimeout(applyOverviewGlobalGradeHiddenV58, 120);
-      });
-      window.addEventListener('load', function () {
-        applyOverviewGlobalGradeHiddenV58();
-        setTimeout(applyOverviewGlobalGradeHiddenV58, 300);
-      });
-      applyOverviewGlobalGradeHiddenV58();
-    })();
-  </script>
-
-
-  <script>
-    /* === V5.9 学生发展：行为特征分布按全局学段/年级展示（小学-高中 / 初中 / 年级班级） === */
-    (function () {
-      const STAGE_LABEL_V59 = { all: '全部学段', primary: '小学', middle: '初中', high: '高中' };
-      const GRADE_STAGE_V59 = {
-        grade1: 'primary', grade2: 'primary', grade3: 'primary', grade4: 'primary', grade5: 'primary', grade6: 'primary',
-        grade7: 'middle', grade8: 'middle', grade9: 'middle',
-        grade10: 'high', grade11: 'high', grade12: 'high'
-      };
-      const GRADE_LABEL_V59 = {
-        school: '全部年级',
-        grade1: '一年级', grade2: '二年级', grade3: '三年级', grade4: '四年级', grade5: '五年级', grade6: '六年级',
-        grade7: '七年级', grade8: '八年级', grade9: '九年级',
-        grade10: '高一', grade11: '高二', grade12: '高三'
-      };
-      const GRADE_KEYS_BY_STAGE_V59 = {
-        all: ['grade1','grade2','grade3','grade4','grade5','grade6','grade7','grade8','grade9','grade10','grade11','grade12'],
-        primary: ['grade1','grade2','grade3','grade4','grade5','grade6'],
-        middle: ['grade7','grade8','grade9'],
-        high: ['grade10','grade11','grade12']
-      };
-      const CLASS_LABELS_BY_GRADE_V59 = {
-        grade1: ['一年级1班','一年级2班','一年级3班','一年级4班'],
-        grade2: ['二年级1班','二年级2班','二年级3班','二年级4班'],
-        grade3: ['三年级1班','三年级2班','三年级3班','三年级4班'],
-        grade4: ['四年级1班','四年级2班','四年级3班','四年级4班'],
-        grade5: ['五年级1班','五年级2班','五年级3班','五年级4班'],
-        grade6: ['六年级1班','六年级2班','六年级3班','六年级4班'],
-        grade7: ['七年级1班','七年级2班','七年级3班','七年级4班','七年级5班','七年级6班'],
-        grade8: ['八年级1班','八年级2班','八年级3班','八年级4班','八年级5班','八年级6班'],
-        grade9: ['九年级1班','九年级2班','九年级3班','九年级4班','九年级5班','九年级6班'],
-        grade10: ['高一1班','高一2班','高一3班','高一4班'],
-        grade11: ['高二1班','高二2班','高二3班','高二4班'],
-        grade12: ['高三1班','高三2班','高三3班','高三4班']
-      };
-      const GRADE_BEHAVIOR_DATA_V59 = {
+      const SUBJECTS_FINAL = ['语文', '数学', '英语', '物理', '化学', '道法'];
+      const SUBJECT_SEED_FINAL = { all: 0, '语文': 2, '数学': 0, '英语': 1, '物理': -2, '化学': -1, '道法': 3 };
+      const SUBJECT_COLOR_FINAL = { 语文: colors.cyan, 数学: colors.green, 英语: colors.yellow, 物理: colors.purple, 化学: colors.blue, 道法: colors.red };
+      const BEHAVIOR_GRADE_DATA_FINAL = {
         grade1: { positive: 96, improve: 18 }, grade2: { positive: 102, improve: 17 }, grade3: { positive: 108, improve: 16 },
         grade4: { positive: 112, improve: 15 }, grade5: { positive: 118, improve: 16 }, grade6: { positive: 121, improve: 18 },
         grade7: { positive: 126, improve: 28 }, grade8: { positive: 118, improve: 31 }, grade9: { positive: 134, improve: 24 },
         grade10: { positive: 104, improve: 21 }, grade11: { positive: 98, improve: 20 }, grade12: { positive: 92, improve: 18 }
       };
-      const CLASS_BEHAVIOR_DATA_V59 = {
+      const BEHAVIOR_CLASS_DATA_FINAL = {
         grade1: { positive: [24, 23, 26, 23], improve: [5, 4, 5, 4] },
         grade2: { positive: [25, 26, 24, 27], improve: [4, 5, 4, 4] },
         grade3: { positive: [27, 25, 28, 28], improve: [4, 4, 5, 3] },
@@ -14797,151 +14287,864 @@ function drawSubjectLevelStackedByClass(id) {
         grade11: { positive: [25, 24, 26, 23], improve: [5, 5, 4, 6] },
         grade12: { positive: [24, 22, 23, 23], improve: [4, 5, 4, 5] }
       };
+      const activeStableCanvasIds = new Set();
+      const originalResizeCanvasFinal = window.resizeCanvas || (typeof resizeCanvas === 'function' ? resizeCanvas : null);
+      const originalResetChartHoverFinal = window.resetChartHover || (typeof resetChartHover === 'function' ? resetChartHover : null);
+      const originalAddChartHoverFinal = window.addChartHover || (typeof addChartHover === 'function' ? addChartHover : null);
+      const previousSetGlobalFilterStateFinal = window.setGlobalFilterState || (typeof setGlobalFilterState === 'function' ? setGlobalFilterState : null);
 
-      function normalizeGradeV59(value) {
+      function normalizeGradeFinal(value) {
         return (!value || value === 'all') ? 'school' : value;
       }
-      function readGlobalStageV59() {
-        return document.getElementById('globalStageSelect')?.value || document.querySelector('.top-global-filters .page-global-select[data-filter="stage"]')?.value || 'all';
+      function optionHtmlFinal(options) {
+        return options.map(([value, label]) => `<option value="${value}">${label}</option>`).join('');
       }
-      function readGlobalGradeV59() {
-        return normalizeGradeV59(document.getElementById('globalGradeSelect')?.value || document.querySelector('.top-global-filters .page-global-select[data-filter="grade"]')?.value || 'school');
+      function setOptionsFinal(select, options, preferred) {
+        if (!select) return 'school';
+        const safe = options.some(([value]) => value === preferred) ? preferred : options[0][0];
+        const html = optionHtmlFinal(options);
+        if (select.innerHTML !== html) select.innerHTML = html;
+        select.value = safe;
+        return safe;
       }
-      function buildBehaviorScopeV59() {
-        const globalGrade = readGlobalGradeV59();
-        const globalStage = readGlobalStageV59();
-        if (globalGrade !== 'school') {
-          const labels = CLASS_LABELS_BY_GRADE_V59[globalGrade] || [];
-          const values = CLASS_BEHAVIOR_DATA_V59[globalGrade] || { positive: [], improve: [] };
+      function topSelectFinal(filter) {
+        return document.querySelector(`.top-global-filters .page-global-select[data-filter="${filter}"]`);
+      }
+      function readGlobalStageFinal() {
+        const top = topSelectFinal('stage');
+        const hidden = document.getElementById('globalStageSelect');
+        return top?.value || hidden?.value || 'all';
+      }
+      function readGlobalGradeFinal() {
+        const top = topSelectFinal('grade');
+        const topVisible = top && !top.classList.contains('overview-global-filter-hide') && !top.closest('.top-global-filters')?.classList.contains('is-hidden');
+        return normalizeGradeFinal((topVisible ? top.value : '') || document.getElementById('globalGradeSelect')?.value || top?.value || 'school');
+      }
+      function pageActiveFinal(id) {
+        return document.getElementById(id)?.classList.contains('active');
+      }
+      function canvasIdFinal(primary, stable) {
+        return document.getElementById(primary) ? primary : (document.getElementById(stable) ? stable : primary);
+      }
+      function ensureGlobalStageFinal() {
+        let hidden = document.getElementById('globalStageSelect');
+        if (!hidden) {
+          hidden = document.createElement('select');
+          hidden.id = 'globalStageSelect';
+          hidden.style.display = 'none';
+          document.querySelector('.global-filter-state')?.appendChild(hidden);
+        }
+        setOptionsFinal(hidden, STAGE_OPTIONS_FINAL, hidden.value || 'all');
+        document.querySelectorAll('.top-global-filters').forEach(box => {
+          let stage = box.querySelector('.page-global-select[data-filter="stage"]');
+          if (!stage) {
+            stage = document.createElement('select');
+            stage.className = 'chart-select page-global-select';
+            stage.dataset.filter = 'stage';
+            const label = box.querySelector('.filter-label');
+            if (label) label.insertAdjacentElement('afterend', stage); else box.prepend(stage);
+          }
+          setOptionsFinal(stage, STAGE_OPTIONS_FINAL, hidden.value || 'all');
+        });
+      }
+      function writeGlobalFinal(key, value) {
+        const normalized = key === 'grade' ? normalizeGradeFinal(value) : (value || (key === 'stage' ? 'all' : 'all'));
+        const idMap = { stage: 'globalStageSelect', grade: 'globalGradeSelect', subject: 'globalSubjectSelect', time: 'globalTimeSelect' };
+        const hidden = document.getElementById(idMap[key]);
+        if (hidden) hidden.value = normalized;
+        document.querySelectorAll(`.page-global-select[data-filter="${key}"]`).forEach(select => {
+          if ([...select.options].some(option => option.value === normalized)) select.value = normalized;
+        });
+      }
+      function syncGlobalGradeOptionsFinal(preferred) {
+        const stage = readGlobalStageFinal();
+        const options = GRADE_OPTIONS_BY_STAGE_FINAL[stage] || GRADE_OPTIONS_BY_STAGE_FINAL.all;
+        const safe = options.some(([value]) => value === normalizeGradeFinal(preferred)) ? normalizeGradeFinal(preferred) : 'school';
+        setOptionsFinal(document.getElementById('globalGradeSelect'), options, safe);
+        document.querySelectorAll('.page-global-select[data-filter="grade"]').forEach(select => setOptionsFinal(select, options, safe));
+        return safe;
+      }
+      function gradeKeysForStageFinal(stage) {
+        return (GRADE_OPTIONS_BY_STAGE_FINAL[stage] || GRADE_OPTIONS_BY_STAGE_FINAL.all)
+          .filter(([value]) => value !== 'school')
+          .map(([value]) => value);
+      }
+      function activeStageForPanelFinal(stageSelectId) {
+        const grade = readGlobalGradeFinal();
+        if (grade !== 'school') return GRADE_STAGE_FINAL[grade] || 'all';
+        const globalStage = readGlobalStageFinal();
+        if (globalStage !== 'all') return globalStage;
+        return document.getElementById(stageSelectId)?.value || 'all';
+      }
+      function gradeScopeFinal(stage, grade) {
+        return grade && grade !== 'school' ? [grade] : gradeKeysForStageFinal(stage || 'all');
+      }
+      function timeRangeDaysFinal() {
+        const value = document.getElementById('globalTimeSelect')?.value || topSelectFinal('time')?.value || 'all';
+        return { month: 30, half: 180, year: 365, all: 365 }[value] || 365;
+      }
+      function timeLabelFinal() {
+        const value = document.getElementById('globalTimeSelect')?.value || topSelectFinal('time')?.value || 'all';
+        return { month: '近一个月', half: '近半年', year: '近一年', all: '全部数据' }[value] || '全部数据';
+      }
+      function formatDateLabelFinal(date) {
+        return `${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+      }
+      function buildEightDateLabelsFinal() {
+        const days = timeRangeDaysFinal();
+        const end = new Date();
+        end.setHours(0, 0, 0, 0);
+        const start = new Date(end);
+        start.setDate(end.getDate() - days);
+        const step = days / 7;
+        return Array.from({ length: 8 }, (_, index) => {
+          const current = new Date(start);
+          current.setDate(start.getDate() + Math.round(step * index));
+          return formatDateLabelFinal(current);
+        });
+      }
+      function scopeSeedFinal(stage, grade, subject) {
+        const stageSeed = { all: 0, primary: 1, middle: 0, high: -1 }[stage] || 0;
+        const gradeNumber = Number(String(grade || '').replace('grade', ''));
+        const gradeSeed = Number.isFinite(gradeNumber) && gradeNumber > 0 ? Math.round((gradeNumber - 7) * 0.7) : 0;
+        const subjectSeed = SUBJECT_SEED_FINAL[subject || 'all'] || 0;
+        const timeSeed = timeRangeDaysFinal() >= 365 ? -2 : timeRangeDaysFinal() >= 180 ? -1 : 0;
+        return stageSeed + gradeSeed + subjectSeed + timeSeed;
+      }
+      function classValuesForGradeFinal(grade) {
+        const total = GRADE_STUDENTS_FINAL[grade] || 0;
+        const weights = [0.158, 0.172, 0.166, 0.171, 0.164, 0.169];
+        const values = weights.map(weight => Math.round(total * weight));
+        values[values.length - 1] += total - values.reduce((sum, value) => sum + value, 0);
+        return values;
+      }
+      function withStableCanvasFinal(id, draw) {
+        activeStableCanvasIds.add(id);
+        try { return draw(); } finally { activeStableCanvasIds.delete(id); }
+      }
+
+      if (originalResizeCanvasFinal && !window.__stableResizeCanvasV60) {
+        window.resizeCanvas = function (canvas) {
+          if (canvas && STABLE_CANVAS_IDS.has(canvas.id) && !activeStableCanvasIds.has(canvas.id)) {
+            const rect = canvas.getBoundingClientRect();
+            const dpr = window.devicePixelRatio || 1;
+            const ctx = canvas.getContext('2d');
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            return { ctx, w: rect.width || canvas.width / dpr || 1, h: rect.height || canvas.height / dpr || 1 };
+          }
+          return originalResizeCanvasFinal(canvas);
+        };
+        window.__stableResizeCanvasV60 = true;
+        try { resizeCanvas = window.resizeCanvas; } catch (e) {}
+      }
+
+      if (!window.__stableChartHoverGuardV60) {
+        if (typeof originalResetChartHoverFinal === 'function') {
+          window.resetChartHover = function (id) {
+            if (STABLE_CANVAS_IDS.has(id) && !activeStableCanvasIds.has(id)) return undefined;
+            return originalResetChartHoverFinal.apply(this, arguments);
+          };
+          try { resetChartHover = window.resetChartHover; } catch (e) {}
+        }
+        if (typeof originalAddChartHoverFinal === 'function') {
+          window.addChartHover = function (id) {
+            if (STABLE_CANVAS_IDS.has(id) && !activeStableCanvasIds.has(id)) return undefined;
+            return originalAddChartHoverFinal.apply(this, arguments);
+          };
+          try { addChartHover = window.addChartHover; } catch (e) {}
+        }
+        window.__stableChartHoverGuardV60 = true;
+      }
+
+      if (!window.__stableCanvasGuardV60) {
+        ['clearRect','fillRect','strokeRect','fill','stroke','fillText','strokeText','drawImage','putImageData'].forEach(name => {
+          const proto = CanvasRenderingContext2D.prototype;
+          const original = proto[name];
+          if (typeof original !== 'function') return;
+          proto[name] = function () {
+            const id = this.canvas && this.canvas.id;
+            if (STABLE_CANVAS_IDS.has(id) && !activeStableCanvasIds.has(id)) return undefined;
+            return original.apply(this, arguments);
+          };
+        });
+        window.__stableCanvasGuardV60 = true;
+      }
+
+      function syncOverviewControlsFinal() {
+        ensureGlobalStageFinal();
+        if (pageActiveFinal('overview') && readGlobalGradeFinal() !== 'school') {
+          writeGlobalFinal('grade', 'school');
+          syncGlobalGradeOptionsFinal('school');
+        }
+        const globalStage = readGlobalStageFinal();
+        const globalGrade = readGlobalGradeFinal();
+        const forcedStage = globalGrade !== 'school' ? (GRADE_STAGE_FINAL[globalGrade] || globalStage) : globalStage;
+        ['gradeStudentStageSelect','classPopulationStageSelect','genderStageSelect','operationStageSelect','qualityCompareStageSelect'].forEach(id => {
+          const select = document.getElementById(id);
+          if (!select) return;
+          const desired = id === 'gradeStudentStageSelect' ? (globalStage || 'all') : (forcedStage !== 'all' ? forcedStage : (select.value || 'all'));
+          setOptionsFinal(select, STAGE_OPTIONS_FINAL, desired);
+          select.disabled = id === 'gradeStudentStageSelect' || forcedStage !== 'all';
+          select.title = select.disabled ? `跟随全局筛选：${STAGE_LABEL_FINAL[desired] || '全部学段'}` : '学段筛选';
+        });
+        ['genderGradeSelect','operationGradeSelect','qualityCompareGradeSelect'].forEach(id => {
+          const select = document.getElementById(id);
+          if (!select) return;
+          const stageId = id === 'genderGradeSelect' ? 'genderStageSelect' : id === 'operationGradeSelect' ? 'operationStageSelect' : 'qualityCompareStageSelect';
+          const stage = activeStageForPanelFinal(stageId);
+          const options = GRADE_OPTIONS_BY_STAGE_FINAL[stage] || GRADE_OPTIONS_BY_STAGE_FINAL.all;
+          const preferred = globalGrade !== 'school' ? globalGrade : normalizeGradeFinal(select.value || 'school');
+          setOptionsFinal(select, options, preferred);
+          select.disabled = globalGrade !== 'school';
+          select.title = select.disabled ? `跟随全局筛选：${GRADE_LABEL_FINAL[globalGrade] || '全部年级'}` : '年级筛选';
+        });
+      }
+      function drawGradeStudentsFinal() {
+        const chartId = canvasIdFinal('gradeStudentBar', 'gradeStudentBarStable');
+        const stage = readGlobalStageFinal();
+        const grades = gradeKeysForStageFinal(stage);
+        const labels = grades.map(grade => GRADE_LABEL_FINAL[grade] || grade);
+        const values = grades.map(grade => GRADE_STUDENTS_FINAL[grade] || 0);
+        withStableCanvasFinal(chartId, () => {
+          if (typeof drawBar === 'function') drawBar(chartId, labels, values, Math.max(240, Math.ceil(Math.max(...values, 1) * 1.15)));
+        });
+        if (typeof attachCanvasTip === 'function') {
+          const scope = `${STAGE_LABEL_FINAL[stage] || '全部学段'}各年级学生数`;
+          attachCanvasTip(chartId, `年级学生分布：当前展示${scope}。`);
+        }
+      }
+      function drawClassPopulationFinal() {
+        const canvas = document.getElementById('classPopulationHeat');
+        if (!canvas || typeof resizeCanvas !== 'function') return;
+        withStableCanvasFinal(canvas.id, () => {
+          const { ctx, w, h } = resizeCanvas(canvas);
+          if (typeof resetChartHover === 'function') resetChartHover(canvas.id);
+          if (typeof clear === 'function') clear(ctx, w, h); else ctx.clearRect(0, 0, w, h);
+          const globalGrade = readGlobalGradeFinal();
+          const stage = activeStageForPanelFinal('classPopulationStageSelect');
+          const grades = gradeScopeFinal(stage, globalGrade);
+          const cols = ['1班','2班','3班','4班','5班','6班'];
+          const pad = { top: 18, right: 14, bottom: 28, left: grades.length > 6 ? 42 : 54 };
+          const cellW = (w - pad.left - pad.right) / cols.length;
+          const cellH = (h - pad.top - pad.bottom) / Math.max(1, grades.length);
+          const allValues = grades.flatMap(classValuesForGradeFinal);
+          const min = Math.min(...allValues, 1);
+          const max = Math.max(...allValues, 1);
+          ctx.font = grades.length > 9 ? '10px Microsoft YaHei' : '12px Microsoft YaHei';
+          ctx.textAlign = 'left';
+          grades.forEach((grade, r) => {
+            const rowValues = classValuesForGradeFinal(grade);
+            const gradeLabel = (GRADE_LABEL_FINAL[grade] || grade).replace('年级','').replace('年','');
+            ctx.fillStyle = colors.muted;
+            ctx.fillText(gradeLabel, 6, pad.top + r * cellH + cellH * 0.60);
+            rowValues.forEach((value, c) => {
+              const alpha = 0.16 + ((value - min) / Math.max(1, max - min)) * 0.62;
+              const fill = value >= max * 0.96 ? `rgba(48,242,163,${alpha})` : value >= max * 0.88 ? `rgba(53,221,255,${alpha})` : `rgba(255,209,102,${alpha})`;
+              const x = pad.left + c * cellW + 4;
+              const y = pad.top + r * cellH + 3;
+              const cw = Math.max(4, cellW - 8);
+              const ch = Math.max(4, cellH - 6);
+              if (typeof roundRect === 'function') roundRect(ctx, x, y, cw, ch, 6, fill); else { ctx.fillStyle = fill; ctx.fillRect(x, y, cw, ch); }
+              if (typeof addChartHover === 'function') addChartHover(canvas.id, { type: 'rect', x, y, w: cw, h: ch, tip: `${GRADE_LABEL_FINAL[grade] || grade}${cols[c]}\n人数：${value}` });
+              if (cellH > 14 && cellW > 32) {
+                ctx.fillStyle = '#fff';
+                ctx.textAlign = 'center';
+                ctx.fillText(value, x + cw / 2, y + ch / 2 + 4);
+                ctx.textAlign = 'left';
+              }
+            });
+          });
+          ctx.fillStyle = colors.muted;
+          ctx.font = '11px Microsoft YaHei';
+          ctx.textAlign = 'center';
+          cols.forEach((col, c) => ctx.fillText(col, pad.left + c * cellW + cellW / 2, h - 9));
+          ctx.textAlign = 'left';
+          if (typeof attachCanvasTip === 'function') {
+            const scope = globalGrade !== 'school' ? `${GRADE_LABEL_FINAL[globalGrade]}各班级人数` : `${STAGE_LABEL_FINAL[stage] || '全部学段'}各班级人数`;
+            attachCanvasTip(canvas.id, `班级学生分布：当前展示${scope}。`);
+          }
+        });
+      }
+      function drawGenderFinal() {
+        const globalGrade = readGlobalGradeFinal();
+        const stage = activeStageForPanelFinal('genderStageSelect');
+        const localGrade = normalizeGradeFinal(document.getElementById('genderGradeSelect')?.value || 'school');
+        const grades = gradeScopeFinal(stage, globalGrade !== 'school' ? globalGrade : localGrade);
+        const total = grades.reduce((sum, grade) => sum + (GRADE_STUDENTS_FINAL[grade] || 0), 0) || 1;
+        const seed = globalGrade !== 'school' || localGrade !== 'school' ? Number((globalGrade !== 'school' ? globalGrade : localGrade).replace('grade','')) || 0 : (stage === 'primary' ? 1 : stage === 'middle' ? 2 : stage === 'high' ? 3 : 0);
+        const male = Math.round(total * (0.515 + (seed % 4 - 1.5) * 0.004));
+        withStableCanvasFinal('genderDonut', () => {
+          if (typeof drawDonut === 'function') drawDonut('genderDonut', ['男生', '女生'], [male, total - male], [colors.cyan, colors.purple]);
+        });
+        if (typeof attachCanvasTip === 'function') {
+          attachCanvasTip('genderDonut', `学生性别比例：当前展示${globalGrade !== 'school' ? GRADE_LABEL_FINAL[globalGrade] : STAGE_LABEL_FINAL[stage] || '全部学段'}数据。`);
+        }
+      }
+      function drawOperationFinal() {
+        const globalGrade = readGlobalGradeFinal();
+        const stage = activeStageForPanelFinal('operationStageSelect');
+        const localGrade = normalizeGradeFinal(document.getElementById('operationGradeSelect')?.value || 'school');
+        const grade = globalGrade !== 'school' ? globalGrade : localGrade;
+        const labels = buildEightDateLabelsFinal();
+        const seed = scopeSeedFinal(stage, grade, 'all');
+        const clamp = value => Math.max(75, Math.min(100, Math.round(value + seed)));
+        const series = [
+          { name: '作业提交率', data: [88, 89, 91, 90, 92, 92, 93, 94].map(clamp), color: colors.green },
+          { name: '作业批改率', data: [93, 94, 95, 95, 96, 96, 97, 97].map(clamp), color: colors.cyan },
+          { name: '知识掌握度', data: [78, 80, 81, 82, 83, 85, 86, 87].map(clamp), color: colors.yellow }
+        ];
+        withStableCanvasFinal('overviewLine', () => {
+          if (typeof drawFixedPercentLine === 'function') drawFixedPercentLine('overviewLine', labels, series);
+          else if (typeof drawAdaptivePercentLine === 'function') drawAdaptivePercentLine('overviewLine', labels, series);
+        });
+        if (typeof attachCanvasTip === 'function') {
+          const gradeText = grade !== 'school' ? ` · ${GRADE_LABEL_FINAL[grade]}` : '';
+          attachCanvasTip('overviewLine', `校情运行趋势：体现作业提交率、作业批改率、知识掌握度，横坐标按${timeLabelFinal()}平均分成8份，纵坐标为百分率。当前范围 ${STAGE_LABEL_FINAL[stage] || '全部学段'}${gradeText}。`);
+        }
+      }
+      function drawLearningLevelTrendFinal() {
+        const chartId = canvasIdFinal('overviewBar', 'overviewBarStable');
+        const title = document.getElementById(chartId)?.closest('.panel')?.querySelector('.panel-title');
+        if (title) title.textContent = '学情水平趋势';
+        const globalGrade = readGlobalGradeFinal();
+        const stage = activeStageForPanelFinal('qualityCompareStageSelect');
+        const localGrade = normalizeGradeFinal(document.getElementById('qualityCompareGradeSelect')?.value || 'school');
+        const subject = document.getElementById('qualityCompareSubjectSelect')?.value || 'all';
+        const grade = globalGrade !== 'school' ? globalGrade : localGrade;
+        const labels = buildEightDateLabelsFinal();
+        const subjects = subject === 'all' ? SUBJECTS_FINAL : [subject];
+        const baseBySubject = { 语文: 86, 数学: 84, 英语: 85, 物理: 81, 化学: 82, 道法: 88 };
+        const series = subjects.map((name, index) => {
+          const seed = scopeSeedFinal(stage, grade, name);
+          const base = baseBySubject[name] || 84;
           return {
-            mode: 'class',
-            stage: GRADE_STAGE_V59[globalGrade] || globalStage,
-            grade: globalGrade,
-            labels,
+            name,
+            color: SUBJECT_COLOR_FINAL[name] || [colors.cyan, colors.green, colors.yellow, colors.purple, colors.blue, colors.red][index % 6],
+            data: labels.map((_, pointIndex) => Math.max(65, Math.min(98, Math.round(base + seed + pointIndex * 0.9 + ((pointIndex + index) % 3) - 1))))
+          };
+        });
+        withStableCanvasFinal(chartId, () => {
+          if (typeof drawAdaptivePercentLine === 'function') drawAdaptivePercentLine(chartId, labels, series);
+          else if (typeof drawLine === 'function') drawLine(chartId, labels, series);
+        });
+        if (typeof attachCanvasTip === 'function') {
+          const gradeText = grade !== 'school' ? ` · ${GRADE_LABEL_FINAL[grade]}` : '';
+          const subjectText = subject === 'all' ? '全部学科' : subject;
+          attachCanvasTip(chartId, `学情水平趋势：查看各学科掌握度水平趋势，横坐标按${timeLabelFinal()}平均分成8份，纵坐标为掌握度百分率。当前范围 ${STAGE_LABEL_FINAL[stage] || '全部学段'}${gradeText} · ${subjectText}。`);
+        }
+      }
+      function renderOverviewFinal() {
+        syncOverviewControlsFinal();
+        if (!pageActiveFinal('overview')) return;
+        drawGradeStudentsFinal();
+        drawClassPopulationFinal();
+        drawGenderFinal();
+        drawOperationFinal();
+        drawLearningLevelTrendFinal();
+        document.querySelectorAll('#overview .panel-header .pill, #overview .overview-brain-panel .pill').forEach(node => node.remove());
+      }
+
+      function buildBehaviorScopeFinal() {
+        const globalGrade = readGlobalGradeFinal();
+        const globalStage = readGlobalStageFinal();
+        if (globalGrade !== 'school') {
+          const values = BEHAVIOR_CLASS_DATA_FINAL[globalGrade] || { positive: [], improve: [] };
+          const labelPrefix = GRADE_LABEL_FINAL[globalGrade] || '';
+          return {
+            labels: values.positive.map((_, i) => `${labelPrefix}${i + 1}班`),
             positive: values.positive,
             improve: values.improve,
-            tip: `行为特征分布：当前全局筛选为${GRADE_LABEL_V59[globalGrade] || '所选年级'}，横坐标展示该年级各班级数据。`
+            tip: `行为特征分布：当前全局筛选为${labelPrefix || '所选年级'}，横坐标展示该年级各班级数据。`
           };
         }
         const stage = ['all','primary','middle','high'].includes(globalStage) ? globalStage : 'all';
-        const gradeKeys = GRADE_KEYS_BY_STAGE_V59[stage] || GRADE_KEYS_BY_STAGE_V59.all;
+        const grades = gradeKeysForStageFinal(stage);
         return {
-          mode: 'grade',
-          stage,
-          grade: 'school',
-          labels: gradeKeys.map(key => GRADE_LABEL_V59[key]),
-          positive: gradeKeys.map(key => GRADE_BEHAVIOR_DATA_V59[key].positive),
-          improve: gradeKeys.map(key => GRADE_BEHAVIOR_DATA_V59[key].improve),
+          labels: grades.map(grade => GRADE_LABEL_FINAL[grade] || grade),
+          positive: grades.map(grade => BEHAVIOR_GRADE_DATA_FINAL[grade].positive),
+          improve: grades.map(grade => BEHAVIOR_GRADE_DATA_FINAL[grade].improve),
           tip: stage === 'all'
             ? '行为特征分布：当前全局筛选为全部学段，横坐标展示小学至高中各年级数据。'
-            : `行为特征分布：当前全局筛选为${STAGE_LABEL_V59[stage]}学段，横坐标展示该学段各年级数据。`
+            : `行为特征分布：当前全局筛选为${STAGE_LABEL_FINAL[stage]}学段，横坐标展示该学段各年级数据。`
         };
       }
-      function updateStudentBehaviorGradeSelectV59() {
+      function updateStudentBehaviorSelectFinal() {
         const select = document.getElementById('studentBehaviorGradeSelect');
         if (!select) return;
-        const globalGrade = readGlobalGradeV59();
-        const globalStage = readGlobalStageV59();
+        const globalGrade = readGlobalGradeFinal();
+        const globalStage = readGlobalStageFinal();
         if (globalGrade !== 'school') {
-          select.innerHTML = `<option value="${globalGrade}">${GRADE_LABEL_V59[globalGrade] || '所选年级'}</option>`;
-          select.value = globalGrade;
+          setOptionsFinal(select, [[globalGrade, GRADE_LABEL_FINAL[globalGrade] || '所选年级']], globalGrade);
           select.disabled = true;
-          select.title = `跟随全局年级筛选：${GRADE_LABEL_V59[globalGrade] || '所选年级'}`;
+          select.title = `跟随全局年级筛选：${GRADE_LABEL_FINAL[globalGrade] || '所选年级'}`;
           return;
         }
-        const gradeKeys = GRADE_KEYS_BY_STAGE_V59[globalStage] || GRADE_KEYS_BY_STAGE_V59.all;
-        select.innerHTML = '<option value="school">全部年级</option>' + gradeKeys.map(key => `<option value="${key}">${GRADE_LABEL_V59[key]}</option>`).join('');
-        select.value = 'school';
+        const options = GRADE_OPTIONS_BY_STAGE_FINAL[globalStage] || GRADE_OPTIONS_BY_STAGE_FINAL.all;
+        setOptionsFinal(select, options, 'school');
         select.disabled = true;
-        select.title = globalStage === 'all' ? '跟随全局筛选：全部学段' : `跟随全局学段筛选：${STAGE_LABEL_V59[globalStage] || '全部学段'}`;
+        select.title = globalStage === 'all' ? '跟随全局筛选：全部学段' : `跟随全局学段筛选：${STAGE_LABEL_FINAL[globalStage] || '全部学段'}`;
       }
-      function drawStackedBehaviorV59(id) {
+      function drawStudentBehaviorStackFinal(id) {
         const canvas = document.getElementById(id || 'studentStack');
+        updateStudentBehaviorSelectFinal();
         if (!canvas || typeof resizeCanvas !== 'function') return;
-        updateStudentBehaviorGradeSelectV59();
-        const scope = buildBehaviorScopeV59();
+        const rect = canvas.getBoundingClientRect();
+        if (!pageActiveFinal('student') && (rect.width < 1 || rect.height < 1)) return;
+        withStableCanvasFinal(canvas.id, () => {
+          const scope = buildBehaviorScopeFinal();
+          const { ctx, w, h } = resizeCanvas(canvas);
+          if (typeof resetChartHover === 'function') resetChartHover(canvas.id);
+          if (typeof clear === 'function') clear(ctx, w, h); else ctx.clearRect(0, 0, w, h);
+          const series = [
+            { name: '待提升表现', color: colors.yellow, values: scope.improve },
+            { name: '积极表现', color: colors.green, values: scope.positive }
+          ];
+          const totals = scope.labels.map((_, i) => (scope.positive[i] || 0) + (scope.improve[i] || 0));
+          const max = Math.max(40, Math.ceil((Math.max(...totals, 0) + 10) / 10) * 10);
+          const pad = { top: 30, right: 18, bottom: scope.labels.length > 8 ? 46 : 38, left: 52, yMax: max, yMin: 0, yFormatter: v => String(Math.round(v)) };
+          if (typeof grid === 'function') grid(ctx, w, h, pad);
+          const areaW = w - pad.left - pad.right;
+          const areaH = h - pad.top - pad.bottom;
+          ctx.font = '12px Microsoft YaHei';
+          series.forEach((item, i) => {
+            ctx.fillStyle = item.color;
+            ctx.fillRect(pad.left + i * 102, 9, 14, 6);
+            ctx.fillStyle = colors.text;
+            ctx.fillText(item.name, pad.left + i * 102 + 20, 15);
+          });
+          scope.labels.forEach((label, i) => {
+            const colW = areaW / Math.max(1, scope.labels.length);
+            const barW = Math.max(12, Math.min(42, colW * 0.52));
+            const x = pad.left + colW * i + (colW - barW) / 2;
+            let base = pad.top + areaH;
+            series.forEach(item => {
+              const value = item.values[i] || 0;
+              const bh = areaH * value / max;
+              base -= bh;
+              const grd = ctx.createLinearGradient(0, base, 0, base + Math.max(1, bh));
+              grd.addColorStop(0, item.color);
+              grd.addColorStop(1, 'rgba(255,255,255,0.12)');
+              if (typeof roundRect === 'function') roundRect(ctx, x, base, barW, bh, 5, grd);
+              else { ctx.fillStyle = grd; ctx.fillRect(x, base, barW, bh); }
+              if (typeof addChartHover === 'function') addChartHover(canvas.id, { type: 'rect', x, y: base, w: barW, h: bh, tip: `${label}\n范围：${scope.tip.replace('行为特征分布：', '')}\n${item.name}：${value}` });
+              if (bh > 16) {
+                ctx.fillStyle = '#fff';
+                ctx.textAlign = 'center';
+                ctx.font = '11px Microsoft YaHei';
+                ctx.fillText(value, x + barW / 2, base + bh / 2 + 4);
+              }
+            });
+            ctx.fillStyle = colors.muted;
+            ctx.textAlign = 'center';
+            ctx.font = scope.labels.length > 8 ? '11px Microsoft YaHei' : '12px Microsoft YaHei';
+            if (scope.labels.length > 8) {
+              ctx.save();
+              ctx.translate(x + barW / 2, h - 12);
+              ctx.rotate(-Math.PI / 7);
+              ctx.fillText(label, 0, 0);
+              ctx.restore();
+            } else {
+              ctx.fillText(label, x + barW / 2, h - 12);
+            }
+            ctx.textAlign = 'left';
+          });
+          if (typeof attachCanvasTip === 'function') attachCanvasTip(canvas.id, scope.tip);
+        });
+      }
+      function applyTopFilterVisibilityFinal(pageId) {
+        ensureGlobalStageFinal();
+        const activePage = pageId || document.querySelector('.page.active')?.id || 'overview';
+        const topFilters = document.querySelector('.top-global-filters');
+        if (!topFilters) return;
+        topFilters.classList.toggle('is-hidden', !['overview','quality','process','student','teacher'].includes(activePage));
+        topFilters.querySelectorAll('.page-global-select[data-filter="subject"]').forEach(select => {
+          const hide = activePage === 'overview' || activePage === 'student';
+          select.classList.toggle('overview-global-filter-hide', hide);
+          select.disabled = activePage === 'student';
+        });
+        topFilters.querySelectorAll('.page-global-select[data-filter="grade"]').forEach(select => {
+          const hide = activePage === 'overview';
+          select.classList.toggle('overview-global-filter-hide', hide);
+          select.disabled = hide;
+          if (hide) select.value = 'school';
+        });
+        if (activePage === 'overview') {
+          writeGlobalFinal('grade', 'school');
+          syncGlobalGradeOptionsFinal('school');
+        }
+      }
+      function handleGlobalChangeFinal(target) {
+        if (!target) return;
+        if (target.classList?.contains('page-global-select')) {
+          const key = target.dataset.filter;
+          if (key === 'stage') {
+            writeGlobalFinal('stage', target.value || 'all');
+            syncGlobalGradeOptionsFinal('school');
+            writeGlobalFinal('grade', 'school');
+          } else if (key === 'grade') {
+            const grade = normalizeGradeFinal(target.value);
+            if (grade !== 'school') writeGlobalFinal('stage', GRADE_STAGE_FINAL[grade] || readGlobalStageFinal());
+            syncGlobalGradeOptionsFinal(grade);
+            writeGlobalFinal('grade', grade);
+          } else if (key) {
+            writeGlobalFinal(key, target.value);
+          }
+        } else if (target.id === 'globalStageSelect') {
+          syncGlobalGradeOptionsFinal('school');
+          writeGlobalFinal('grade', 'school');
+        } else if (target.id === 'globalGradeSelect') {
+          const grade = normalizeGradeFinal(target.value);
+          if (grade !== 'school') writeGlobalFinal('stage', GRADE_STAGE_FINAL[grade] || readGlobalStageFinal());
+          syncGlobalGradeOptionsFinal(grade);
+          writeGlobalFinal('grade', grade);
+        }
+      }
+      function applyGlobalValueFinal(key, value) {
+        if (key === 'stage') {
+          writeGlobalFinal('stage', value || 'all');
+          syncGlobalGradeOptionsFinal('school');
+          writeGlobalFinal('grade', 'school');
+          return;
+        }
+        if (key === 'grade') {
+          const grade = normalizeGradeFinal(value);
+          if (grade !== 'school') writeGlobalFinal('stage', GRADE_STAGE_FINAL[grade] || readGlobalStageFinal());
+          syncGlobalGradeOptionsFinal(grade);
+          writeGlobalFinal('grade', grade);
+          return;
+        }
+        if (key) writeGlobalFinal(key, value);
+      }
+      function setGlobalFilterStateFinal(key, value) {
+        if (typeof previousSetGlobalFilterStateFinal === 'function' && previousSetGlobalFilterStateFinal !== setGlobalFilterStateFinal) {
+          try { previousSetGlobalFilterStateFinal.call(this, key, value); } catch (e) {}
+        }
+        applyGlobalValueFinal(key, value);
+        applyTopFilterVisibilityFinal();
+        scheduleOverviewFinal();
+        scheduleStudentBehaviorFinal();
+      }
+      function installFinalExports() {
+        window.renderOverviewCharts = renderOverviewFinal;
+        window.drawStudentBehaviorTwoDim = drawStudentBehaviorStackFinal;
+        window.updateTopGlobalFiltersVisibility = applyTopFilterVisibilityFinal;
+        window.setGlobalFilterState = setGlobalFilterStateFinal;
+        try { renderOverviewCharts = window.renderOverviewCharts; } catch (e) {}
+        try { drawStudentBehaviorTwoDim = window.drawStudentBehaviorTwoDim; } catch (e) {}
+        try { updateTopGlobalFiltersVisibility = window.updateTopGlobalFiltersVisibility; } catch (e) {}
+        try { setGlobalFilterState = window.setGlobalFilterState; } catch (e) {}
+      }
+      function scheduleFinal(render, delays) {
+        delays.forEach(delay => setTimeout(() => {
+          installFinalExports();
+          render();
+        }, delay));
+      }
+      function scheduleOverviewFinal() {
+        scheduleFinal(renderOverviewFinal, [0, 80, 220, 520, 1000]);
+      }
+      function scheduleStudentBehaviorFinal() {
+        scheduleFinal(() => drawStudentBehaviorStackFinal('studentStack'), [0, 80, 220, 520, 1000]);
+      }
+
+      installFinalExports();
+      [0, 120, 360, 900, 1600].forEach(delay => setTimeout(installFinalExports, delay));
+
+      document.addEventListener('change', function (event) {
+        const target = event.target;
+        handleGlobalChangeFinal(target);
+        if (
+          target?.classList?.contains('page-global-select') ||
+          ['globalStageSelect','globalGradeSelect','globalSubjectSelect','globalTimeSelect'].includes(target?.id) ||
+          target?.classList?.contains('overview-filter') ||
+          target?.id === 'qualityCompareSubjectSelect'
+        ) {
+          scheduleOverviewFinal();
+          scheduleStudentBehaviorFinal();
+        }
+        if (target?.id === 'studentBehaviorGradeSelect') scheduleStudentBehaviorFinal();
+      }, true);
+      document.addEventListener('click', function (event) {
+        if (event.target?.classList?.contains('global-filter-reset-btn')) {
+          setTimeout(() => {
+            writeGlobalFinal('stage', 'all');
+            syncGlobalGradeOptionsFinal('school');
+            writeGlobalFinal('grade', 'school');
+            applyTopFilterVisibilityFinal();
+            scheduleOverviewFinal();
+            scheduleStudentBehaviorFinal();
+          }, 0);
+        }
+      }, true);
+      document.querySelectorAll('.nav-btn').forEach(btn => btn.addEventListener('click', function () {
+        [0, 100, 260].forEach(delay => setTimeout(() => {
+          applyTopFilterVisibilityFinal(btn.dataset.page);
+          if (btn.dataset.page === 'overview') scheduleOverviewFinal();
+          if (btn.dataset.page === 'student') scheduleStudentBehaviorFinal();
+        }, delay));
+      }));
+      document.addEventListener('DOMContentLoaded', function () {
+        ensureGlobalStageFinal();
+        syncGlobalGradeOptionsFinal(readGlobalGradeFinal());
+        applyTopFilterVisibilityFinal();
+        scheduleOverviewFinal();
+        scheduleStudentBehaviorFinal();
+      });
+      window.addEventListener('load', function () {
+        ensureGlobalStageFinal();
+        syncGlobalGradeOptionsFinal(readGlobalGradeFinal());
+        applyTopFilterVisibilityFinal();
+        scheduleOverviewFinal();
+        scheduleStudentBehaviorFinal();
+      });
+      ensureGlobalStageFinal();
+      syncGlobalGradeOptionsFinal(readGlobalGradeFinal());
+      applyTopFilterVisibilityFinal();
+      scheduleOverviewFinal();
+      scheduleStudentBehaviorFinal();
+    })();
+  </script>
+
+
+  <script>
+    /* === V6.1 最终覆盖：校情总览学情水平趋势改为年级/班级筛选，展示各学科趋势 === */
+    (function () {
+      const SUBJECTS_V61 = ['语文', '数学', '英语', '物理', '化学', '道法'];
+      const SUBJECT_COLORS_V61 = {
+        '语文': '#35ddff',
+        '数学': '#30f2a3',
+        '英语': '#ffd166',
+        '物理': '#8d67ff',
+        '化学': '#4f7dff',
+        '道法': '#ff5d7a'
+      };
+      const STAGE_GRADES_V61 = {
+        all: ['grade1','grade2','grade3','grade4','grade5','grade6','grade7','grade8','grade9','grade10','grade11','grade12'],
+        primary: ['grade1','grade2','grade3','grade4','grade5','grade6'],
+        middle: ['grade7','grade8','grade9'],
+        high: ['grade10','grade11','grade12']
+      };
+      const GRADE_LABELS_V61 = {
+        school: '全部年级',
+        grade1: '一年级', grade2: '二年级', grade3: '三年级', grade4: '四年级', grade5: '五年级', grade6: '六年级',
+        grade7: '七年级', grade8: '八年级', grade9: '九年级',
+        grade10: '高一', grade11: '高二', grade12: '高三'
+      };
+      const STAGE_LABELS_V61 = { all: '全部学段', primary: '小学', middle: '初中', high: '高中' };
+      const GRADE_STAGE_V61 = {
+        grade1: 'primary', grade2: 'primary', grade3: 'primary', grade4: 'primary', grade5: 'primary', grade6: 'primary',
+        grade7: 'middle', grade8: 'middle', grade9: 'middle',
+        grade10: 'high', grade11: 'high', grade12: 'high'
+      };
+      const CLASS_OPTIONS_V61 = Object.fromEntries(Object.keys(GRADE_LABELS_V61).filter(key => key !== 'school').map(grade => {
+        const label = GRADE_LABELS_V61[grade];
+        const count = /^grade(1|2|3|4|5|6|10|11|12)$/.test(grade) ? 4 : 6;
+        return [grade, Array.from({ length: count }, (_, index) => `${label} ${index + 1} 班`)];
+      }));
+
+      function normalizeGradeV61(value) {
+        return value && value !== 'all' ? value : 'school';
+      }
+      function currentGlobalStageV61() {
+        const value = document.getElementById('globalStageSelect')?.value || document.querySelector('.page-global-select[data-filter="stage"]')?.value || 'all';
+        return STAGE_GRADES_V61[value] ? value : 'all';
+      }
+      function currentGlobalGradeV61() {
+        const value = document.getElementById('globalGradeSelect')?.value || document.querySelector('.page-global-select[data-filter="grade"]')?.value || 'school';
+        const grade = normalizeGradeV61(value);
+        return GRADE_LABELS_V61[grade] ? grade : 'school';
+      }
+      function gradeOptionsV61() {
+        const globalGrade = currentGlobalGradeV61();
+        if (globalGrade !== 'school') return [globalGrade];
+        const stage = currentGlobalStageV61();
+        return STAGE_GRADES_V61[stage] || STAGE_GRADES_V61.all;
+      }
+      function setOptionsV61(select, options, preferred) {
+        if (!select) return;
+        const values = options.map(item => item.value);
+        const safe = values.includes(preferred) ? preferred : values[0];
+        const html = options.map(item => `<option value="${item.value}"${item.value === safe ? ' selected' : ''}>${item.label}</option>`).join('');
+        if (select.innerHTML !== html) select.innerHTML = html;
+        select.value = safe;
+      }
+      function ensureTrendCanvasV61() {
+        const old = document.getElementById('overviewLearningTrendCanvas');
+        if (old) return old;
+        const source = document.getElementById('overviewBarStable') || document.getElementById('overviewBar');
+        const panel = source?.closest('.panel') || Array.from(document.querySelectorAll('#overview .panel')).find(node => node.textContent.includes('学情水平趋势'));
+        const body = panel?.querySelector('.panel-body');
+        if (!body) return null;
+        body.innerHTML = '<canvas id="overviewLearningTrendCanvas"></canvas>';
+        const canvas = document.getElementById('overviewLearningTrendCanvas');
+        canvas.style.height = '190px';
+        return canvas;
+      }
+      function ensureTrendFiltersV61() {
+        const canvas = ensureTrendCanvasV61();
+        const panel = canvas?.closest('.panel') || document.querySelector('#overviewLearningTrendCanvas')?.closest('.panel');
+        const title = panel?.querySelector('.panel-title');
+        const filters = panel?.querySelector('.panel-filters');
+        if (!filters) return null;
+        if (title) title.textContent = '学情水平趋势';
+
+        let gradeSelect = document.getElementById('qualityCompareGradeSelectV61');
+        let classSelect = document.getElementById('qualityCompareClassSelectV61');
+        const oldGrade = gradeSelect?.value || document.getElementById('qualityCompareGradeSelect')?.value || 'school';
+        const oldClass = classSelect?.value || document.getElementById('qualityCompareClassSelect')?.value || 'all';
+
+        filters.innerHTML = '';
+        gradeSelect = document.createElement('select');
+        gradeSelect.id = 'qualityCompareGradeSelectV61';
+        gradeSelect.className = 'chart-select overview-filter';
+        gradeSelect.title = '年级筛选';
+        classSelect = document.createElement('select');
+        classSelect.id = 'qualityCompareClassSelectV61';
+        classSelect.className = 'chart-select overview-filter';
+        classSelect.title = '班级筛选';
+        filters.appendChild(gradeSelect);
+        filters.appendChild(classSelect);
+
+        document.querySelectorAll('#qualityCompareStageSelect,#qualityCompareStageSelectStable,#qualityCompareSubjectSelect,#qualityCompareSubjectSelectStable,#qualityCompareGradeSelect,#qualityCompareClassSelect').forEach(node => {
+          if (node.id !== 'qualityCompareGradeSelectV61' && node.id !== 'qualityCompareClassSelectV61') node.remove();
+        });
+
+        const globalGrade = currentGlobalGradeV61();
+        const grades = gradeOptionsV61();
+        const gradeOptions = [{ value: 'school', label: '全部年级' }].concat(grades.map(grade => ({ value: grade, label: GRADE_LABELS_V61[grade] || grade })));
+        const preferredGrade = globalGrade !== 'school' ? globalGrade : (gradeOptions.some(item => item.value === oldGrade) ? oldGrade : 'school');
+        setOptionsV61(gradeSelect, gradeOptions, preferredGrade);
+        if (globalGrade !== 'school') {
+          gradeSelect.disabled = true;
+          gradeSelect.title = `跟随全局筛选：${GRADE_LABELS_V61[globalGrade]}`;
+        } else {
+          gradeSelect.disabled = false;
+        }
+
+        const selectedGrade = normalizeGradeV61(gradeSelect.value);
+        if (selectedGrade === 'school') {
+          setOptionsV61(classSelect, [{ value: 'all', label: '全部班级' }], 'all');
+          classSelect.disabled = true;
+          classSelect.title = '选择具体年级后可筛选班级';
+        } else {
+          const classOptions = [{ value: 'all', label: '全部班级' }].concat((CLASS_OPTIONS_V61[selectedGrade] || []).map((name, index) => ({ value: `class${index + 1}`, label: name })));
+          setOptionsV61(classSelect, classOptions, oldClass);
+          classSelect.disabled = false;
+          classSelect.title = '班级筛选';
+        }
+        return { canvas, gradeSelect, classSelect };
+      }
+      function timeLabelsV61() {
+        if (typeof buildEightDateLabelsFinal === 'function') return buildEightDateLabelsFinal();
+        return ['05-29','07-20','09-10','11-01','12-24','02-14','04-07','05-29'];
+      }
+      function seedV61(text) {
+        let sum = 0;
+        String(text || '').split('').forEach(ch => { sum += ch.charCodeAt(0); });
+        return (sum % 9) - 4;
+      }
+      function drawLearningTrendV61() {
+        const controls = ensureTrendFiltersV61();
+        if (!controls || !controls.canvas || typeof resizeCanvas !== 'function') return;
+        const canvas = controls.canvas;
         const { ctx, w, h } = resizeCanvas(canvas);
         if (typeof resetChartHover === 'function') resetChartHover(canvas.id);
         if (typeof clear === 'function') clear(ctx, w, h); else ctx.clearRect(0, 0, w, h);
-        const series = [
-          { name: '待提升表现', color: colors.yellow, values: scope.improve },
-          { name: '积极表现', color: colors.green, values: scope.positive }
-        ];
-        const totals = scope.labels.map((_, i) => (scope.positive[i] || 0) + (scope.improve[i] || 0));
-        const max = Math.max(40, Math.ceil((Math.max(...totals, 0) + 10) / 10) * 10);
-        const pad = { top: 30, right: 18, bottom: scope.labels.length > 8 ? 46 : 38, left: 52, yMax: max, yMin: 0, yFormatter: v => String(Math.round(v)) };
+
+        const labels = timeLabelsV61();
+        const grade = normalizeGradeV61(controls.gradeSelect.value);
+        const classValue = controls.classSelect.value || 'all';
+        const stage = grade !== 'school' ? (GRADE_STAGE_V61[grade] || currentGlobalStageV61()) : currentGlobalStageV61();
+        const scopeSeed = seedV61(`${stage}-${grade}-${classValue}`);
+        const baseBySubject = { 语文: 86, 数学: 84, 英语: 85, 物理: 81, 化学: 82, 道法: 88 };
+        const classOffset = classValue === 'all' ? 0 : (Number(classValue.replace('class', '')) || 1) - 3;
+        const series = SUBJECTS_V61.map((subject, subjectIndex) => ({
+          name: subject,
+          color: SUBJECT_COLORS_V61[subject],
+          data: labels.map((_, pointIndex) => {
+            const wave = ((pointIndex + subjectIndex) % 3) - 1;
+            return Math.max(72, Math.min(98, Math.round((baseBySubject[subject] || 84) + scopeSeed * 0.35 + classOffset * 0.7 + pointIndex * 0.7 + wave)));
+          })
+        }));
+
+        const pad = { top: 46, right: 18, bottom: 34, left: 52, yMax: 100, yMin: 70, yFormatter: value => `${Math.round(value)}%` };
         if (typeof grid === 'function') grid(ctx, w, h, pad);
         const areaW = w - pad.left - pad.right;
         const areaH = h - pad.top - pad.bottom;
-        ctx.font = '12px Microsoft YaHei';
-        series.forEach((item, i) => {
+        ctx.font = '11px Microsoft YaHei';
+        series.forEach((item, index) => {
+          const lx = pad.left + (index % 3) * 86;
+          const ly = 10 + Math.floor(index / 3) * 18;
           ctx.fillStyle = item.color;
-          ctx.fillRect(pad.left + i * 102, 9, 14, 6);
-          ctx.fillStyle = colors.text;
-          ctx.fillText(item.name, pad.left + i * 102 + 20, 15);
+          ctx.fillRect(lx, ly, 14, 5);
+          ctx.fillStyle = colors?.text || '#d9f6ff';
+          ctx.fillText(item.name, lx + 20, ly + 6);
         });
-        scope.labels.forEach((label, i) => {
-          const colW = areaW / Math.max(1, scope.labels.length);
-          const barW = Math.max(12, Math.min(42, colW * 0.52));
-          const x = pad.left + colW * i + (colW - barW) / 2;
-          let base = pad.top + areaH;
-          series.forEach(item => {
-            const v = item.values[i] || 0;
-            const bh = areaH * v / max;
-            base -= bh;
-            const grd = ctx.createLinearGradient(0, base, 0, base + Math.max(1, bh));
-            grd.addColorStop(0, item.color);
-            grd.addColorStop(1, 'rgba(255,255,255,0.12)');
-            if (typeof roundRect === 'function') roundRect(ctx, x, base, barW, bh, 5, grd);
-            else { ctx.fillStyle = grd; ctx.fillRect(x, base, barW, bh); }
-            if (typeof addChartHover === 'function') addChartHover(canvas.id, { type: 'rect', x, y: base, w: barW, h: bh, tip: `${label}\n范围：${scope.tip.replace('行为特征分布：', '')}\n${item.name}：${v}` });
-            if (bh > 16) {
-              ctx.fillStyle = '#fff';
-              ctx.textAlign = 'center';
-              ctx.font = '11px Microsoft YaHei';
-              ctx.fillText(v, x + barW / 2, base + bh / 2 + 4);
-            }
-          });
-          ctx.fillStyle = colors.muted;
-          ctx.textAlign = 'center';
-          ctx.font = scope.labels.length > 8 ? '11px Microsoft YaHei' : '12px Microsoft YaHei';
-          if (scope.labels.length > 8) {
-            ctx.save();
-            ctx.translate(x + barW / 2, h - 12);
-            ctx.rotate(-Math.PI / 7);
-            ctx.fillText(label, 0, 0);
-            ctx.restore();
-          } else {
-            ctx.fillText(label, x + barW / 2, h - 12);
-          }
-          ctx.textAlign = 'left';
-        });
-        if (typeof attachCanvasTip === 'function') attachCanvasTip(canvas.id, scope.tip);
-      }
-      function scheduleBehaviorStackV59() {
-        [0, 60, 160, 320].forEach(delay => setTimeout(() => drawStackedBehaviorV59('studentStack'), delay));
-      }
 
-      window.drawStudentBehaviorTwoDim = drawStackedBehaviorV59;
-      try { globalThis.drawStudentBehaviorTwoDim = drawStackedBehaviorV59; } catch (e) {}
+        series.forEach(item => {
+          ctx.beginPath();
+          item.data.forEach((value, index) => {
+            const x = pad.left + areaW * index / Math.max(1, item.data.length - 1);
+            const y = pad.top + areaH - ((value - pad.yMin) / (pad.yMax - pad.yMin)) * areaH;
+            if (index === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+          });
+          ctx.strokeStyle = item.color;
+          ctx.lineWidth = 2.2;
+          ctx.shadowColor = item.color;
+          ctx.shadowBlur = 9;
+          ctx.stroke();
+          ctx.shadowBlur = 0;
+          item.data.forEach((value, index) => {
+            const x = pad.left + areaW * index / Math.max(1, item.data.length - 1);
+            const y = pad.top + areaH - ((value - pad.yMin) / (pad.yMax - pad.yMin)) * areaH;
+            ctx.fillStyle = item.color;
+            ctx.beginPath();
+            ctx.arc(x, y, 3, 0, Math.PI * 2);
+            ctx.fill();
+            if (typeof addChartHover === 'function') addChartHover(canvas.id, { type: 'circle', x, y, r: 9, tip: `${item.name}\n${labels[index]}：${value}%` });
+          });
+        });
+
+        ctx.fillStyle = colors?.muted || '#83a9c7';
+        ctx.font = '11px Microsoft YaHei';
+        ctx.textAlign = 'center';
+        labels.forEach((label, index) => {
+          const x = pad.left + areaW * index / Math.max(1, labels.length - 1);
+          ctx.fillText(label, x, h - 12);
+        });
+        ctx.textAlign = 'left';
+
+        if (typeof attachCanvasTip === 'function') {
+          const gradeText = grade === 'school' ? `${STAGE_LABELS_V61[stage] || '全部学段'} · 全部年级` : GRADE_LABELS_V61[grade];
+          const classText = classValue === 'all' ? '全部班级' : (controls.classSelect.options[controls.classSelect.selectedIndex]?.text || classValue);
+          attachCanvasTip(canvas.id, `学情水平趋势：按${gradeText} / ${classText}查看语文、数学、英语、物理、化学、道法的发展趋势；该筛选受全局筛选范围影响。`);
+        }
+      }
+      function scheduleLearningTrendV61() {
+        [0, 40, 120, 320, 760, 1400].forEach(delay => setTimeout(drawLearningTrendV61, delay));
+      }
 
       document.addEventListener('change', function (event) {
         const target = event.target;
         if (!target) return;
-        const isGlobal = target.id === 'globalStageSelect' || target.id === 'globalGradeSelect' || (target.classList?.contains('page-global-select') && ['stage','grade'].includes(target.dataset.filter));
-        if (isGlobal || target.id === 'studentBehaviorGradeSelect') {
-          scheduleBehaviorStackV59();
+        if (
+          target.id === 'qualityCompareGradeSelectV61' ||
+          target.id === 'qualityCompareClassSelectV61' ||
+          target.classList?.contains('page-global-select') ||
+          ['globalStageSelect', 'globalGradeSelect', 'globalSubjectSelect', 'globalTimeSelect'].includes(target.id)
+        ) {
+          scheduleLearningTrendV61();
         }
       }, true);
+
       document.addEventListener('click', function (event) {
-        if (event.target?.classList?.contains('global-filter-reset-btn')) scheduleBehaviorStackV59();
+        if (event.target?.classList?.contains('global-filter-reset-btn')) scheduleLearningTrendV61();
       }, true);
-      document.querySelectorAll('.nav-btn').forEach(btn => btn.addEventListener('click', function () {
-        if (btn.dataset.page === 'student') scheduleBehaviorStackV59();
-      }));
-      document.addEventListener('DOMContentLoaded', scheduleBehaviorStackV59);
-      window.addEventListener('load', scheduleBehaviorStackV59);
-      scheduleBehaviorStackV59();
+      document.querySelectorAll('.nav-btn').forEach(btn => btn.addEventListener('click', () => scheduleLearningTrendV61()));
+      document.addEventListener('DOMContentLoaded', scheduleLearningTrendV61);
+      window.addEventListener('load', scheduleLearningTrendV61);
+      window.renderOverviewLearningTrendV61 = drawLearningTrendV61;
+      [0, 120, 360, 900, 1700, 2600, 3600].forEach(delay => setTimeout(drawLearningTrendV61, delay));
     })();
   </script>
 
