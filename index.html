@@ -1912,7 +1912,7 @@
     .risk-warning-card.high .risk-warning-dot { background: var(--red); box-shadow: 0 0 12px var(--red); }
     .risk-warning-title { color: #fff; font-size: 13px; font-weight: 900; }
     .risk-warning-desc { margin-top: 4px; color: var(--muted); font-size: 12px; line-height: 1.35; }
-    .risk-warning-level { width: 28px; height: 28px; display: grid; place-items: center; border-radius: 999px; color: var(--cyan); border: 1px solid rgba(53,221,255,0.35); background: rgba(53,221,255,0.08); font-size: 12px; }
+    .risk-warning-level { width: 28px; height: 28px; display: grid; place-items: center; border-radius: 999px; color: var(--cyan); border: 1px solid rgba(255, 208, 53, 0.35); background: rgba(53,221,255,0.08); font-size: 12px; }
     .risk-warning-card.high .risk-warning-level { color: var(--red); border-color: rgba(255,93,122,0.42); background: rgba(255,93,122,0.10); }
     @media (max-width: 760px) {
       #overview .ai-brain-stage-v50 { transform: scale(0.76); transform-origin: center; min-height: 690px; }
@@ -1920,6 +1920,290 @@
     }
 
   </style>
+
+  <style>
+    /* === V2.66 模块内图表/KPI 拖拽换位 === */
+    .drag-sortable-item {
+      position: relative;
+    }
+
+    .panel.drag-sortable-item > .panel-header {
+      padding-left: 44px;
+    }
+
+    .kpi-card.drag-sortable-item {
+      padding-left: 46px;
+    }
+
+    .drag-sort-handle {
+      position: absolute;
+      left: 10px;
+      top: 10px;
+      z-index: 12;
+      width: 26px;
+      height: 26px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(53, 221, 255, 0.45);
+      border-radius: 10px;
+      color: var(--cyan);
+      background: rgba(5, 13, 31, 0.76);
+      box-shadow: 0 0 14px rgba(53, 221, 255, 0.18);
+      cursor: grab;
+      user-select: none;
+      transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+      font-size: 15px;
+      line-height: 1;
+      backdrop-filter: blur(8px);
+    }
+
+    .drag-sort-handle:hover {
+      color: #fff;
+      border-color: var(--line-strong);
+      background: rgba(10, 28, 62, 0.92);
+      box-shadow: 0 0 18px rgba(53, 221, 255, 0.32);
+      transform: translateY(-1px);
+    }
+
+    .drag-sort-handle:active {
+      cursor: grabbing;
+      transform: scale(0.96);
+    }
+
+    .drag-sortable-item.is-dragging {
+      opacity: 0.56;
+      outline: 1px dashed rgba(53, 221, 255, 0.76);
+      outline-offset: -4px;
+    }
+
+    .drag-sortable-item.is-drag-over {
+      border-color: rgba(48, 242, 163, 0.78) !important;
+      box-shadow: 0 0 24px rgba(48, 242, 163, 0.24), var(--shadow);
+    }
+
+    .drag-sortable-item.is-swap-flash {
+      animation: swapFlashV266 0.36s ease;
+    }
+
+    @keyframes swapFlashV266 {
+      0% { transform: scale(0.985); }
+      50% { transform: scale(1.012); }
+      100% { transform: scale(1); }
+    }
+  </style>
+
+
+  <style>
+    /* === PRD 全屏文档弹窗 === */
+    .title-line {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .title-line h1 { margin: 0; }
+    .prd-open-btn {
+      flex: 0 0 auto;
+      border: 1px solid rgba(53, 221, 255, 0.42);
+      border-radius: 999px;
+      color: #d9f6ff;
+      background: linear-gradient(135deg, rgba(53, 221, 255, 0.18), rgba(79, 125, 255, 0.16));
+      padding: 8px 14px;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      cursor: pointer;
+      box-shadow: 0 0 18px rgba(53, 221, 255, 0.16);
+      transition: 0.22s ease;
+    }
+    .prd-open-btn:hover {
+      color: #fff;
+      border-color: var(--line-strong);
+      box-shadow: 0 0 22px rgba(53, 221, 255, 0.30);
+      transform: translateY(-1px);
+    }
+    .prd-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 5000;
+      display: none;
+      color: var(--text);
+      background: rgba(2, 8, 23, 0.92);
+      backdrop-filter: blur(18px);
+    }
+    .prd-modal.is-open { display: block; }
+    body.prd-modal-open { overflow: hidden; }
+    body.prd-modal-open .bottom-nav { display: none; }
+    .prd-dialog {
+      height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr;
+      border: 1px solid rgba(53, 221, 255, 0.30);
+      background:
+        radial-gradient(circle at 18% 8%, rgba(53, 221, 255, 0.16), transparent 28%),
+        radial-gradient(circle at 88% 4%, rgba(141, 103, 255, 0.16), transparent 30%),
+        rgba(5, 13, 31, 0.94);
+    }
+    .prd-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 16px 22px;
+      border-bottom: 1px solid rgba(62, 219, 255, 0.20);
+      background: rgba(5, 13, 31, 0.82);
+      box-shadow: 0 10px 26px rgba(0,0,0,0.18);
+    }
+    .prd-header-title {
+      min-width: 0;
+    }
+    .prd-header-title h2 {
+      margin: 0 0 6px;
+      color: #fff;
+      font-size: 22px;
+      letter-spacing: 1px;
+    }
+    .prd-header-title p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .prd-close-btn {
+      border: 1px solid rgba(53, 221, 255, 0.40);
+      border-radius: 999px;
+      color: var(--text);
+      background: rgba(10, 22, 50, 0.92);
+      padding: 8px 16px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: 0.22s ease;
+    }
+    .prd-close-btn:hover {
+      color: #fff;
+      border-color: var(--line-strong);
+      box-shadow: 0 0 18px rgba(53, 221, 255, 0.26);
+    }
+    .prd-layout {
+      min-height: 0;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+    }
+    .prd-toc {
+      min-height: 0;
+      overflow-y: auto;
+      padding: 18px 14px 22px;
+      border-right: 1px solid rgba(62, 219, 255, 0.18);
+      background: rgba(4, 12, 30, 0.84);
+    }
+    .prd-toc-title {
+      color: var(--cyan);
+      font-weight: 900;
+      letter-spacing: 1px;
+      margin: 0 0 12px;
+    }
+    .prd-toc a {
+      display: block;
+      padding: 8px 10px;
+      border-radius: 10px;
+      color: #bfefff;
+      text-decoration: none;
+      font-size: 13px;
+      line-height: 1.35;
+      transition: 0.18s ease;
+    }
+    .prd-toc a:hover {
+      color: #fff;
+      background: rgba(53,221,255,0.12);
+    }
+    .prd-toc .toc-sub {
+      padding-left: 22px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .prd-content {
+      min-height: 0;
+      overflow-y: auto;
+      padding: 22px clamp(18px, 3vw, 38px) 70px;
+      scroll-behavior: smooth;
+    }
+    .prd-section {
+      margin: 0 0 22px;
+      padding: 18px;
+      border: 1px solid rgba(62, 219, 255, 0.18);
+      border-radius: 18px;
+      background: rgba(10, 22, 50, 0.56);
+      box-shadow: var(--shadow);
+    }
+    .prd-section h3 {
+      margin: 0 0 12px;
+      color: #fff;
+      font-size: 20px;
+      letter-spacing: 1px;
+    }
+    .prd-section h4 {
+      margin: 18px 0 10px;
+      color: var(--cyan);
+      font-size: 16px;
+    }
+    .prd-section p,
+    .prd-section li {
+      color: #d7efff;
+      font-size: 13px;
+      line-height: 1.75;
+    }
+    .prd-section ul { margin: 8px 0 0; padding-left: 20px; }
+    .prd-table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid rgba(62, 219, 255, 0.14);
+      border-radius: 14px;
+    }
+    .prd-table {
+      width: 100%;
+      min-width: 980px;
+      border-collapse: collapse;
+      font-size: 12px;
+      background: rgba(5,13,31,0.36);
+    }
+    .prd-table th,
+    .prd-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      border-right: 1px solid rgba(255,255,255,0.06);
+      vertical-align: top;
+      line-height: 1.65;
+    }
+    .prd-table th {
+      color: var(--cyan);
+      background: rgba(53, 221, 255, 0.08);
+      font-weight: 900;
+      white-space: nowrap;
+    }
+    .prd-table td { color: #d7efff; }
+    .prd-tag {
+      display: inline-flex;
+      align-items: center;
+      margin: 0 6px 6px 0;
+      padding: 3px 8px;
+      border-radius: 999px;
+      color: #c9f5ff;
+      background: rgba(53,221,255,0.10);
+      border: 1px solid rgba(53,221,255,0.20);
+      font-size: 12px;
+    }
+    @media (max-width: 900px) {
+      .prd-layout { grid-template-columns: 1fr; }
+      .prd-toc {
+        max-height: 178px;
+        border-right: 0;
+        border-bottom: 1px solid rgba(62, 219, 255, 0.18);
+      }
+      .prd-header { align-items: flex-start; }
+      .prd-header-title h2 { font-size: 18px; }
+    }
+  </style>
+
 </head>
 <body>
   <div class="app">
@@ -1927,7 +2211,7 @@
       <div class="brand">
         <div class="logo"><span></span></div>
         <div class="title">
-          <h1>兆涵大学·智慧教学驾驶舱</h1>
+          <div class="title-line"><h1>兆涵大学·智慧教学驾驶舱</h1><button id="prdOpenBtn" class="prd-open-btn" type="button">查看PRD</button></div>
         </div>
       </div>
       <div class="top-actions">
@@ -1950,7 +2234,7 @@
           </select>
           <select class="chart-select page-global-select" data-filter="time">
             <option value="all">全部数据</option>
-            <option value="month">近一个月</option>
+            <option value="month">近三个月</option>
             <option value="half">近半年</option>
             <option value="year">近一年</option>
           </select>
@@ -1981,7 +2265,7 @@
       </select>
       <select id="globalTimeSelect">
         <option value="all">全部数据</option>
-        <option value="month">近一个月</option>
+        <option value="month">近三个月</option>
         <option value="half">近半年</option>
         <option value="year">近一年</option>
       </select>
@@ -1990,10 +2274,10 @@
     <main>
       <section class="page active" id="overview">
         <div class="kpi-grid">
-          <div class="kpi-card"><div class="kpi-label">学生数</div><div class="kpi-value">3,286</div><div class="kpi-sub">▲较上月+83人</div></div>
-          <div class="kpi-card"><div class="kpi-label">教师数</div><div class="kpi-value">218</div><div class="kpi-sub">师生比 1:15.1</div></div>
-          <div class="kpi-card" data-tip="班级数：统计当前筛选条件下纳入分析的行政班数量。"><div class="kpi-label">班级数</div><div class="kpi-value">54</div><div class="kpi-sub">▲较上月+4个班</div></div>
-          <div class="kpi-card"><div class="kpi-label">校本资源数量</div><div class="kpi-value">12,610</div><div class="kpi-sub">▲ 较上月+895个</div></div>
+          <div class="kpi-card"><div class="kpi-label">学生数</div><div class="kpi-value">3,286</div><div class="kpi-sub"></div></div>
+          <div class="kpi-card"><div class="kpi-label">教师数</div><div class="kpi-value">218</div><div class="kpi-sub"></div></div>
+          <div class="kpi-card" data-tip="班级数：统计当前筛选条件下纳入分析的行政班数量。"><div class="kpi-label">班级数</div><div class="kpi-value">54</div><div class="kpi-sub"></div></div>
+          <div class="kpi-card"><div class="kpi-label">校本资源数量</div><div class="kpi-value">12,610</div><div class="kpi-sub"></div></div>
         </div>
 
         <div class="overview-dashboard-layout">
@@ -2016,8 +2300,8 @@
             <div class="panel-header"><h2 class="panel-title">校园AI教育大脑</h2></div>
             <div class="panel-body">
               <div class="ai-brain-stage ai-brain-stage-v50" aria-label="校园AI教育大脑">
-                <div class="brain-orbit-label upper">学科掌握情况</div>
-                <div class="brain-orbit-label lower">学生综合发展</div>
+                <div class="brain-orbit-label upper"></div>
+                <div class="brain-orbit-label lower"></div>
                 <div class="brain-ground-ring ring-one"></div>
                 <div class="brain-ground-ring ring-two"></div>
                 <div class="brain-link link-cn"></div>
@@ -2049,7 +2333,7 @@
               <div class="panel-body"><canvas id="overviewLine"></canvas></div>
             </div>
             <div class="panel">
-              <div class="panel-header"><h2 class="panel-title">学情水平趋势</h2><div class="panel-filters"><select id="qualityCompareGradeSelect" class="chart-select overview-filter"><option value="school">全部年级</option></select><select id="qualityCompareClassSelect" class="chart-select overview-filter"><option value="all">全部班级</option></select></div></div>
+              <div class="panel-header"><h2 class="panel-title">学情发展趋势</h2><div class="panel-filters"><select id="qualityCompareGradeSelect" class="chart-select overview-filter"><option value="school">全部年级</option></select><select id="qualityCompareClassSelect" class="chart-select overview-filter"><option value="all">全部班级</option></select></div></div>
               <div class="panel-body"><canvas id="overviewBar"></canvas></div>
             </div>
             <div class="panel">
@@ -2063,7 +2347,7 @@
                   </div>
                   <div class="risk-warning-card mid">
                     <span class="risk-warning-dot"></span>
-                    <div class="risk-warning-main"><div class="risk-warning-title">心理关注预警</div><div class="risk-warning-desc">近期情绪波动、需持续关注学生23人</div></div>
+                    <div class="risk-warning-main"><div class="risk-warning-title">心理关注预警（暂无）</div><div class="risk-warning-desc">近期情绪波动、需持续关注学生23人</div></div>
                     <div class="risk-warning-level">中</div>
                   </div>
                   <div class="risk-warning-card mid">
@@ -2084,8 +2368,8 @@
           <div class="kpi-card"><div class="kpi-label">精通率</div><div class="kpi-value">31.2%</div><div class="kpi-sub">▲ 较上月 +3.1%</div></div>
           <div class="kpi-card"><div class="kpi-label">熟练率</div><div class="kpi-value">63.4%</div><div class="kpi-sub">▲ 较上月 +2.4%</div></div>
           <div class="kpi-card"><div class="kpi-label">达标率</div><div class="kpi-value">92.5%</div><div class="kpi-sub">▲ 较上月 +1.2%</div></div>
-          <div class="kpi-card"><div class="kpi-label">待提升率</div><div class="kpi-value">7.5%</div><div class="kpi-sub danger">▼ 较上月 -1.2%</div></div>
-          <div class="kpi-card"><div class="kpi-label">薄弱知识点</div><div class="kpi-value">18</div><div class="kpi-sub warn">▼ 较上月 -3个</div></div>
+          <div class="kpi-card"><div class="kpi-label">待提升率</div><div class="kpi-value">7.5%</div><div class="kpi-sub">▼ 较上月 -1.2%</div></div>
+          <div class="kpi-card"><div class="kpi-label">薄弱知识点</div><div class="kpi-value">18</div><div class="kpi-sub">▼ 较上月 -3个</div></div>
         </div>
 
         <div class="layout-3">
@@ -2194,7 +2478,7 @@
 
         <div class="layout-3">
           <div class="panel">
-            <div class="panel-header"><h2 class="panel-title">学科教学进度</h2><div class="panel-filters"><select id="teachingProgressSubjectSelect" class="chart-select process-filter"><option value="all">全部学科</option><option value="语文">语文</option><option value="数学">数学</option><option value="英语">英语</option><option value="物理">物理</option><option value="化学">化学</option><option value="道法">道法</option></select><select id="teachingProgressGradeSelect" class="chart-select process-filter"><option value="school">全部年级</option><option value="grade7">七年级</option><option value="grade8">八年级</option><option value="grade9">九年级</option></select></div></div>
+            <div class="panel-header"><h2 class="panel-title">学科教学进度（暂无）</h2><div class="panel-filters"><select id="teachingProgressSubjectSelect" class="chart-select process-filter"><option value="all">全部学科</option><option value="语文">语文</option><option value="数学">数学</option><option value="英语">英语</option><option value="物理">物理</option><option value="化学">化学</option><option value="道法">道法</option></select><select id="teachingProgressGradeSelect" class="chart-select process-filter"><option value="school">全部年级</option><option value="grade7">七年级</option><option value="grade8">八年级</option><option value="grade9">九年级</option></select></div></div>
             <div class="panel-body"><div class="progress-list" id="teachingProgressList"></div></div>
           </div>
           <div class="panel big-canvas">
@@ -2255,11 +2539,11 @@
 
       <section class="page" id="student">
         <div class="kpi-grid">
-          <div class="kpi-card"><div class="kpi-label">综合素养均分</div><div class="kpi-value">88.2</div><div class="kpi-sub">▲ 较上月 +1.6</div></div>
+          <div class="kpi-card"><div class="kpi-label">综合素养均分（暂无）</div><div class="kpi-value">88.2</div><div class="kpi-sub">▲ 较上月 +1.6</div></div>
           <div class="kpi-card" data-tip="自主学习时长：统计学生在自主学习、在线练习、资源学习、错题巩固等场景中的累计学习时长。"><div class="kpi-label">自主学习时长</div><div class="kpi-value">12,486h</div><div class="kpi-sub">▲ 较上月+38h</div></div>
           <div class="kpi-card"><div class="kpi-label">积极表现数</div><div class="kpi-value">1,246</div><div class="kpi-sub">▲ 较上月 +126次</div></div>
           <div class="kpi-card" data-tip="待提升表现数：包括课堂纪律、作业习惯、协作沟通等需要持续引导的行为事件。"><div class="kpi-label">待提升表现数</div><div class="kpi-value">68</div><div class="kpi-sub">▼ 较上月 -8次</div></div>
-          <div class="kpi-card"><div class="kpi-label">心理关注学生</div><div class="kpi-value">23</div><div class="kpi-sub danger">▲ 较上月 +4 人</div></div>
+          <div class="kpi-card"><div class="kpi-label">心理关注学生（暂无）</div><div class="kpi-value">23</div><div class="kpi-sub danger">▲ 较上月 +4 人</div></div>
         </div>
 
         <div class="layout-3 student-overview-layout">
@@ -2327,8 +2611,8 @@
 
       <section class="page" id="teacher">
         <div class="kpi-grid">
-          <div class="kpi-card"><div class="kpi-label">教师总数</div><div class="kpi-value">218</div><div class="kpi-sub">▲ 较上学期 +6人</div></div>
-          <div class="kpi-card"><div class="kpi-label">高级职称占比</div><div class="kpi-value">32.6%</div><div class="kpi-sub">▲ 较上学期 +1.8%</div></div>
+          <div class="kpi-card"><div class="kpi-label">教师总数</div><div class="kpi-value">218</div><div class="kpi-sub">师生比1:15</div></div>
+          <div class="kpi-card" data-tip="高级职称占比=正高级教师+高级教师人数之和。"><div class="kpi-label">高级职称占比(暂无)</div><div class="kpi-value">32.6%</div><div class="kpi-sub">共计56人</div></div>
           <div class="kpi-card" data-tip="课堂分析次数：统计教师开展课堂分析、课堂诊断、课堂观察或课堂数据复盘的累计次数。"><div class="kpi-label">课堂分析次数（暂无）</div><div class="kpi-value">895</div><div class="kpi-sub">▲ 较上月 +86次</div></div>
           <div class="kpi-card" data-tip="课堂互动次数：统计课堂问答、举手发言、随堂反馈、互动活动参与等课堂互动行为次数。"><div class="kpi-label">课堂互动次数</div><div class="kpi-value">18,642</div><div class="kpi-sub">▲ 较上月 +1,986次</div></div>
           <div class="kpi-card"><div class="kpi-label">校本资源贡献次数</div><div class="kpi-value">1,268</div><div class="kpi-sub">▲ 较上月 +96次</div></div>
@@ -2407,10 +2691,10 @@
               <table class="data-table">
                 <thead><tr><th>时间</th><th>操作</th><th>对象</th><th>状态</th></tr></thead>
                 <tbody>
-                  <tr><td>09:42</td><td>用户登录</td><td>张老师 / 教师端</td><td><span class="status good">成功</span></td></tr>
-                  <tr><td>10:16</td><td>上传资源</td><td>八年级数学《一次函数》课件</td><td><span class="status good">已入库</span></td></tr>
-                  <tr><td>10:58</td><td>下载资源</td><td>英语单词评测模板</td><td><span class="status good">完成</span></td></tr>
-                  <tr><td>11:21</td><td>共享资源</td><td>九年级物理随堂测</td><td><span class="status mid">待审核</span></td></tr>
+                  <tr><td>11:21</td><td>用户登录</td><td>张老师 / 教师端</td><td><span class="status good">成功</span></td></tr>
+                  <tr><td>10:58</td><td>上传资源</td><td>八年级数学《一次函数》课件</td><td><span class="status bad">失败</span></td></tr>
+                  <tr><td>10:16</td><td>下载资源</td><td>英语单词评测模板</td><td><span class="status good">成功</span></td></tr>
+                  <tr><td>09:42</td><td>共享资源</td><td>九年级物理随堂测</td><td><span class="status good">成功</span></td></tr>
                 </tbody>
               </table>
             </div>
@@ -2421,6 +2705,271 @@
   </div>
 
   <div id="chartTooltip" class="chart-tooltip"></div>
+
+
+  <div id="prdModal" class="prd-modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="prdModalTitle">
+    <div class="prd-dialog">
+      <div class="prd-header">
+        <div class="prd-header-title">
+          <h2 id="prdModalTitle">智慧教学驾驶舱 PRD 文档</h2>
+        </div>
+        <button id="prdCloseBtn" class="prd-close-btn" type="button">关闭 PRD</button>
+      </div>
+      <div class="prd-layout">
+        <aside class="prd-toc" aria-label="PRD目录">
+          <div class="prd-toc-title">目录</div>
+          <a href="#prd-overview">一、产品概述</a>
+          <a href="#prd-common">二、通用筛选与交互规则</a>
+          <a href="#prd-drag">三、模块位置调整逻辑</a>
+          <a href="#prd-module-overview">四、校情总览</a>
+          <a class="toc-sub" href="#prd-overview-kpi">4.1 KPI 指标卡</a>
+          <a class="toc-sub" href="#prd-overview-chart">4.2 图表与模块</a>
+          <a href="#prd-module-quality">五、教学质量</a>
+          <a class="toc-sub" href="#prd-quality-kpi">5.1 KPI 指标卡</a>
+          <a class="toc-sub" href="#prd-quality-chart">5.2 图表与模块</a>
+          <a href="#prd-module-process">六、教学过程</a>
+          <a class="toc-sub" href="#prd-process-kpi">6.1 KPI 指标卡</a>
+          <a class="toc-sub" href="#prd-process-chart">6.2 图表与模块</a>
+          <a href="#prd-module-student">七、学生发展</a>
+          <a class="toc-sub" href="#prd-student-kpi">7.1 KPI 指标卡</a>
+          <a class="toc-sub" href="#prd-student-chart">7.2 图表与模块</a>
+          <a href="#prd-module-teacher">八、教师发展</a>
+          <a class="toc-sub" href="#prd-teacher-kpi">8.1 KPI 指标卡</a>
+          <a class="toc-sub" href="#prd-teacher-chart">8.2 图表与模块</a>
+          <a href="#prd-module-system">九、系统运维</a>
+          <a class="toc-sub" href="#prd-system-kpi">9.1 KPI 指标卡</a>
+          <a class="toc-sub" href="#prd-system-chart">9.2 图表与模块</a>
+        </aside>
+        <article class="prd-content">
+          <section id="prd-overview" class="prd-section">
+            <h3>一、产品概述</h3>
+            <p><strong>产品定位：</strong>面向学校管理员，集中展示校情、教学质量、教学过程、学生发展、教师发展与系统运行情况，并支持通过全局筛选、图表级筛选和模块内拖拽换位完成数据观察与看板个性化编排。</p>
+            <p><strong>页面结构：</strong>顶部为公司LOGO、学校名·智慧教学驾驶舱、全局筛选、重置按钮和时间；中部为当前模块内容；底部为六大模块导航：校情总览、教学质量、教学过程、学生发展、教师发展、系统运维。</p>
+            <p><strong>数据口径：</strong>所有统计默认按当前学校、所属学段、学科、年级、时间等筛选范围聚合。标记“暂无”数据模块先使用占位图与“敬请期待”标识，后续接入真实数据源后按相同口径替换。</p>
+            <p><strong>数据更新：</strong>理想更新时间：有新数据时实时更新；备选更新时间：每日24:00更新数据。</p>
+          </section>
+
+          <section id="prd-common" class="prd-section">
+            <h3>二、通用筛选与交互规则</h3>
+            <h4>2.1 全局筛选</h4>
+            <p><span class="prd-tag">学段</span><span class="prd-tag">学科</span><span class="prd-tag">年级</span><span class="prd-tag">时间</span>全局筛选用于限定当前模块下所有可联动图表的数据范围。校情总览以模块内学段、年级、班级筛选为主；教学质量、教学过程、学生发展、教师发展显示顶部全局筛选；系统运维默认不展示全局筛选。</p>
+            <div class="prd-table-wrap"><table class="prd-table"><thead><tr><th>筛选项</th><th>可选值</th><th>数据作用范围</th><th>联动逻辑</th></tr></thead><tbody>
+              <tr><td>学段</td><td>全部学段、小学、初中、高中(仅显示学校有且在系统中的学段)</td><td>影响可选年级、班级范围，以及需按学段聚合的学生、教师、资源、作业、课堂数据。</td><td>选择学段后，年级下拉仅保留该学段年级；班级下拉按年级集合动态生成；若原年级/班级不在新范围内，自动回退到“全部年级/全部班级”。</td></tr>
+              <tr><td>学科</td><td>全部学科、语文、数学、英语、物理、化学、道法(仅显示学校、学段有且在系统中的学科)</td><td>影响教学质量、教学过程、教师发展中与学科相关的数据。</td><td>选择具体学科后，各图表默认使用该学科；选择全部学科时，图表按学科维度对比或聚合。学科知识图谱必须选择具体学科，全部学科时展示提示。</td></tr>
+              <tr><td>年级</td><td>全部年级、七年级、八年级、九年级···(仅显示学校、学段有且在系统中的年级)</td><td>影响班级列表、学生范围、教师授课范围和资源/作业/课堂数据聚合范围。</td><td>若选择具体年级，班级筛选只展示该年级班级；若选择全部年级，班级筛选展示当前学段下全部班级。</td></tr>
+              <tr><td>时间</td><td>全部数据、近三个月、近半年、近一年（默认为近3个月）</td><td>影响趋势、活跃、资源、作业、课堂、行为等时间序列和统计总量。</td><td>切换后重新渲染当前模块图表；趋势图横轴按时间范围生成周期点，统计类图表按时间范围汇总。</td></tr>
+              <tr><td>重置</td><td>按钮操作</td><td>恢复全局筛选及图表局部筛选默认状态。</td><td>点击后全局回到全部学段/全部学科/全部年级/近三个月，局部班级回到全部班级，并触发图表重绘。</td></tr>
+            </tbody></table></div>
+            <h4>2.2 图表级筛选</h4>
+            <p>图表头部下拉框只影响当前图表或当前图表组，不可反向影响其他图表。图表级学科、年级、班级筛选受全局筛选约束：全局选择具体学科或年级时，局部筛选需要同步或限制在该范围内；全局为“全部”时，局部可自由选择。</p>
+            <h4>2.3 图表通用交互</h4>
+            <ul>
+              <li>鼠标悬浮图表元素时展示 tooltip，包含当前维度名称、指标值、百分比或状态说明。</li>
+              <li>图表容器尺寸变化、页面切换、拖拽换位后，需要重新计算 canvas 尺寸并重绘。</li>
+              <li>知识图谱支持教材版本切换、章节/知识点检索、父级勾选带动子级勾选、确定应用、节点展开、全屏查看。（可以直接应用现有知识图谱，不过会在此基础上加一个年级、校级的计算维度）</li>
+              <li>标记“暂无”的模块保留位置、筛选口径和计算说明，UI需要根据此图设计一个静态图用于展示该数据。</li>
+            </ul>
+          </section>
+
+          <section id="prd-drag" class="prd-section">
+            <h3>三、模块位置调整逻辑</h3>
+            <div class="prd-table-wrap"><table class="prd-table"><thead><tr><th>规则</th><th>详细说明</th><th>交互反馈</th><th>持久化/边界</th></tr></thead><tbody>
+              <tr><td>拖拽入口</td><td>每个 KPI 卡片和图表面板左上角显示拖拽按钮，用户按住按钮进行拖拽；面板主体点击不触发拖拽，避免影响图表 hover、下拉框、全屏等操作。</td><td>拖拽按钮 hover 高亮；拖拽中卡片透明并出现虚线轮廓。</td><td>仅对直接位于可排序容器内的 KPI 卡片和 panel 生效。</td></tr>
+              <tr><td>区域限制</td><td>图表只允许在当前模块、当前布局容器内交换位置；KPI 指标卡只允许在当前模块 KPI 区域内交换位置。</td><td>拖到同一容器其他项目上时目标高亮；拖到不同容器无交换效果。</td><td>禁止跨模块、跨 KPI/图表区域移动。</td></tr>
+              <tr><td>交换规则</td><td>图表 A 拖拽至图表 B 时，A 与 B 互换 DOM 位置；相邻项和非相邻项均按交换处理，而不是插入排序。</td><td>交换完成后双方出现轻微缩放闪烁动效。</td><td>交换后调用图表重绘，保证 canvas 尺寸和图表内容正常。</td></tr>
+              <tr><td>持久化</td><td>每个可排序容器生成唯一 key，交换后将排序后的项目 ID 写入 localStorage。</td><td>用户刷新页面或切换模块后，保持上次排序。</td><td>若后续新增/删除卡片，系统保留可匹配项目排序，新项目按原 DOM 位置补充。</td></tr>
+              <tr><td>重绘逻辑</td><td>拖拽完成后触发 resize 事件，并尝试调用各模块渲染函数。</td><td>图表不会因位置变化出现空白、变形或尺寸错乱。</td><td>若某渲染函数不存在则静默跳过，不影响其他模块。</td></tr>
+            </tbody></table></div>
+          </section>
+
+          <section id="prd-module-overview" class="prd-section">
+            <h3>四、校情总览模块</h3>
+            <p><strong>模块目标：</strong>展示学校基础规模、学生结构、运行趋势、学情趋势、AI 教育大脑与风险预警。页面采用左 25% / 中 50% / 右 25% 三栏布局，顶部 KPI 区域固定在模块上方。</p>
+            <p><strong>知识掌握度计算：</strong>知识点掌握度=该知识点关联题目累计得分/该知识点关联题目累计总分*100%；模块掌握度 =模块内各知识点掌握度之和÷模块内知识点数；学科掌握度=模块掌握度之和÷模块数；班级学科掌握度=各学生学科掌握度之和÷学生数；年级学科掌握度=各班级学科掌握度之和÷班级数；学段学科掌握度=各年级学科掌握度之和÷年级数；学校学科掌握度=各学段学科掌握度之和÷学段数；学校知识掌握度=学校各学科掌握度之和÷学科数</p>
+            <p><strong>五育分值计算（暂无）：</strong>班级五育分值=班级学生五育指标分值÷学生数；年级五育分值=各班级各五育分值之和÷班级数；学段五育分值=各年级五育分值之和÷年级数；学校五育分值=各学段五育分值之和÷学段数</p>
+            <p><strong>作业提交率计算：</strong>学生作业提交率=作业提交数÷接收作业数；班级作业提交率=某个班级学生作业提交率之和÷学生数；年级作业提交率=某个年级各班级作业提交率之和÷班级数；学段作业提交率=某个学段各年级作业提交率之和÷年级数；学校作业提交率=各学段作业提交率之和÷学段数</p>
+            <p><strong>作业批改率计算：</strong>线下作业只有公布结果后才算是批改，智能布置作业、精准选题布置作业、错题布置作业、其他作业的作业批改为AI自动批改且暂无用户确认，故这些类型的作业批改率取值会和提交率相等。学生作业批改率=作业批改数÷接收作业数；班级作业批改率=某个班级学生作业批改率之和÷学生数；年级作业批改率=某个年级各班级作业批改率之和÷班级数；学段作业批改率=某个学段各年级作业批改率之和÷年级数；学校作业批改率=各学段作业批改率之和÷学段数</p>
+            <p><strong>精通占比（精通率）：</strong>评级标准为“精通（100%≥学科掌握度≥90%）、熟练（90%＞学科掌握度≥80%）、达标（80%＞学科掌握度≥60%）、待提升（学科掌握度＜60%）” 。班级精通占比 =（班级精通人数 ÷ 班级人数）× 100%；年级精通占比 =某个年级各班级精通占比之和÷班级数；学段精通占比 =某个学段各年级精通占比之和÷年级数；学校精通占比 =各学段精通占比之和÷学段数</p>
+            <p><strong>熟练占比：</strong>评级标准为“精通（100%≥学科掌握度≥90%）、熟练（90%＞学科掌握度≥80%）、达标（80%＞学科掌握度≥60%）、待提升（学科掌握度＜60%）” 。班级熟练占比 =（班级熟练人数 ÷ 班级人数）× 100%；年级熟练占比 =某个年级各班级熟练占比之和÷班级数；学段熟练占比 =某个学段各年级熟练占比之和÷年级数；学校熟练占比 =各学段熟练占比之和÷学段数</p>
+            <p><strong>达标占比：</strong>评级标准为“精通（100%≥学科掌握度≥90%）、熟练（90%＞学科掌握度≥80%）、达标（80%＞学科掌握度≥60%）、待提升（学科掌握度＜60%）” 。班级达标占比 =（班级达标人数 ÷ 班级人数）× 100%；年级达标占比 =某个年级各班级达标占比之和÷班级数；学段达标占比 =某个学段各年级达标占比之和÷年级数；学校达标占比 =各学段达标占比之和÷学段数</p>
+            <p><strong>待提升占比（待提升率）：</strong>评级标准为“精通（100%≥学科掌握度≥90%）、熟练（90%＞学科掌握度≥80%）、达标（80%＞学科掌握度≥60%）、待提升（学科掌握度＜60%）” 。班级达标占比 =（班级达标人数 ÷ 班级人数）× 100%；年级达标占比 =某个年级各班级达标占比之和÷班级数；学段达标占比 =某个学段各年级达标占比之和÷年级数；学校达标占比 =各学段达标占比之和÷学段数</p>
+            <p><strong>达标率：</strong>达标率 = 达标占比+熟练占比+精通占比</p>
+            <h4 id="prd-overview-kpi">4.1 KPI 指标卡</h4>
+            <div class="prd-table-wrap"><table class="prd-table"><thead><tr><th>指标</th><th>数据来源</th><th>计算规则</th><th>筛选/交互逻辑</th></tr></thead><tbody>
+              <tr><td>学生数</td><td>该学校有导入我们系统的学生人数。</td><td>统计当前学校在籍、在我们系统中且有效状态学生人数；排除被删除退学、休学、已毕业且不在统计周期内学生。</td><td>跟随校情总览的学段/年级范围展示；卡片支持拖拽，仅在 KPI 区域内换位。</td></tr>
+              <tr><td>教师数</td><td>该学校有导入我们系统的教师人数。</td><td>统计当前学校在职教师人数；多学科任课教师按教师唯一 ID 去重。</td><td>可按学段/年级涉及的任课关系聚合；卡片支持 KPI 区域内换位。</td></tr>
+              <tr><td>班级数</td><td>该学校添加的班级数。</td><td>统计当前筛选范围内行政班数量；停用班级不计入。</td><td>鼠标悬浮展示指标说明；卡片支持 KPI 区域内换位。</td></tr>
+              <tr><td>校本资源数量</td><td>统计该学校教师共享的校本资源数量。</td><td>统计已共享的课件、AI 活动、模板活动、随堂测、学案、教案、听写、场景对话、趣味抽奖、单词评测、智能体、对话评测等资源总数。</td><td>默认展示全校资源总量；卡片支持 KPI 区域内换位。</td></tr>
+            </tbody></table></div>
+            <h4 id="prd-overview-chart">4.2 图表与模块</h4>
+            <div class="prd-table-wrap"><table class="prd-table"><thead><tr><th>图表/模块</th><th>数据来源</th><th>计算规则</th><th>筛选逻辑</th><th>交互逻辑</th></tr></thead><tbody>
+              <tr><td>年级学生分布</td><td>教务管理端的年级信息、学段数据。</td><td>某个年级有效学生人数之和。</td><td>全局筛选：选择学段后横轴只展示该学段、时间段年级学生人数分布。</td><td>柱状图展示各年级人数，悬浮显示年级和人数；模块内可拖拽换位。</td></tr>
+              <tr><td>班级学生分布</td><td>教务管理端的学段、年级、班级数据。</td><td>按班级统计学生人数</td><td>全局筛选：选择学段后横轴只展示该学段、时间段班级学生人数分布；若班级较多，允许在区域内查看完整班级数据。</td><td>热力/分布图展示班级人数，数值必须展示出来，学生人数[0~40）为绿色，[40~50）为橙色，[50~∞]为红色；图表内放不下可以根据横坐标、纵坐标滚动查看；模块内可拖拽换位。</td></tr>
+              <tr><td>学生性别比例</td><td>学生基础信息中的性别字段。</td><td>男生占比 = 男生人数 / 筛选范围总人数 × 100%；女生占比同理。</td><td>图表级筛选：年级、班级筛选受全局筛选中的学段、时间范围影响。</td><td>环形图展示男女比例，悬浮展示人数和占比；模块内可拖拽换位。</td></tr>
+              <tr><td>校园AI教育大脑</td><td>学科知识掌握度、五育评价数据。（五育评价暂无）</td><td>学科节点显示各学科知识掌握度；五育节点显示德育、智育、体育、美育、劳育得分。<br>学校学科掌握度 =各学段学科掌握度之和÷学段数；学校五育得分 = 各学段五育得分之和÷学段数。</td><td>默认展示全校概览，可跟随学段、时间进行筛选。</td><td>中心为 AI 教育大脑，外层为学科掌握度和五育素养节点。</td></tr>
+              <tr><td>学校运行趋势</td><td>作业提交率、作业批改率、知识掌握度（各学科知识掌握度平均值）。</td><td>班级作业提交率=某个班级学生作业提交率之和÷学生数；年级作业提交率=某个年级各班级作业提交率之和÷班级数；学段作业提交率=某个学段各年级作业提交率之和÷年级数；学校作业提交率=各学段作业提交率之和÷学段数<br>学生作业批改率=作业批改数÷接收作业数；班级作业批改率=某个班级学生作业批改率之和÷学生数；年级作业批改率=某个年级各班级作业批改率之和÷班级数；学段作业批改率=某个学段各年级作业批改率之和÷年级数；学校作业批改率=各学段作业批改率之和÷学段数<br>学校知识掌握度=学校各学科掌握度之和÷学科数（其他详细计算详情见“知识掌握度计算”）</td><td>图表级筛选：年级、班级受全局筛选中的学段、时间范围影响，筛选后后仅展示该数据范围的趋势。</td><td>折线图展示趋势变化，悬浮显示周期与指标值；模块内可拖拽换位。</td></tr>
+              <tr><td>学情发展趋势</td><td>知识点掌握数据。</td><td>班级学科掌握度=各学生学科掌握度之和÷学生数；年级学科掌握度=各班级学科掌握度之和÷班级数；学段学科掌握度=各年级学科掌握度之和÷年级数；学校学科掌握度=各学段学科掌握度之和÷学段数。</td><td>图表级筛选：年级、班级受全局筛选中的学段、时间范围影响，筛选后后仅展示该数据范围的趋势。</td><td>展示各学科在时间维度上的学情发展趋势；切换年级/班级后重绘；模块内可拖拽换位。</td></tr>
+              <tr><td>风险预警中心</td><td>班级达标率、作业提交率、心理状态数据（心理状态暂无）。</td><td>按预警规则输出风险项：如达标率 &lt; 60% 触发学业下滑；作业提交率 &lt; 90% 触发作业拖欠。</td><td>默认使用当前全局筛选所选择的学段、时间范围。</td><td>按高（红色，学业下滑预警）/中（橙红色）/低（橙色，作业拖欠预警）风险显示颜色与等级；模块内可拖拽换位。</td></tr>
+            </tbody></table></div>
+          </section>
+
+          <section id="prd-module-quality" class="prd-section">
+            <h3>五、教学质量模块</h3>
+            <p><strong>模块目标：</strong>围绕学生学习质量，展示得分率、掌握等级、薄弱知识点、知识图谱、趋势变化和学生进步榜。全局学科、年级、时间筛选会约束模块内各图表筛选。</p>
+            <p><strong>得分率：</strong>班级平均得分率 =（班级所有学生得分总和 ÷ 班级学生总答题数对应的总分值）× 100%，（该题目未给出分值，默认按1分计算）。年级平均得分率 =某个年级各班级得分率之和÷班级数；学段平均得分率 =某个学段各年级得分率之和÷年级数；学校平均得分率 =学校各学段得分率之和÷学段数。</p>
+            <p><strong>精通占比（精通率）：</strong>评级标准为“精通（100%≥学科掌握度≥90%）、熟练（90%＞学科掌握度≥80%）、达标（80%＞学科掌握度≥60%）、待提升（学科掌握度＜60%）” 。班级精通占比 =（班级精通人数 ÷ 班级人数）× 100%；年级精通占比 =某个年级各班级精通占比之和÷班级数；学段精通占比 =某个学段各年级精通占比之和÷年级数；学校精通占比 =各学段精通占比之和÷学段数</p>
+            <p><strong>熟练占比：</strong>评级标准为“精通（100%≥学科掌握度≥90%）、熟练（90%＞学科掌握度≥80%）、达标（80%＞学科掌握度≥60%）、待提升（学科掌握度＜60%）” 。班级熟练占比 =（班级熟练人数 ÷ 班级人数）× 100%；年级熟练占比 =某个年级各班级熟练占比之和÷班级数；学段熟练占比 =某个学段各年级熟练占比之和÷年级数；学校熟练占比 =各学段熟练占比之和÷学段数</p>
+            <p><strong>达标占比：</strong>评级标准为“精通（100%≥学科掌握度≥90%）、熟练（90%＞学科掌握度≥80%）、达标（80%＞学科掌握度≥60%）、待提升（学科掌握度＜60%）” 。班级达标占比 =（班级达标人数 ÷ 班级人数）× 100%；年级达标占比 =某个年级各班级达标占比之和÷班级数；学段达标占比 =某个学段各年级达标占比之和÷年级数；学校达标占比 =各学段达标占比之和÷学段数</p>
+            <p><strong>待提升占比（待提升率）：</strong>评级标准为“精通（100%≥学科掌握度≥90%）、熟练（90%＞学科掌握度≥80%）、达标（80%＞学科掌握度≥60%）、待提升（学科掌握度＜60%）” 。班级达标占比 =（班级达标人数 ÷ 班级人数）× 100%；年级达标占比 =某个年级各班级达标占比之和÷班级数；学段达标占比 =某个学段各年级达标占比之和÷年级数；学校达标占比 =各学段达标占比之和÷学段数</p>
+            <p><strong>知识掌握度计算：</strong>知识点掌握度=该知识点关联题目累计得分/该知识点关联题目累计总分*100%；模块掌握度 =模块内各知识点掌握度之和÷模块内知识点数；学科掌握度=模块掌握度之和÷模块数；班级学科掌握度=各学生学科掌握度之和÷学生数；年级学科掌握度=各班级学科掌握度之和÷班级数；学段学科掌握度=各年级学科掌握度之和÷年级数；学校学科掌握度=各学段学科掌握度之和÷学段数；学校知识掌握度=学校各学科掌握度之和÷学科数</p>
+            <h4 id="prd-quality-kpi">5.1 KPI 指标卡</h4>
+            <div class="prd-table-wrap"><table class="prd-table"><thead><tr><th>指标</th><th>数据来源</th><th>计算规则</th><th>筛选/交互逻辑</th></tr></thead><tbody>
+              <tr><td>得分率</td><td>系统使用至今的作业、智能听写、智能批改数据，且只统计有绑定知识点的题目，以下同此）的答题得分数据。</td><td>得分率 = 实际得分总和 / 应得总分总和 × 100%。题目未给分值时默认每题 1 分。较上月变化 = 今日平均得分率 - 上个月最后一天的平均得分率，结果为正则显示绿色↑ ，为负则显示红色↓</td><td>受全局学科、年级、时间影响；展示较上月变化；支持 KPI 区域内拖拽。</td></tr>
+              <tr><td>精通率</td><td>评级标准为“精通”的学生人数在班级、年级、学段、学科、学校的占比。</td><td>精通率 =精通占比= 精通人数 / 总人数 × 100%；较上月变化 = 今日精通率 - 上个月最后一天的精通率，结果为正则显示绿色↑ ，为负则显示红色↓</td><td>受全局筛选影响；支持 KPI 区域内拖拽。</td></tr>
+              <tr><td>熟练率</td><td>评级标准为“精通+熟练”的学生人数在班级、年级、学段、学科、学校的占比。</td><td>熟练率 = 熟练占比+精通占比；较上月变化 = 今日熟练率 - 上个月最后一天的熟练率，结果为正则显示绿色↑ ，为负则显示红色↓</td><td>受全局筛选影响；支持 KPI 区域内拖拽。</td></tr>
+              <tr><td>达标率</td><td>评级标准为“精通+熟练+达标”的学生人数在班级、年级、学段、学科、学校的占比。</td><td>达标率 = 达标占比+熟练占比+精通占比；较上月变化 = 今日达标率 - 上个月最后一天的达标率，结果为正则显示绿色↑ ，为负则显示红色↓</td><td>受全局筛选影响；支持 KPI 区域内拖拽。</td></tr>
+              <tr><td>待提升率</td><td>评级标准为“待提升”的学生人数在班级、年级、学段、学科、学校的占比。</td><td>待提升率 =待提升占比= 待提升人数 / 总人数 × 100%；较上月变化 = 今日待提升率 - 上个月最后一天的待提升率，结果为正则显示红色↑ ，为负则显示绿色↓</td><td>受全局筛选影响；支持 KPI 区域内拖拽。</td></tr>
+              <tr><td>薄弱知识点</td><td>各学科知识点掌握度≤20%的知识点数量。</td><td>各学科知识点掌握度区间为[0%,20%]的知识点数量。较上月变化 = 今日薄弱知识点数 - 上个月最后一天的薄弱知识点数，结果为正则显示红色↑ ，为负则显示绿色↓</td><td>受全局筛选影响；展示较上月减少/增加数量；支持 KPI 区域内拖拽。</td></tr>
+            </tbody></table></div>
+            <h4 id="prd-quality-chart">5.2 图表与模块</h4>
+            <div class="prd-table-wrap"><table class="prd-table"><thead><tr><th>图表/模块</th><th>数据来源</th><th>计算规则</th><th>筛选逻辑</th><th>交互逻辑</th></tr></thead><tbody>
+              <tr><td>学科水平分布</td><td>各学段、学科、年级的精通、熟练、达标、待提升学生人数占比值。</td><td>按精通、熟练、达标、待提升四档统计人数占比；四档占比合计 100%。</td><td>全局筛选为全部学科时横轴为各学科；选择具体学科且全部年级时横轴为年级；选择具体学科和具体年级时横轴为班级。</td><td>堆积柱状图指标顺序从上到下为精通、熟练、达标、待提升；模块内可拖拽换位。</td></tr>
+              <tr><td>得分率分布</td><td>系统使用至今的作业、智能听写、智能批改数据，且只统计有绑定知识点的题目，以下同此）的答题得分数据。</td><td>按[0%,40%）、[40%,50%）、[50%,60%）、[60%,70%）、[70%,80%）、[80%,90%）、[90%,100%]区间统计学生人数。</td><td>全局筛选优先生效；图表级筛选：根据全局筛选的学段、学科、年级、时间范围来筛选数据。</td><td>直方/柱状图展示分布，悬浮显示区间人数；模块内可拖拽换位。</td></tr>
+              <tr><td>学科掌握水平</td><td>各学段、学科、年级、班级的学科掌握度数据。</td><td>按当前筛选范围计算各班级或学科平均掌握度，并按掌握度平均值降序排序。学科掌握度=模块掌握度之和÷模块数；学科平均掌握度=学科掌握度之和÷学科数；班级学科掌握度=各学生学科掌握度之和÷学生数；</td><td>全局筛选优先生效；图表级筛选：根据全局筛选的学段、学科、年级、时间范围来筛选数据。</td><td>排名列表展示班级名称、进度条和百分比；模块内可拖拽换位。</td></tr>
+              <tr><td>学科知识图谱</td><td>各学科知识图谱的数据。</td><td>知识点掌握度=该知识点关联题目累计得分/该知识点关联题目累计总分*100%；模块掌握度 =模块内各知识点掌握度之和÷模块内知识点数；学科掌握度=模块掌握度之和÷模块数；</td><td>全局筛选优先生效；全局学科为“全部学科”时不展示图谱，提示“温馨提示：请选择具体学科后查看知识图谱！”；选择具体学科后显示图谱。支持根据学段、学科、年级、班级、教材版本、章节/知识点筛选知识图谱。</td><td>支持章节检索/知识点检索切换、父级勾选联动子级、确定应用、展开节点、全屏/退出全屏；模块内可整行拖拽换位。</td></tr>
+              <tr><td>学情水平趋势</td><td>各学段、学科、年级的精通、熟练、达标、待提升评级某个时间范围内学生人数占比值变化趋势。</td><td>按每个月最后一天的24:00统计精通、熟练、达标、待提升占比。</td><td>全局筛选优先生效；图表级筛选：根据全局筛选的学段、学科、年级、时间范围和图表中的班级下拉框来筛选数据。</td><td>多折线展示四档占比变化；模块内可拖拽换位。以当前数据范围内最大值向上扩展至最接近的 “10% 整数倍上界” ；以当前数据范围内最大值向下收缩至最接近的 “10% 整数倍下界”。比如，当前范围内最大值是81%，最小值是40%，则纵坐标最大值为90%，最小值为40%。</td></tr>
+              <tr><td>得分率趋势</td><td>系统使用至今的作业、智能听写、智能批改数据，且只统计有绑定知识点的题目，以下同此）的答题得分数据变化趋势。</td><td>按每个月最后一天的24:00统计平均得分率。</td><td>全局筛选优先生效；图表级筛选：根据全局筛选的学段、学科、年级、时间范围和图表中的班级下拉框来筛选数据。</td><td>折线图展示得分率趋势；模块内可拖拽换位。以当前数据范围内最大值向上扩展至最接近的 “10% 整数倍上界” ；以当前数据范围内最大值向下收缩至最接近的 “10% 整数倍下界”。比如，当前范围内最大值是81%，最小值是40%，则纵坐标最大值为90%，最小值为40%。</td></tr>
+              <tr><td>学生进步榜 TOP10</td><td>从系统获取当前学校每位学生最新的学科综合掌握度数据提取前10名的学生，计算发展状态，并根据掌握度变化值的大小从高至低进行排序。连续3天综合掌握度持续增长判定为上升；连续3天综合掌握度持续降低判定为下降；连续3天综合掌握度持平判定为平稳；连续3天综合掌握度增长→降低→增长or降低→增长→降低判定为波动。</td><td>学科掌握度变化值=当天学科掌握度-3天前学科掌握度。</td><td>全局筛选优先生效；图表级筛选：根据全局筛选的学段、学科、年级、时间范围和图表中的班级下拉框来筛选数据。</td><td>榜单展示学生、学科掌握度和发展状态；模块内可拖拽换位。</td></tr>
+            </tbody></table></div>
+          </section>
+
+          <section id="prd-module-process" class="prd-section">
+            <h3>六、教学过程模块</h3>
+            <p><strong>模块目标：</strong>展示教学资源建设与应用、作业流程转化、教学活动类型、课堂问题与反馈、教师资源建设/应用活跃度。全局学科、年级、时间筛选影响本模块全部图表。</p>
+            <h4 id="prd-process-kpi">6.1 KPI 指标卡</h4>
+            <div class="prd-table-wrap"><table class="prd-table"><thead><tr><th>指标</th><th>数据来源</th><th>计算规则</th><th>筛选/交互逻辑</th></tr></thead><tbody>
+              <tr><td>教学资源建设量</td><td>教师通过系统智能备课创建的课件、AI活动、模板活动、随堂测、学案、教案、听写、场景对话、趣味抽奖、单词评测、智能体、对话评测、作业数、组卷数、数字人数、AI讲题数、AI讲课数、AI绘本数的数量之和。</td><td>教学资源建设量=课件数+AI活动数+模板活动数+随堂测数+学案数+教案数+听写数+场景对话数+趣味抽奖数+单词评测数+智能体数+对话评测数</td><td>受全局筛选的学段、学科、年级、时间影响；悬浮展示资源类型说明；支持 KPI 内拖拽。</td></tr>
+              <tr><td>教学资源应用次数</td><td>教师通过系统智能授课打开课件、AI活动、模板活动、随堂测、学案、教案、听写、场景对话、趣味抽奖、单词评测、智能体、对话评测、作业数、组卷数、数字人数、AI讲题数、AI讲课数、AI绘本数的次数之和。</td><td>统计课件、AI活动、模板活动、随堂测、学案、教案、听写、场景对话、趣味抽奖、单词评测、智能体、对话评测的累计打开次数。（每点击1次都算）</td><td>受全局筛选的学段、学科、年级、时间影响；悬浮展示资源类型说明；支持 KPI 内拖拽。</td></tr>
+              <tr><td>作业提交率</td><td>作业发布、学生提交记录。</td><td>学生作业提交率=作业提交数÷接收作业数；班级作业提交率=某个班级学生作业提交率之和÷学生数；年级作业提交率=某个年级各班级作业提交率之和÷班级数；学段作业提交率=某个学段各年级作业提交率之和÷年级数；学校作业提交率=各学段作业提交率之和÷学段数</td><td>受全局筛选的学段、学科、年级、时间影响；悬浮展示资源类型说明；支持 KPI 内拖拽。</td></tr>
+              <tr><td>作业批改率</td><td>作业批改记录、AI 批改记录、教师批改记录。</td><td>线下作业只有公布结果后才算是批改，智能布置作业、精准选题布置作业、错题布置作业、其他作业的作业批改为AI自动批改且暂无用户确认，故这些类型的作业批改率取值会和提交率相等。学生作业批改率=作业批改数÷接收作业数；班级作业批改率=某个班级学生作业批改率之和÷学生数；年级作业批改率=某个年级各班级作业批改率之和÷班级数；学段作业批改率=某个学段各年级作业批改率之和÷年级数；学校作业批改率=各学段作业批改率之和÷学段数</td><td>受全局筛选的学段、学科、年级、时间影响；悬浮展示资源类型说明；支持 KPI 内拖拽。</td></tr>
+              <tr><td>个性化备课次数</td><td>智能备课时教案、课件、学案有打开“个性化定制”开关并生成诊断报告和直接从诊断报告点击个性化学案、个性化教案、个性化课件后点击“生成”的次数之和。</td><td>个性化备课次数=个性化教案+个性化课件+个性化学案生成次数之和。</td><td>受全局筛选的学段、学科、年级、时间影响；悬浮展示资源类型说明；支持 KPI 内拖拽。</td></tr>
+              <tr><td>个性化训练次数</td><td>智能布置作业、错题布置作业有打开智能分层作业开关并点击“生成作业”的次数之和。</td><td>个性化训练次数=智能布置作业+错题布置作业打开智能分层开关并点击“生成作业”次数之和。</td><td>受全局筛选的学段、学科、年级、时间影响；悬浮展示资源类型说明；支持 KPI 内拖拽。</td></tr>
+            </tbody></table></div>
+            <h4 id="prd-process-chart">6.2 图表与模块</h4>
+            <div class="prd-table-wrap"><table class="prd-table"><thead><tr><th>图表/模块</th><th>数据来源</th><th>计算规则</th><th>筛选逻辑</th><th>交互逻辑</th></tr></thead><tbody>
+              <tr><td>学科教学进度（暂无）</td><td>教学计划、课时进度、备授课记录。</td><td>教学进度 = 已完成课时/计划课时 × 100%，按学科展示。</td><td>图表级学科、年级、班级；受全局筛选约束。</td><td>进度条列表展示完成比例；模块内可拖拽换位。</td></tr>
+              <tr><td>作业全流程转化</td><td>作业布置比例、学生提交比例、批改比例、平均得分率。</td><td>布置=100%；提交率=提交数/应交数；批改率=批改数/应交数；得分率 = 实际得分总和 / 应得总分总和 × 100%。</td><td>全局筛选优先生效；图表级筛选：根据全局筛选的学段、学科、年级、时间范围和图表中的班级下拉框来筛选数据。</td><td>漏斗图展示从布置到得分的转化；模块内可拖拽换位。</td></tr>
+              <tr><td>教学资源建设</td><td>各教师教学资源建设量。</td><td>按教师统计资源建设个数，按多至少从上至下进行排序。</td><td>全局筛选优先生效；图表级筛选：根据全局筛选的学段、学科、年级、时间范围和图表中的班级下拉框来筛选数据。</td><td>榜单展示教师贡献次数；模块内可拖拽换位。</td></tr>
+              <tr><td>课堂教学类型分布（暂无）</td><td>课堂分析教学类型统计。</td><td>类型占比 = 某教学类型课堂次数 / 课堂总次数 × 100%。</td><td>全局筛选优先生效；图表级筛选：根据全局筛选的学段、学科、年级、时间范围和图表中的班级下拉框来筛选数据。</td><td>环形图展示类型占比；模块内可拖拽换位。</td></tr>
+              <tr><td>课堂4MAT问题类型分布（暂无）</td><td>课堂分析课堂4MAT问题类型分布数据</td><td>按 4MAT 问题类型统计占比，如为什么、是什么、怎么做、如果会怎样等。</td><td>全局筛选优先生效；图表级筛选：根据全局筛选的学段、学科、年级、时间范围和图表中的班级下拉框来筛选数据。</td><td>雷达图展示问题类型结构；模块内可拖拽换位。</td></tr>
+              <tr><td>课堂反馈类型分布（暂无）</td><td>课堂分析课堂反馈类型数据。</td><td>反馈类型占比 = 某类反馈次数 / 反馈总次数 × 100%。</td><td>全局筛选优先生效；图表级筛选：根据全局筛选的学段、学科、年级、时间范围和图表中的班级下拉框来筛选数据。</td><td>环形图展示反馈类型；模块内可拖拽换位。</td></tr>
+              <tr><td>教学资源建设分布</td><td>教师通过系统智能备课创建的课件、AI活动、模板活动、随堂测、学案、教案、听写、场景对话、趣味抽奖、单词评测、智能体、对话评测的数量。</td><td>按资源类型统计筛选条件内的数量。</td><td>全局筛选优先生效；图表级筛选：根据全局筛选的学段、学科、年级、时间范围的下拉框来筛选数据。</td><td>柱状图从高至低展示各资源类型建设量；模块内可拖拽换位。</td></tr>
+              <tr><td>教学资源建设趋势</td><td>资源按时间记录创建量，以体现趋势。</td><td>按月统计当月新增资源数。</td><td>全局筛选优先生效；图表级筛选：根据全局筛选的学段、学科、年级、时间范围下拉框来筛选数据。</td><td>面积折线图展示建设趋势；模块内可拖拽换位。</td></tr>
+              <tr><td>教学资源建设活跃度</td><td>教师资源创建个数统计。</td><td>按教师建设个数区间统计教师人数，根据次数分成8等份，如 0、1-5、6-10、11-15、16-20、21-25、26-30、30+。</td><td>全局筛选优先生效；图表级筛选：根据全局筛选的学段、学科、年级、时间范围的下拉框来筛选数据。</td><td>柱状图展示活跃度分布；模块内可拖拽换位。</td></tr>
+              <tr><td>教学资源应用分布</td><td>教师通过系统智能授课打开课件、AI活动、模板活动、随堂测、学案、教案、听写、场景对话、趣味抽奖、单词评测、智能体、对话评测的次数。</td><td>按资源类型统计应用次数。</td><td>全局筛选优先生效；图表级筛选：根据全局筛选的学段、学科、年级、时间范围和图表中的班级下拉框来筛选数据。</td><td>柱状图展示资源应用量；模块内可拖拽换位。</td></tr>
+              <tr><td>教学资源应用趋势</td><td>资源按时间记录使用次数，以体现趋势。</td><td>按月统计当月资源应用次数。</td><td>全局筛选优先生效；图表级筛选：根据全局筛选的学段、学科、年级、时间范围下拉框来筛选数据。</td><td>面积折线图展示应用趋势；模块内可拖拽换位。</td></tr>
+              <tr><td>教学资源应用活跃度</td><td>教师资源使用次数统计。</td><td>按教师使用次数区间统计教师人数，根据次数分成8等份，如 0、1-5、6-10、11-15、16-20、21-25、26-30、30+。</td><td>全局筛选优先生效；图表级筛选：根据全局筛选的学段、学科、年级、时间范围的下拉框来筛选数据。</td><td>柱状图展示应用活跃度；模块内可拖拽换位。</td></tr>
+            </tbody></table></div>
+          </section>
+
+          <section id="prd-module-student" class="prd-section">
+            <h3>七、学生发展模块</h3>
+            <p><strong>模块目标：</strong>展示学生综合素养、自主学习、行为表现、风险学生、行为特征、实践与创新记录。学生发展模块隐藏全局学科筛选，重点按学段、年级、班级和时间查看学生发展。</p>
+            <p><strong>综合素养均分（暂无）：</strong>学生综合素养均分=五育指标分值之和÷5；班级综合素养均分=班级学生综合素养均分之和÷学生数；年级综合素养均分=各班级综合素养均分之和÷班级数；学段综合素养均分=各年级综合素养均分之和÷年级数；学校综合素养均分=各学段综合素养均分之和÷学段数</p>
+            <p><strong>积极表现数：</strong>学生积极表现数=学生点赞数；班级积极表现数=某个班级学生积极表现数之和；年级积极表现数=某个年级积极表现数之和；学段积极表现数=某个学段各年级积极表现数之和；学校作业积极表现数=各学段作业积极表现数之和</p>
+            <p><strong>待提升表现数：</strong>学生待提升表现数=学生批评数；班级待提升表现数=某个班级学生待提升表现数数之和；年级待提升表现数=某个年级待提升表现数数之和；学段待提升表现数=某个学段各年级待提升表现数；学校作业待提升表现数=各学段作业待提升表现数之和</p>
+            <h4 id="prd-student-kpi">7.1 KPI 指标卡</h4>
+            <div class="prd-table-wrap"><table class="prd-table"><thead><tr><th>指标</th><th>数据来源</th><th>计算规则</th><th>筛选/交互逻辑</th></tr></thead><tbody>
+              <tr><td>综合素养均分（暂无）</td><td>五育节点显示德育、智育、体育、美育、劳育综合得分。</td><td>综合素养均分=（品德发展+学业发展+身心发展+审美素养+劳动与社会实践）÷综合素养类型数；较上月变化 = 今日综合素养均分 - 上个月最后一天的综合素养均分</td><td>受全局筛选的学段、年级、时间影响；支持 KPI 内拖拽。</td></tr>
+              <tr><td>自主学习时长</td><td>学生通过学生端学习、作答的用时。</td><td>从系统获取该学校/学段/年级/某个时间段内所有学生通过学生端学习的时长之和（目前通过学生端作答时，每道题的作答时长）,当累计时长超过99,999,999（分钟）时则按（小时）统计。较上月变化 = 今日累计自主学习时长 - 上个月最后一天的自主学习时长</td><td>受全局筛选的学段、年级、时间影响；悬浮说明；支持 KPI 内拖拽。</td></tr>
+              <tr><td>积极表现数</td><td>统计“课堂点评”中的积极表现。</td><td>学生积极表现数=学生点赞数；班级积极表现数=某个班级学生积极表现数之和；年级积极表现数=某个年级积极表现数之和；学段积极表现数=某个学段各年级积极表现数之和；学校作业积极表现数=各学段作业积极表现数之和。较上月变化 = 今日累计积极表现数 - 上个月最后一天的累计积极表现数</td><td>受全局筛选的学段、年级、时间影响；支持 KPI 内拖拽。</td></tr>
+              <tr><td>待提升表现数</td><td>统计“课堂点评”中的批评/待提升表现。</td><td>学生待提升表现数=学生批评数；班级待提升表现数=某个班级学生待提升表现数数之和；年级待提升表现数=某个年级待提升表现数数之和；学段待提升表现数=某个学段各年级待提升表现数；学校作业待提升表现数=各学段作业待提升表现数之和。较上月变化 = 今日累计待提升表现数 - 上个月最后一天的累计待提升表现数</td><td>受全局筛选的学段、年级、时间影响；悬浮说明；支持 KPI 内拖拽。</td></tr>
+              <tr><td>心理关注学生（暂无）</td><td>学生档案中的身心发展记录。</td><td>统计当前处于关注状态的学生人数。较上月变化 = 今日心理关注学生数 - 上个月最后一天的心理关注学生数</td><td>受全局筛选的学段、年级、时间影响；支持 KPI 内拖拽。</td></tr>
+            </tbody></table></div>
+            <h4 id="prd-student-chart">7.2 图表与模块</h4>
+            <div class="prd-table-wrap"><table class="prd-table"><thead><tr><th>图表/模块</th><th>数据来源</th><th>计算规则</th><th>筛选逻辑</th><th>交互逻辑</th></tr></thead><tbody>
+              <tr><td>学生综合素养（暂无）</td><td>五育节点显示品德发展、学业发展、身体发展、审美素养、劳动与社会实践。</td><td>班级五育分值=班级学生五育指标分值÷学生数；年级五育分值=各班级各五育分值之和÷班级数；学段五育分值=各年级五育分值之和÷年级数；学校五育分值=各学段五育分值之和÷学段数</td><td>全局筛选优先生效；图表级筛选：根据全局筛选的学段、学科、年级、时间范围和图标筛选中的班级下拉框来筛选数据。</td><td>雷达图展示维度得分；暂无数据保留占位，标记“敬请期待”；模块内可拖拽换位。</td></tr>
+              <tr><td>学生行为表现</td><td>统计该学生“课堂点评”中系统内置的批评/待提升表现。</td><td>按主动参与、合作守规、学习习惯、思维表现、责任品格类型统计次数。<br>主动参与（+1分：举手答问、认真读书；-1分：上课走神、迟到）<br>合作守规（+1分：团队合作、遵守纪律；-1分：较少合作、追跑打闹、大声喧哗）<br>学习习惯（+1分：注意力集中；-1分：没交作业）<br>思维表现（+1分：一点就通、积极思考；-1分：疏于思考）<br>责任品格（+1分：帮助他人；-1分：损坏公物）</td><td>全局筛选优先生效；图表级筛选：根据全局筛选的学段、学科、年级、时间范围的下拉框来筛选数据。</td><td>柱/趋势图展示行为表现；局部筛选不影响其他图表；模块内可拖拽换位。</td></tr>
+              <tr><td>风险学生分布</td><td>学困生、临界生、偏科、特殊生、行为关注、心理关注标签包含的学生人数。</td><td>学困生=各学科平均知识掌握度 < 40%（比如语文20%、数学20%、英语50%，平均掌握度为30%：则该学生为学困生中的一员）；临界生=55% ≤ 各学科知识掌握度 < 65%（比如语文67%、数学64%、英语95%，则该学生为临界生中的一员）；偏科生=|（学生各学科平均掌握度 - 某学科掌握度）|≥15%的学生，比如某个学生各学科平均掌握度80%，数学为60%or100%，则该学生为偏科生；特殊生=学生档案特殊标记的学生；行为关注学生=积极表现-待提升表现≤-15次的学生；心理关注学生=学生档案心理测评结果达到中度及以上风险的学生。</td><td>全局筛选优先生效；图表级筛选：根据全局筛选的学段、学科、年级、时间范围的下拉框来筛选数据。</td><td>mini卡片展示各风险类别人数；模块内可拖拽换位。</td></tr>
+              <tr><td>行为特征分布</td><td>统计该“课堂点评”中的积极表现和待提升表现。</td><td>按班级或年级统计待提升表现和积极表现行为的数量。</td><td>全局筛选优先生效；全局全部学段时展示小学至高中各年级，选择初中展示七至九年级，选择具体年级展示该年级各班级。</td><td>堆积柱状图展示行为类型和数值；实践与创新记录筛选不影响本图；模块内可拖拽换位。</td></tr>
+              <tr><td>实践与创新记录（暂无）</td><td>学生档案中项目化学习、实验探究、社团实践、创新作品记录。</td><td>按时间展示实践记录；每条包含时间、名称、类型、说明、学生姓名。</td><td>图表级年级、班级；只影响实践与创新记录列表。</td><td>时间线展示记录；暂无数据保留占位；模块内可拖拽换位。</td></tr>
+            </tbody></table></div>
+          </section>
+
+          <section id="prd-module-teacher" class="prd-section">
+            <h3>八、教师发展模块</h3>
+            <p><strong>模块目标：</strong>展示教师规模、职称结构、课堂行为、资源贡献、个性化教学、学科教学成效和学科掌握成效。全局学科、年级、时间筛选影响教师相关数据。</p>
+            <h4 id="prd-teacher-kpi">8.1 KPI 指标卡</h4>
+            <div class="prd-table-wrap"><table class="prd-table"><thead><tr><th>指标</th><th>数据来源</th><th>计算规则</th><th>筛选/交互逻辑</th></tr></thead><tbody>
+              <tr><td>教师总数</td><td>学校有导入我们系统的教师人数。</td><td>统计当前学校在职教师人数；多学科任课教师按教师唯一 ID 去重。师生比=教师总数：学生总数。</td><td>可按学段/年级涉及的任课关系聚合；卡片支持 KPI 区域内换位。</td></tr>
+              <tr><td>高级职称占比（暂无）</td><td>教务管理的教师数据，职称结构包含正高级、高级、一级、二级、三级教师。</td><td>高级职称占比 = （正高级职称教师数+高级职称教师数）/ 当前范围教师总数 × 100%。；高级职称总人数=正高级教师人数+高级教师人数</td><td>受全局筛选影响；支持 KPI 内拖拽。</td></tr>
+              <tr><td>课堂分析次数（暂无）</td><td>教师使用课堂分析进行视频分析的次数。</td><td>统计教师进行课堂分析的次数。较上月变化 = 今日课堂分析累计次数 - 上个月最后一天的课堂分析累计次数</td><td>受全局筛选影响；暂无数据保留占位；支持 KPI 内拖拽。</td></tr>
+              <tr><td>课堂互动次数</td><td>智能授课中的点名次数、模板活动和AI活动打开次数、趣味抽奖抽奖次数。</td><td>课堂互动次数=点名+模板活动打开次数+AI活动打开次数+趣味抽奖抽奖次数。较上月变化 = 今日课堂互动累计次数 - 上个月最后一天的课堂互动累计次数</td><td>受全局筛选影响；悬浮说明；支持 KPI 内拖拽。</td></tr>
+              <tr><td>校本资源贡献次数</td><td>统计该学校教师共享的校本资源数。</td><td>统计教师共享课件、AI 活动、模板活动、随堂测、学案、教案、听写、场景对话、趣味抽奖、单词评测、智能体、对话评测等资源的次数。较上月变化 = 今日校本资源累计贡献次数 - 上个月最后一天的校本资源累计贡献次数</td><td>受全局筛选影响；支持 KPI 内拖拽。</td></tr>
+              <tr><td>个性化教学次数</td><td>个性化备课记录、个性化训练记录。</td><td>个性化教学次数 = 个性化备课次数 + 个性化训练次数。较上月变化 = 今日个性化教学累计次数 - 上个月最后一天的个性化教学累计次数</td><td>受全局筛选影响；悬浮说明；支持 KPI 内拖拽。</td></tr>
+            </tbody></table></div>
+            <h4 id="prd-teacher-chart">8.2 图表与模块</h4>
+            <div class="prd-table-wrap"><table class="prd-table"><thead><tr><th>图表/模块</th><th>数据来源</th><th>计算规则</th><th>筛选逻辑</th><th>交互逻辑</th></tr></thead><tbody>
+              <tr><td>教师职称结构（暂无）</td><td>教务管理的教师数据，职称结构包含正高级、高级、一级、二级、三级教师。</td><td>职称占比 = 某职称教师数 / 当前范围教师总数 × 100%。</td><td>全局筛选优先生效；图表级筛选：根据全局筛选的学段、学科、年级、时间范围来筛选数据；选择学科后仅显示该学科教师数。</td><td>环形图展示职称结构；暂无数据保留占位；模块内可拖拽换位。</td></tr>
+              <tr><td>学科教师分布</td><td>教师任教学科、任课年级、班级关系。</td><td>按学科统计教师去重人数；多学科教师按任课关系可计入多个学科，教师总数口径需去重。</td><td>图表级年级；全局选中具体学科时只显示该学科教师数。</td><td>环形图展示学科教师分布；模块内可拖拽换位。</td></tr>
+              <tr><td>校本资源贡献</td><td>教师资源共享次数。</td><td>按教师统计资源贡献次数，按次数降序展示。</td><td>全局筛选优先生效；图表级筛选：根据全局筛选的学段、学科、年级、时间范围来筛选数据</td><td>榜单展示教师贡献次数和进度条；模块内可拖拽换位。</td></tr>
+              <tr><td>学科掌握成效</td><td>教师任课班级、学生的学科掌握度数据。</td><td>按教师任教班级所教学科的掌握度从高至低进行排序。</td><td>全局筛选优先生效；图表级筛选：根据全局筛选的学段、学科、年级、时间范围来筛选数据</td><td>榜单展示教师任教班级所教学科的掌握度；模块内可拖拽换位。</td></tr>
+            </tbody></table></div>
+          </section>
+
+          <section id="prd-module-system" class="prd-section">
+            <h3>九、系统运维模块</h3>
+            <p><strong>模块目标：</strong>展示平台使用活跃、功能热度、覆盖率、账号角色和资源操作日志。系统运维模块默认不展示全局筛选，数据按平台整体运行口径统计。</p>
+            <h4 id="prd-system-kpi">9.1 KPI 指标卡</h4>
+            <div class="prd-table-wrap"><table class="prd-table"><thead><tr><th>指标</th><th>数据来源</th><th>计算规则</th><th>筛选/交互逻辑</th></tr></thead><tbody>
+              <tr><td>活跃教师</td><td>教师登录的数据，近一周至少登录一次的教师算作活跃教师。</td><td>活跃教师 = 最近一周至少登录一次平台的教师去重人数。较上月变化 = 今日活跃教师数 - 上个月最后一天的活跃教师数。（比如张老师，一周内没登录则为非活跃用户，一周内有登录则本周为活跃用户）</td><td>默认按当前时间周期统计；悬浮说明；支持 KPI 内拖拽。</td></tr>
+              <tr><td>活跃学生</td><td>学生登录的数据，近一周至少登录一次的学生算作活跃学生。</td><td>活跃学生 = 最近一周至少登录一次平台的学生去重人数。较上月变化 = 今日活跃学生数 - 上个月最后一天的活跃学生数。（比如张三同学，一周内没登录则上周为非活跃用户，一周内有登录则本周为活跃用户）</td><td>默认按当前时间周期统计；支持 KPI 内拖拽。</td></tr>
+              <tr><td>教师活跃率</td><td>活跃教师、平台教师总数。</td><td>教师活跃率 = 活跃教师人数 / 平台教师总人数 × 100%。较上月变化 = 今日活跃率 - 上个月最后一天的活跃率。</td><td>悬浮说明；支持 KPI 内拖拽。</td></tr>
+              <tr><td>学生活跃率</td><td>活跃学生、平台学生总数。</td><td>学生活跃率 = 活跃学生人数 / 平台学生总人数 × 100%。较上月变化 = 今日活跃率 - 上个月最后一天的活跃率。</td><td>悬浮说明；支持 KPI 内拖拽。</td></tr>
+              <tr><td>资源上传量</td><td>资源上传的数量。</td><td>统计周期内上传成功资源数量。资源上传量 = 上传教案数量+上传课件数量+上传学案数量。较上月变化 = 今日资源上传量 - 上个月最后一天的资源上传量。</td><td>悬浮说明；支持 KPI 内拖拽。</td></tr>
+              <tr><td>资源下载量</td><td>资源下载的数量。</td><td>统计周期内资源下载成功次数。资源下载量 = 下载教案数量+下载课件数量+下载学案数量+下载随堂测数量+试卷下载数量+AI绘本下载数量+AI活动下载数量。较上月变化 = 今日资源下载量 - 上个月最后一天的资源下载量。</td><td>悬浮说明；支持 KPI 内拖拽。</td></tr>
+            </tbody></table></div>
+            <h4 id="prd-system-chart">9.2 图表与模块</h4>
+            <div class="prd-table-wrap"><table class="prd-table"><thead><tr><th>图表/模块</th><th>数据来源</th><th>计算规则</th><th>筛选逻辑</th><th>交互逻辑</th></tr></thead><tbody>
+              <tr><td>用户活跃时段分布</td><td>用户登录与行为日志。</td><td>活跃教师数=该小时内在线的教师去重人数；活跃学生数=该小时内在线的学生去重人数；比如9点活跃教师数=09:00:00-09:59:59内在线的教师去重人数。</td><td>默认统计全平台的教师和学生。</td><td>折线图展示一天内活跃峰谷；模块内可拖拽换位。</td></tr>
+              <tr><td>功能应用热度</td><td>课件、AI活动、模板活动、随堂测、学案、教案、听写、场景对话、趣味抽奖、单词评测、智能体、对话评测的创建数量+应用次数；<br>作业批改、智能组卷的创建数量+应用次数（也就是点击“检查作业”的次数）；<br>学生管理的分组次数和跳转学情分析次数；<br>综合评测的评价次数；<br>课堂点评的点评记录次数；<br>学情分析的点击次数+报告生成次数+查看智能教学建议次数；<br>智能助手的教学工作计划+校园活动策划+家长会发言稿生成次数；<br>数字人的创建数量+调用次数；<br>AI讲题的生成讲稿次数、播放次数、分享次数和收藏次数之和；<br>AI讲课生成讲解次数和分享次数之和；AI绘本的创建、播放、下载次数；<br>拍题答疑的任务列表答疑数；<br>智能批改的智能批改次数；<br>AI助手的提问次数等功能的排行。</td>
+              <td>课件应用热度=创建数+应用次数<br>
+                  AI活动应用热度=创建数+应用次数<br>
+                  模板活动应用热度=创建数+应用次数<br>
+                  随堂测应用热度=创建数+应用次数<br>
+                  学案应用热度=创建数+应用次数<br>
+                  教案应用热度=创建数+应用次数<br>
+                  听写应用热度=创建数+应用次数<br>
+                  场景对话应用热度=创建数+应用次数<br>
+                  趣味抽奖应用热度=创建数+应用次数<br>
+                  单词评测应用热度=创建数+应用次数<br>
+                  智能体应用热度=创建数+应用次数<br>
+                  对话评测应用热度=创建数+应用次数<br>
+                  作业批改应用热度=创建数+应用次数<br>
+                  智能组卷应用热度=创建数+应用次数<br>
+                  学生管理应用热度=分组次数+跳转学情分析次数<br>
+                  综合评价应用热度=评价次数<br>
+                  课堂点评应用热度=点评记录次数<br>
+                  学情分析应用热度=点击次数+报告生成次数+查看智能教学建议次数<br>
+                  智能助手应用热度=教学工作计划生成次数+校园活动策划生成次数+家长会发言稿生成次数<br>
+                  数字人应用热度=创建数量+调用次数<br>
+                  AI讲题应用热度=生成讲稿次数+播放次数+分享次数+收藏次数<br>
+                  AI讲课应用热度=生成讲解次数+分享次数<br>
+                  AI绘本应用热度=创建次数+播放次数+下载次数<br>
+                  拍题答疑应用热度=任务列表答疑数<br>
+                  智能批改应用热度=智能批改次数<br>
+                  AI助手应用热度=提问次数<br></td>
+              <td>默认统计全平台所有功能点的应用热度。</td><td>柱状图展示功能热度排行；模块内可拖拽换位。</td></tr>
+              <tr><td>功能应用覆盖率</td><td>该学校的教师是否有点击打开过系统内相应功能点。</td><td>覆盖率 = 使用过某功能的教师数 / 教师总数 × 100%。</td><td>默认统计功能：课件、AI活动、模板活动、随堂测、学案、教案、听写、场景对话、趣味抽奖、单词评测、智能体、对话评测、作业批改、智能组卷、综合评测、课堂点评、学情分析、智能助手、数字人、AI讲题、AI讲课、拍题答疑、智能批改、AI助手。</td><td>mini 卡片展示各功能覆盖率；模块内可拖拽换位。</td></tr>
+              <tr><td>账号角色分布</td><td>教务管理端的教师和学生数据，目前暂无家长数故无需统计家长数。</td><td>按角色统计账号数量，如教师、学生。</td><td>默认统计当前学校所有有效账号。</td><td>环形图展示角色结构；模块内可拖拽换位。</td></tr>
+              <tr><td>资源操作日志</td><td>资源上传、下载、共享、取消共享、用户登录等操作日志。</td><td>按时间倒序展示最新操作记录，字段包括时间、操作、对象、状态。</td><td>默认展示最近日志，支持在模块内上下滚动查看。</td><td>表格展示日志；状态使用成功、已入库、完成、待审核等标签；模块内可拖拽换位。</td></tr>
+            </tbody></table></div>
+          </section>
+        </article>
+      </div>
+    </div>
+  </div>
+
 
   <nav class="bottom-nav">
     <button class="nav-btn active" data-page="overview"><span>◎</span>校情总览</button>
@@ -3455,7 +4004,7 @@
 
     function drawLevelTrendByGrade(id, gradeKey) {
       const data = levelTrendData[gradeKey] || levelTrendData.grade7;
-      drawLine(id, ['8-01','8-07','8-15','8-23','8-31','9-08','9-12'], [
+      drawLine(id, ['8月','9月','10月','11月','12月','1月','2月'], [
         { name: '精通', data: data.master, color: colors.green },
         { name: '熟练', data: data.skilled, color: colors.cyan },
         { name: '达标', data: data.standard, color: colors.yellow },
@@ -3465,7 +4014,7 @@
 
     function drawScoreTrendByGrade(id, gradeKey) {
       const data = scoreTrendData[gradeKey] || scoreTrendData.grade7;
-      drawLine(id, ['8-01','8-07','8-15','8-23','8-31','9-08','9-12'], [
+      drawLine(id, ['8月','9月','10月','11月','12月','1月','2月'], [
         { name: '得分率', data, color: colors.cyan }
       ]);
     }
@@ -3745,7 +4294,7 @@
       const data = levelTrendData[baseGrade] || levelTrendData.grade7;
       const offset = getClassOffset(classKey);
       const clamp = v => Math.max(3, Math.min(90, v));
-      drawAdaptivePercentLine(id, ['8-01','8-07','8-15','8-23','8-31','9-08','9-12'], [
+      drawAdaptivePercentLine(id, ['8月','9月','10月','11月','12月','1月','2月'], [
         { name: '精通', data: data.master.map(v => clamp(v + offset)), color: colors.green },
         { name: '熟练', data: data.skilled.map(v => clamp(v + Math.round(offset / 2))), color: colors.cyan },
         { name: '达标', data: data.standard.map(v => clamp(v - Math.round(offset / 2))), color: colors.yellow },
@@ -3757,7 +4306,7 @@
       const baseGrade = gradeKey === 'school' ? 'grade7' : gradeKey;
       const base = scoreTrendData[baseGrade] || scoreTrendData.grade7;
       const offset = getClassOffset(classKey);
-      drawAdaptivePercentLine(id, ['8-01','8-07','8-15','8-23','8-31','9-08','9-12'], [
+      drawAdaptivePercentLine(id, ['8月','9月','10月','11月','12月','1月','2月'], [
         { name: '得分率', data: base.map(v => Math.max(0, Math.min(100, v + offset))), color: colors.cyan }
       ]);
     }
@@ -4288,8 +4837,13 @@ function drawSubjectLevelStackedByClass(id) {
       const topFilters = document.querySelector('.top-global-filters');
       if (!topFilters) return;
       const activePageId = pageId || document.querySelector('.page.active')?.id || 'overview';
-      const shouldShow = ['quality', 'process', 'student', 'teacher'].includes(activePageId);
+      const shouldShow = ['quality', 'process', 'student', 'teacher', 'system'].includes(activePageId);
       topFilters.classList.toggle('is-hidden', !shouldShow);
+      topFilters.querySelectorAll('.page-global-select[data-filter="subject"], .page-global-select[data-filter="grade"]').forEach(select => {
+        const hide = activePageId === 'system';
+        select.classList.toggle('overview-global-filter-hide', hide);
+        select.disabled = hide;
+      });
     }
 
     function setGlobalFilterState(key, value) {
@@ -4625,7 +5179,7 @@ function drawSubjectLevelStackedByClass(id) {
       const data = levelTrendData[baseGrade] || levelTrendData.grade7;
       const seed = getFilterSeed(subject, grade);
       const clamp = v => Math.max(3, Math.min(96, v));
-      drawLine(id, ['8-01','8-07','8-15','8-23','8-31','9-08','9-12'], [
+      drawLine(id, ['8月','9月','10月','11月','12月','1月','2月'], [
         { name: '精通', data: data.master.map(v => clamp(v + seed)), color: colors.green },
         { name: '熟练', data: data.skilled.map(v => clamp(v + Math.round(seed / 2))), color: colors.cyan },
         { name: '达标', data: data.standard.map(v => clamp(v - Math.round(seed / 2))), color: colors.yellow },
@@ -4641,7 +5195,7 @@ function drawSubjectLevelStackedByClass(id) {
       const baseGrade = grade === 'school' ? 'grade7' : grade;
       const base = scoreTrendData[baseGrade] || scoreTrendData.grade7;
       const seed = getFilterSeed(subject, grade);
-      drawLine(id, ['8-01','8-07','8-15','8-23','8-31','9-08','9-12'], [
+      drawLine(id, ['8月','9月','10月','11月','12月','1月','2月'], [
         { name: '得分率', data: base.map(v => Math.max(0, Math.min(100, v + seed))), color: colors.cyan }
       ]);
       attachCanvasTip(id, `得分率趋势：当前学科 ${subject === 'all' ? '全部学科' : subject}，当前年级 ${gradeLabelMap[grade]}。`);
@@ -4745,7 +5299,7 @@ function drawSubjectLevelStackedByClass(id) {
       all: '全部数据',
       year: '近一年',
       half: '近半年',
-      month: '近一个月'
+      month: '近三个月'
     };
     const timeSeedMap = {
       all: 0,
@@ -4994,7 +5548,7 @@ function drawSubjectLevelStackedByClass(id) {
       const data = levelTrendData[baseGrade] || levelTrendData.grade7;
       const seed = getFilterSeed(subject, grade);
       const clamp = v => Math.max(3, Math.min(96, v));
-      drawLine(id, ['8-01','8-07','8-15','8-23','8-31','9-08','9-12'], [
+      drawLine(id, ['8月','9月','10月','11月','12月','1月','2月'], [
         { name: '精通', data: data.master.map(v => clamp(v + seed)), color: colors.green },
         { name: '熟练', data: data.skilled.map(v => clamp(v + Math.round(seed / 2))), color: colors.cyan },
         { name: '达标', data: data.standard.map(v => clamp(v - Math.round(seed / 2))), color: colors.yellow },
@@ -5010,7 +5564,7 @@ function drawSubjectLevelStackedByClass(id) {
       const baseGrade = grade === 'school' ? 'grade7' : grade;
       const base = scoreTrendData[baseGrade] || scoreTrendData.grade7;
       const seed = getFilterSeed(subject, grade);
-      drawLine(id, ['8-01','8-07','8-15','8-23','8-31','9-08','9-12'], [
+      drawLine(id, ['8月','9月','10月','11月','12月','1月','2月'], [
         { name: '得分率', data: base.map(v => Math.max(0, Math.min(100, v + seed))), color: colors.cyan }
       ]);
       attachCanvasTip(id, `得分率趋势：当前范围 ${currentScopeText(prefix)}。`);
@@ -5879,7 +6433,7 @@ function drawSubjectLevelStackedByClass(id) {
       const data = levelTrendData[baseGrade] || levelTrendData.grade7;
       const seed = getFilterSeed(subject, grade);
       const clamp = v => Math.max(0, Math.min(100, Math.round(v)));
-      drawPercentTrendLine(id, ['8-01','8-07','8-15','8-23','8-31','9-08','9-12'], [
+      drawPercentTrendLine(id, ['8月','9月','10月','11月','12月','1月','2月'], [
         { name: '精通', data: data.master.map(v => clamp(v + seed)), color: colors.green },
         { name: '熟练', data: data.skilled.map(v => clamp(v + Math.round(seed / 2))), color: colors.cyan },
         { name: '达标', data: data.standard.map(v => clamp(v - Math.round(seed / 2))), color: colors.yellow },
@@ -5892,7 +6446,7 @@ function drawSubjectLevelStackedByClass(id) {
       const prefix = 'scoreTrend';
       const subject = effectiveSubject(prefix);
       const grade = effectiveGrade(prefix);
-      const labels = ['8-01','8-07','8-15','8-23','8-31','9-08','9-12'];
+      const labels = ['8月','9月','10月','11月','12月','1月','2月'];
       const palette = [colors.cyan, colors.green, colors.yellow, colors.purple, colors.blue, colors.red];
       const subjectBase = {
         '语文': [75,77,78,80,81,82,84],
@@ -8708,10 +9262,16 @@ function drawSubjectLevelStackedByClass(id) {
         const topFilters = document.querySelector('.top-global-filters');
         if (!topFilters) return;
         const activePageId = pageId || document.querySelector('.page.active')?.id || 'overview';
-        const shouldShow = ['overview', 'quality', 'process', 'student', 'teacher'].includes(activePageId);
+        const shouldShow = ['overview', 'quality', 'process', 'student', 'teacher', 'system'].includes(activePageId);
         topFilters.classList.toggle('is-hidden', !shouldShow);
         topFilters.querySelectorAll('[data-filter="subject"]').forEach(select => {
-          select.classList.toggle('overview-global-filter-hide', activePageId === 'overview');
+          select.classList.toggle('overview-global-filter-hide', activePageId === 'overview' || activePageId === 'system');
+          select.disabled = activePageId === 'system';
+        });
+        topFilters.querySelectorAll('[data-filter="grade"]').forEach(select => {
+          const hide = activePageId === 'system';
+          select.classList.toggle('overview-global-filter-hide', hide);
+          select.disabled = hide;
         });
       };
 
@@ -13777,7 +14337,7 @@ function drawSubjectLevelStackedByClass(id) {
             btn.remove();
             return;
           }
-          btn.style.display = activePageIdV54() === 'system' ? 'none' : '';
+          btn.style.display = '';
         });
       }
       function visibleGlobalGradeV54() {
@@ -14385,7 +14945,7 @@ function drawSubjectLevelStackedByClass(id) {
       }
       function timeLabelFinal() {
         const value = document.getElementById('globalTimeSelect')?.value || topSelectFinal('time')?.value || 'all';
-        return { month: '近一个月', half: '近半年', year: '近一年', all: '全部数据' }[value] || '全部数据';
+        return { month: '近三个月', half: '近半年', year: '近一年', all: '全部数据' }[value] || '全部数据';
       }
       function formatDateLabelFinal(date) {
         return `${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
@@ -14605,7 +15165,7 @@ function drawSubjectLevelStackedByClass(id) {
       function drawLearningLevelTrendFinal() {
         const chartId = canvasIdFinal('overviewBar', 'overviewBarStable');
         const title = document.getElementById(chartId)?.closest('.panel')?.querySelector('.panel-title');
-        if (title) title.textContent = '学情水平趋势';
+        if (title) title.textContent = '学情发展趋势';
         const globalGrade = readGlobalGradeFinal();
         const stage = activeStageForPanelFinal('qualityCompareStageSelect');
         const localGrade = normalizeGradeFinal(document.getElementById('qualityCompareGradeSelect')?.value || 'school');
@@ -14630,7 +15190,7 @@ function drawSubjectLevelStackedByClass(id) {
         if (typeof attachCanvasTip === 'function') {
           const gradeText = grade !== 'school' ? ` · ${GRADE_LABEL_FINAL[grade]}` : '';
           const subjectText = subject === 'all' ? '全部学科' : subject;
-          attachCanvasTip(chartId, `学情水平趋势：查看各学科掌握度水平趋势，横坐标按${timeLabelFinal()}平均分成8份，纵坐标为掌握度百分率。当前范围 ${STAGE_LABEL_FINAL[stage] || '全部学段'}${gradeText} · ${subjectText}。`);
+          attachCanvasTip(chartId, `学情发展趋势：查看各学科掌握度水平趋势，横坐标按${timeLabelFinal()}平均分成8份，纵坐标为掌握度百分率。当前范围 ${STAGE_LABEL_FINAL[stage] || '全部学段'}${gradeText} · ${subjectText}。`);
         }
       }
       function renderOverviewFinal() {
@@ -14756,14 +15316,14 @@ function drawSubjectLevelStackedByClass(id) {
         const activePage = pageId || document.querySelector('.page.active')?.id || 'overview';
         const topFilters = document.querySelector('.top-global-filters');
         if (!topFilters) return;
-        topFilters.classList.toggle('is-hidden', !['overview','quality','process','student','teacher'].includes(activePage));
+        topFilters.classList.toggle('is-hidden', !['overview','quality','process','student','teacher','system'].includes(activePage));
         topFilters.querySelectorAll('.page-global-select[data-filter="subject"]').forEach(select => {
-          const hide = activePage === 'overview' || activePage === 'student';
+          const hide = activePage === 'overview' || activePage === 'student' || activePage === 'system';
           select.classList.toggle('overview-global-filter-hide', hide);
-          select.disabled = activePage === 'student';
+          select.disabled = activePage === 'student' || activePage === 'system';
         });
         topFilters.querySelectorAll('.page-global-select[data-filter="grade"]').forEach(select => {
-          const hide = activePage === 'overview';
+          const hide = activePage === 'overview' || activePage === 'system';
           select.classList.toggle('overview-global-filter-hide', hide);
           select.disabled = hide;
           if (hide) select.value = 'school';
@@ -14986,7 +15546,7 @@ function drawSubjectLevelStackedByClass(id) {
         const title = panel?.querySelector('.panel-title');
         const filters = panel?.querySelector('.panel-filters');
         if (!filters) return null;
-        if (title) title.textContent = '学情水平趋势';
+        if (title) title.textContent = '学情发展趋势';
 
         let gradeSelect = document.getElementById('qualityCompareGradeSelectV61');
         let classSelect = document.getElementById('qualityCompareClassSelectV61');
@@ -15117,7 +15677,7 @@ function drawSubjectLevelStackedByClass(id) {
         if (typeof attachCanvasTip === 'function') {
           const gradeText = grade === 'school' ? `${STAGE_LABELS_V61[stage] || '全部学段'} · 全部年级` : GRADE_LABELS_V61[grade];
           const classText = classValue === 'all' ? '全部班级' : (controls.classSelect.options[controls.classSelect.selectedIndex]?.text || classValue);
-          attachCanvasTip(canvas.id, `学情水平趋势：按${gradeText} / ${classText}查看语文、数学、英语、物理、化学、道法的发展趋势；该筛选受全局筛选范围影响。`);
+          attachCanvasTip(canvas.id, `学情发展趋势：按${gradeText} / ${classText}查看语文、数学、英语、物理、化学、道法的发展趋势；该筛选受全局筛选范围影响。`);
         }
       }
       function scheduleLearningTrendV61() {
@@ -15145,6 +15705,1344 @@ function drawSubjectLevelStackedByClass(id) {
       window.addEventListener('load', scheduleLearningTrendV61);
       window.renderOverviewLearningTrendV61 = drawLearningTrendV61;
       [0, 120, 360, 900, 1700, 2600, 3600].forEach(delay => setTimeout(drawLearningTrendV61, delay));
+    })();
+  </script>
+
+  <script>
+    /* === V6.2 final patch: keep teaching-quality local filters under global scope === */
+    (function () {
+      const QUALITY_FILTERS_V62 = [
+        { prefix: 'qualityLevel', subjectId: 'qualityLevelSubjectSelect', gradeId: 'qualityLevelGradeSelect', defaultSubject: 'all', allowAllSubject: true },
+        { prefix: 'scoreDist', subjectId: 'scoreDistSubjectSelect', gradeId: 'scoreDistGradeSelect', defaultSubject: 'all', allowAllSubject: true },
+        { prefix: 'rank', subjectId: 'rankSubjectSelect', gradeId: 'rankGradeSelect', defaultSubject: 'all', allowAllSubject: true },
+        { prefix: 'knowledgeGraph', subjectId: 'knowledgeGraphSubjectSelect', gradeId: 'knowledgeGraphGradeSelect', defaultSubject: '数学', allowAllSubject: false },
+        { prefix: 'levelTrend', subjectId: 'levelTrendSubjectSelect', gradeId: 'levelTrendGradeSelect', defaultSubject: 'all', allowAllSubject: true },
+        { prefix: 'scoreTrend', subjectId: 'scoreTrendSubjectSelect', gradeId: 'scoreTrendGradeSelect', defaultSubject: 'all', allowAllSubject: true },
+        { prefix: 'studentDev', subjectId: 'studentDevSubjectSelect', gradeId: 'studentDevGradeSelect', defaultSubject: 'all', allowAllSubject: true }
+      ];
+      const SUBJECTS_V62 = [
+        ['语文', '语文'],
+        ['数学', '数学'],
+        ['英语', '英语'],
+        ['物理', '物理'],
+        ['化学', '化学'],
+        ['道法', '道法']
+      ];
+      const GRADE_OPTIONS_BY_STAGE_V62 = {
+        all: [
+          ['school', '全部年级'],
+          ['grade1', '一年级'], ['grade2', '二年级'], ['grade3', '三年级'],
+          ['grade4', '四年级'], ['grade5', '五年级'], ['grade6', '六年级'],
+          ['grade7', '七年级'], ['grade8', '八年级'], ['grade9', '九年级'],
+          ['grade10', '高一'], ['grade11', '高二'], ['grade12', '高三']
+        ],
+        primary: [['school', '全部年级'], ['grade1', '一年级'], ['grade2', '二年级'], ['grade3', '三年级'], ['grade4', '四年级'], ['grade5', '五年级'], ['grade6', '六年级']],
+        middle: [['school', '全部年级'], ['grade7', '七年级'], ['grade8', '八年级'], ['grade9', '九年级']],
+        high: [['school', '全部年级'], ['grade10', '高一'], ['grade11', '高二'], ['grade12', '高三']]
+      };
+      const GRADE_STAGE_V62 = {
+        grade1: 'primary', grade2: 'primary', grade3: 'primary', grade4: 'primary', grade5: 'primary', grade6: 'primary',
+        grade7: 'middle', grade8: 'middle', grade9: 'middle',
+        grade10: 'high', grade11: 'high', grade12: 'high'
+      };
+      const localStateV62 = {
+        subject: Object.create(null),
+        grade: Object.create(null)
+      };
+      let renderingV62 = false;
+
+      function normalizeGradeV62(value) {
+        return value && value !== 'all' ? value : 'school';
+      }
+      function visibleGlobalV62(filter) {
+        const select = document.querySelector(`.top-global-filters .page-global-select[data-filter="${filter}"]`);
+        const hiddenByClass = select?.classList.contains('overview-global-filter-hide') || select?.closest('.top-global-filters')?.classList.contains('is-hidden');
+        return select && !hiddenByClass ? select.value : '';
+      }
+      function hiddenGlobalV62(filter, fallback) {
+        const id = filter === 'subject' ? 'globalSubjectSelect' : filter === 'grade' ? 'globalGradeSelect' : filter === 'stage' ? 'globalStageSelect' : 'globalTimeSelect';
+        return document.getElementById(id)?.value || fallback;
+      }
+      function globalSubjectV62() {
+        return visibleGlobalV62('subject') || hiddenGlobalV62('subject', 'all') || 'all';
+      }
+      function globalGradeV62() {
+        return normalizeGradeV62(visibleGlobalV62('grade') || hiddenGlobalV62('grade', 'school') || 'school');
+      }
+      function globalStageV62() {
+        const grade = globalGradeV62();
+        if (grade !== 'school') return GRADE_STAGE_V62[grade] || 'all';
+        const stage = visibleGlobalV62('stage') || hiddenGlobalV62('stage', 'all') || 'all';
+        return GRADE_OPTIONS_BY_STAGE_V62[stage] ? stage : 'all';
+      }
+      function optionHtmlV62(options, selected) {
+        return options.map(([value, label]) => `<option value="${value}"${value === selected ? ' selected' : ''}>${label}</option>`).join('');
+      }
+      function setOptionsV62(select, options, preferred) {
+        if (!select) return '';
+        const safe = options.some(([value]) => value === preferred) ? preferred : options[0]?.[0] || '';
+        const html = optionHtmlV62(options, safe);
+        if (select.innerHTML !== html) select.innerHTML = html;
+        select.value = safe;
+        return safe;
+      }
+      function subjectOptionsV62(config) {
+        return config.allowAllSubject ? [['all', '全部学科']].concat(SUBJECTS_V62) : SUBJECTS_V62.slice();
+      }
+      function gradeOptionsV62() {
+        const scopedGrade = globalGradeV62();
+        if (scopedGrade !== 'school') {
+          const allGrades = GRADE_OPTIONS_BY_STAGE_V62.all;
+          const label = allGrades.find(([value]) => value === scopedGrade)?.[1] || '所选年级';
+          return [[scopedGrade, label]];
+        }
+        return GRADE_OPTIONS_BY_STAGE_V62[globalStageV62()] || GRADE_OPTIONS_BY_STAGE_V62.all;
+      }
+      function initLocalStateV62() {
+        QUALITY_FILTERS_V62.forEach(config => {
+          const subjectSelect = document.getElementById(config.subjectId);
+          const gradeSelect = document.getElementById(config.gradeId);
+          if (!(config.subjectId in localStateV62.subject)) {
+            localStateV62.subject[config.subjectId] = subjectSelect?.value || config.defaultSubject || 'all';
+          }
+          if (!(config.gradeId in localStateV62.grade)) {
+            localStateV62.grade[config.gradeId] = normalizeGradeV62(gradeSelect?.value || 'school');
+          }
+        });
+      }
+      function syncQualityFiltersV62() {
+        initLocalStateV62();
+        const scopedSubject = globalSubjectV62();
+        const scopedGrade = globalGradeV62();
+        const grades = gradeOptionsV62();
+
+        QUALITY_FILTERS_V62.forEach(config => {
+          const subjectSelect = document.getElementById(config.subjectId);
+          const gradeSelect = document.getElementById(config.gradeId);
+          if (subjectSelect) {
+            const options = subjectOptionsV62(config);
+            const localSubject = localStateV62.subject[config.subjectId] || config.defaultSubject || options[0][0];
+            const wantedSubject = scopedSubject !== 'all' ? scopedSubject : localSubject;
+            const selectedSubject = setOptionsV62(subjectSelect, options, wantedSubject);
+            subjectSelect.disabled = scopedSubject !== 'all';
+            subjectSelect.title = subjectSelect.disabled ? `跟随全局学科筛选：${selectedSubject}` : '学科筛选';
+            if (!subjectSelect.disabled) localStateV62.subject[config.subjectId] = selectedSubject;
+          }
+          if (gradeSelect) {
+            const localGrade = localStateV62.grade[config.gradeId] || 'school';
+            const wantedGrade = scopedGrade !== 'school' ? scopedGrade : localGrade;
+            const selectedGrade = setOptionsV62(gradeSelect, grades, wantedGrade);
+            gradeSelect.disabled = scopedGrade !== 'school';
+            gradeSelect.title = gradeSelect.disabled ? `跟随全局年级筛选：${gradeSelect.selectedOptions?.[0]?.text || '所选年级'}` : '年级筛选';
+            if (!gradeSelect.disabled) localStateV62.grade[config.gradeId] = selectedGrade;
+          }
+        });
+        if (typeof syncClassSelects === 'function') {
+          try { syncClassSelects(); } catch (e) {}
+        }
+      }
+      function renderQualityChartsV62() {
+        if (renderingV62) return;
+        renderingV62 = true;
+        try {
+          syncQualityFiltersV62();
+          if (typeof window.drawQualityLevelDistributionV227 === 'function') window.drawQualityLevelDistributionV227();
+          else if (typeof drawSubjectLevelFiltered === 'function') drawSubjectLevelFiltered('qualityBar');
+
+          if (typeof drawScoreDistributionFiltered === 'function') drawScoreDistributionFiltered('qualityHist');
+          else if (typeof drawScoreDistributionByClass === 'function') drawScoreDistributionByClass('qualityHist');
+
+          if (typeof window.updateRankListFiltered === 'function') window.updateRankListFiltered();
+          else if (typeof updateRankListFiltered === 'function') updateRankListFiltered();
+          else if (typeof updateRankList === 'function') updateRankList();
+
+          if (typeof window.drawKnowledgeGraphV227 === 'function') window.drawKnowledgeGraphV227();
+          else if (typeof drawKnowledgeGraphFiltered === 'function') drawKnowledgeGraphFiltered('subjectKnowledgeGraph', document.getElementById('knowledgeSubjectSelect')?.value || 'beishida');
+
+          if (typeof drawLevelTrendFiltered === 'function') drawLevelTrendFiltered('levelTrend');
+          if (typeof drawScoreTrendFiltered === 'function') drawScoreTrendFiltered('scoreRateTrend');
+          if (typeof drawStudentDevelopmentFiltered === 'function') drawStudentDevelopmentFiltered('studentDevelopmentMini');
+        } finally {
+          renderingV62 = false;
+        }
+      }
+      function scheduleQualityRenderV62() {
+        [0, 40, 120, 260, 620, 1200].forEach(delay => setTimeout(renderQualityChartsV62, delay));
+      }
+      function rememberLocalChangeV62(target) {
+        QUALITY_FILTERS_V62.forEach(config => {
+          if (target.id === config.subjectId && globalSubjectV62() === 'all') {
+            localStateV62.subject[config.subjectId] = target.value || config.defaultSubject || 'all';
+          }
+          if (target.id === config.gradeId && globalGradeV62() === 'school') {
+            localStateV62.grade[config.gradeId] = normalizeGradeV62(target.value || 'school');
+          }
+        });
+      }
+      function resetLocalStateV62() {
+        QUALITY_FILTERS_V62.forEach(config => {
+          localStateV62.subject[config.subjectId] = config.defaultSubject || 'all';
+          localStateV62.grade[config.gradeId] = 'school';
+        });
+      }
+
+      window.renderQualityCharts = renderQualityChartsV62;
+      window.syncQualityPanelFiltersV62 = syncQualityFiltersV62;
+      try { renderQualityCharts = window.renderQualityCharts; } catch (e) {}
+
+      document.addEventListener('change', function (event) {
+        const target = event.target;
+        if (!target) return;
+        if (target.classList?.contains('quality-filter')) {
+          rememberLocalChangeV62(target);
+          scheduleQualityRenderV62();
+        }
+        if (
+          target.classList?.contains('page-global-select') ||
+          ['globalStageSelect', 'globalGradeSelect', 'globalSubjectSelect', 'globalTimeSelect'].includes(target.id)
+        ) {
+          scheduleQualityRenderV62();
+        }
+      }, true);
+      document.addEventListener('click', function (event) {
+        if (event.target?.classList?.contains('global-filter-reset-btn')) {
+          resetLocalStateV62();
+          scheduleQualityRenderV62();
+        }
+      }, true);
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          if (btn.dataset.page === 'quality') scheduleQualityRenderV62();
+        });
+      });
+      document.addEventListener('DOMContentLoaded', scheduleQualityRenderV62);
+      window.addEventListener('load', scheduleQualityRenderV62);
+      scheduleQualityRenderV62();
+    })();
+  </script>
+
+
+  <style>
+    /* === V6.3 用户需求最终补丁：顶部固定、局部筛选隐藏、月份坐标 === */
+    .topbar {
+      position: sticky !important;
+      top: 10px;
+      z-index: 3000 !important;
+    }
+
+    #qualityLevelSubjectSelect, #qualityLevelGradeSelect,
+    #scoreDistSubjectSelect, #scoreDistGradeSelect,
+    #rankSubjectSelect, #rankGradeSelect,
+    #levelTrendSubjectSelect, #levelTrendGradeSelect,
+    #scoreTrendSubjectSelect, #scoreTrendGradeSelect,
+    #studentDevSubjectSelect, #studentDevGradeSelect,
+
+    #processFunnelSubjectSelect, #processFunnelGradeSelect,
+    #resourceTopSubjectSelect, #resourceTopGradeSelect,
+    #teachingTypeSubjectSelect, #teachingTypeGradeSelect,
+    #fourMatSubjectSelect, #fourMatGradeSelect,
+    #feedbackTypeSubjectSelect, #feedbackTypeGradeSelect,
+    #resourceNewStatSubjectSelect, #resourceNewStatGradeSelect,
+    #resourceNewTrendSubjectSelect, #resourceNewTrendGradeSelect,
+    #prepActivitySubjectSelect, #prepActivityGradeSelect,
+    #resourceUseStatSubjectSelect, #resourceUseStatGradeSelect,
+    #resourceUseTrendSubjectSelect, #resourceUseTrendGradeSelect,
+    #useActivitySubjectSelect, #useActivityGradeSelect,
+
+    #studentProfileGradeSelect,
+    #studentBehaviorPerformanceGradeSelect,
+    #studentRiskGradeSelect,
+    #studentBehaviorGradeSelect,
+    #practiceInnovationGradeSelect,
+
+    #teacherTitleSubjectSelect, #teacherTitleGradeSelect,
+    #teacherSubjectDistGradeSelect,
+    #teacherResourceSubjectSelect, #teacherResourceGradeSelect,
+    #teacherLevelRankGradeSelect {
+      display: none !important;
+    }
+
+    .panel-filters.filters-empty-v63 {
+      display: none !important;
+    }
+  </style>
+
+  <script>
+    /* === V6.3 用户需求最终补丁：统一月份横坐标 + 隐藏局部筛选但保留全局驱动 === */
+    (function () {
+      const MONTH_LABELS_V63 = ['8月', '9月', '10月', '11月', '12月', '1月', '2月'];
+      const MONTH_CANVAS_IDS_V63 = new Set([
+        'overviewLine', 'overviewBar', 'overviewBarStable', 'overviewLearningTrendCanvas',
+        'levelTrend', 'scoreRateTrend', 'resourceNewTrend', 'resourceUseTrend'
+      ]);
+
+      const SUBJECT_FILTER_IDS_V63 = [
+        'qualityLevelSubjectSelect', 'scoreDistSubjectSelect', 'rankSubjectSelect',
+        'levelTrendSubjectSelect', 'scoreTrendSubjectSelect', 'studentDevSubjectSelect',
+        'processFunnelSubjectSelect', 'resourceTopSubjectSelect', 'teachingTypeSubjectSelect',
+        'fourMatSubjectSelect', 'feedbackTypeSubjectSelect', 'resourceNewStatSubjectSelect',
+        'resourceNewTrendSubjectSelect', 'prepActivitySubjectSelect', 'resourceUseStatSubjectSelect',
+        'resourceUseTrendSubjectSelect', 'useActivitySubjectSelect',
+        'teacherTitleSubjectSelect', 'teacherResourceSubjectSelect'
+      ];
+      const GRADE_FILTER_IDS_V63 = [
+        'qualityLevelGradeSelect', 'scoreDistGradeSelect', 'rankGradeSelect',
+        'levelTrendGradeSelect', 'scoreTrendGradeSelect', 'studentDevGradeSelect',
+        'processFunnelGradeSelect', 'resourceTopGradeSelect', 'teachingTypeGradeSelect',
+        'fourMatGradeSelect', 'feedbackTypeGradeSelect', 'resourceNewStatGradeSelect',
+        'resourceNewTrendGradeSelect', 'prepActivityGradeSelect', 'resourceUseStatGradeSelect',
+        'resourceUseTrendGradeSelect', 'useActivityGradeSelect',
+        'studentProfileGradeSelect', 'studentBehaviorPerformanceGradeSelect', 'studentRiskGradeSelect',
+        'studentBehaviorGradeSelect', 'practiceInnovationGradeSelect',
+        'teacherTitleGradeSelect', 'teacherSubjectDistGradeSelect', 'teacherResourceGradeSelect',
+        'teacherLevelRankGradeSelect'
+      ];
+
+      function topSelectValueV63(filter, fallback) {
+        const visible = document.querySelector(`.top-global-filters .page-global-select[data-filter="${filter}"]`);
+        const visibleAvailable = visible && !visible.closest('.top-global-filters')?.classList.contains('is-hidden') && getComputedStyle(visible).display !== 'none';
+        if (visibleAvailable) return visible.value || fallback;
+        const hiddenId = filter === 'subject' ? 'globalSubjectSelect' : filter === 'grade' ? 'globalGradeSelect' : 'globalTimeSelect';
+        return document.getElementById(hiddenId)?.value || fallback;
+      }
+      function setSelectValueIfOptionV63(id, value, fallback) {
+        const select = document.getElementById(id);
+        if (!select) return;
+        const wanted = value || fallback;
+        const safe = Array.from(select.options || []).some(option => option.value === wanted) ? wanted : fallback;
+        if (Array.from(select.options || []).some(option => option.value === safe)) select.value = safe;
+      }
+      function syncHiddenPanelFiltersV63() {
+        const subject = topSelectValueV63('subject', 'all');
+        const grade = topSelectValueV63('grade', 'school');
+        SUBJECT_FILTER_IDS_V63.forEach(id => setSelectValueIfOptionV63(id, subject, 'all'));
+        GRADE_FILTER_IDS_V63.forEach(id => setSelectValueIfOptionV63(id, grade, 'school'));
+        document.querySelectorAll('.panel-filters').forEach(box => {
+          const visibleChildren = Array.from(box.children).filter(child => {
+            const style = getComputedStyle(child);
+            return style.display !== 'none' && style.visibility !== 'hidden' && child.offsetParent !== null;
+          });
+          box.classList.toggle('filters-empty-v63', visibleChildren.length === 0);
+        });
+      }
+
+      function normalizeMonthLabelsV63(id, labels, seriesOrValues) {
+        if (!MONTH_CANVAS_IDS_V63.has(id)) return { labels, data: seriesOrValues };
+        const labelsOut = MONTH_LABELS_V63.slice();
+        if (Array.isArray(seriesOrValues) && seriesOrValues.length && typeof seriesOrValues[0] === 'object' && Array.isArray(seriesOrValues[0].data)) {
+          return { labels: labelsOut, data: seriesOrValues.map(item => ({ ...item, data: item.data.slice(0, labelsOut.length) })) };
+        }
+        if (Array.isArray(seriesOrValues)) return { labels: labelsOut, data: seriesOrValues.slice(0, labelsOut.length) };
+        return { labels: labelsOut, data: seriesOrValues };
+      }
+
+      window.buildEightDateLabelsFinal = function () { return MONTH_LABELS_V63.slice(); };
+      try { buildEightDateLabelsFinal = window.buildEightDateLabelsFinal; } catch (e) {}
+      window.getProcessEightDateLabelsV214 = function () { return MONTH_LABELS_V63.slice(); };
+      try { getProcessEightDateLabelsV214 = window.getProcessEightDateLabelsV214; } catch (e) {}
+
+      function wrapLineFunctionV63(name) {
+        const original = window[name] || (typeof globalThis[name] === 'function' ? globalThis[name] : null);
+        if (typeof original !== 'function' || original.__monthWrappedV63) return;
+        const wrapped = function (id, labels, series) {
+          const normalized = normalizeMonthLabelsV63(id, labels, series);
+          return original.call(this, id, normalized.labels, normalized.data);
+        };
+        wrapped.__monthWrappedV63 = true;
+        window[name] = wrapped;
+        try { globalThis[name] = wrapped; } catch (e) {}
+      }
+      function wrapAreaFunctionV63(name) {
+        const original = window[name] || (typeof globalThis[name] === 'function' ? globalThis[name] : null);
+        if (typeof original !== 'function' || original.__monthWrappedV63) return;
+        const wrapped = function (id, labels, values, color) {
+          const normalized = normalizeMonthLabelsV63(id, labels, values);
+          return original.call(this, id, normalized.labels, normalized.data, color);
+        };
+        wrapped.__monthWrappedV63 = true;
+        window[name] = wrapped;
+        try { globalThis[name] = wrapped; } catch (e) {}
+      }
+      ['drawLine', 'drawFixedPercentLine', 'drawAdaptivePercentLine'].forEach(wrapLineFunctionV63);
+      ['drawAreaLine', 'drawAreaLineIntegerEightV214'].forEach(wrapAreaFunctionV63);
+
+      function rerenderMonthlyChartsV63() {
+        syncHiddenPanelFiltersV63();
+        try { if (typeof window.renderOverviewLearningTrendV61 === 'function') window.renderOverviewLearningTrendV61(); } catch (e) {}
+        try { if (typeof window.renderOverviewCharts === 'function') window.renderOverviewCharts(); } catch (e) {}
+        try { if (typeof window.renderQualityCharts === 'function') window.renderQualityCharts(); } catch (e) {}
+        try { if (typeof window.renderProcessCharts === 'function') window.renderProcessCharts(); } catch (e) {}
+      }
+      function scheduleV63() {
+        [0, 60, 160, 360, 800, 1400].forEach(delay => setTimeout(rerenderMonthlyChartsV63, delay));
+      }
+
+      document.addEventListener('change', function (event) {
+        const target = event.target;
+        if (!target) return;
+        if (
+          target.classList?.contains('page-global-select') ||
+          ['globalStageSelect', 'globalGradeSelect', 'globalSubjectSelect', 'globalTimeSelect'].includes(target.id)
+        ) {
+          scheduleV63();
+        }
+      }, true);
+      document.addEventListener('click', function (event) {
+        if (event.target?.classList?.contains('global-filter-reset-btn') || event.target?.classList?.contains('nav-btn')) scheduleV63();
+      }, true);
+      document.addEventListener('DOMContentLoaded', scheduleV63);
+      window.addEventListener('load', scheduleV63);
+      scheduleV63();
+    })();
+  </script>
+
+
+  <style>
+    /* === V6.4 用户需求补丁：班级筛选与知识图谱提示 === */
+    .knowledge-map-layout.has-subject-warning {
+      display: grid;
+      place-items: center;
+      grid-template-columns: 1fr !important;
+      min-height: 360px;
+    }
+    .knowledge-map-layout.has-subject-warning .knowledge-sidebar,
+    .knowledge-map-layout.has-subject-warning .graph-stage {
+      display: none !important;
+    }
+    .knowledge-subject-warning {
+      display: none;
+      width: 100%;
+      min-height: 320px;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: var(--cyan);
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      border: 1px dashed rgba(53, 221, 255, 0.35);
+      border-radius: 18px;
+      background: rgba(5, 13, 31, 0.48);
+      box-shadow: inset 0 0 28px rgba(53,221,255,0.08), 0 0 24px rgba(53,221,255,0.10);
+    }
+    .knowledge-map-layout.has-subject-warning .knowledge-subject-warning {
+      display: flex;
+    }
+    select.class-filter,
+    select[data-class-filter="true"],
+    #resourceTopClassSelect,
+    #studentRiskClassSelect {
+      display: inline-block !important;
+    }
+    .panel-filters:has(select.class-filter),
+    .panel-filters:has(select[data-class-filter="true"]) {
+      display: flex !important;
+    }
+  </style>
+
+  <script>
+    /* === V6.4 用户需求最终补丁：知识图谱全部学科提示、班级筛选补齐、教师学科分布按全局学科过滤 === */
+    (function () {
+      const SUBJECTS_V64 = ['语文','数学','英语','物理','化学','道法'];
+      const GRADE_LABEL_V64 = Object.assign({
+        school: '全部年级', all: '全部年级',
+        grade1: '一年级', grade2: '二年级', grade3: '三年级', grade4: '四年级', grade5: '五年级', grade6: '六年级',
+        grade7: '七年级', grade8: '八年级', grade9: '九年级',
+        grade10: '高一', grade11: '高二', grade12: '高三'
+      }, window.gradeLabelMap || {});
+      const CLASS_OPTIONS_V64 = Object.assign({
+        school: ['七年级 1 班','七年级 2 班','七年级 3 班','八年级 1 班','八年级 2 班','八年级 3 班','九年级 1 班','九年级 2 班','九年级 3 班'],
+        grade1: ['一年级 1 班','一年级 2 班','一年级 3 班','一年级 4 班'],
+        grade2: ['二年级 1 班','二年级 2 班','二年级 3 班','二年级 4 班'],
+        grade3: ['三年级 1 班','三年级 2 班','三年级 3 班','三年级 4 班'],
+        grade4: ['四年级 1 班','四年级 2 班','四年级 3 班','四年级 4 班'],
+        grade5: ['五年级 1 班','五年级 2 班','五年级 3 班','五年级 4 班'],
+        grade6: ['六年级 1 班','六年级 2 班','六年级 3 班','六年级 4 班'],
+        grade7: ['七年级 1 班','七年级 2 班','七年级 3 班','七年级 4 班','七年级 5 班','七年级 6 班'],
+        grade8: ['八年级 1 班','八年级 2 班','八年级 3 班','八年级 4 班','八年级 5 班','八年级 6 班'],
+        grade9: ['九年级 1 班','九年级 2 班','九年级 3 班','九年级 4 班','九年级 5 班','九年级 6 班'],
+        grade10: ['高一 1 班','高一 2 班','高一 3 班','高一 4 班'],
+        grade11: ['高二 1 班','高二 2 班','高二 3 班','高二 4 班'],
+        grade12: ['高三 1 班','高三 2 班','高三 3 班','高三 4 班']
+      }, (typeof classOptionsByGrade !== 'undefined' ? classOptionsByGrade : {}));
+
+      const REQUIRED_CLASS_FILTERS_V64 = [
+        ['scoreDistClassSelect', 'scoreDistGradeSelect'],
+        ['levelTrendClassSelect', 'levelTrendGradeSelect'],
+        ['scoreTrendClassSelect', 'scoreTrendGradeSelect'],
+        ['studentDevClassSelect', 'studentDevGradeSelect'],
+        ['knowledgeGraphClassSelect', 'knowledgeGraphGradeSelect'],
+        ['processFunnelClassSelect', 'processFunnelGradeSelect'],
+        ['resourceTopClassSelect', 'resourceTopGradeSelect'],
+        ['teachingTypeClassSelect', 'teachingTypeGradeSelect'],
+        ['fourMatClassSelect', 'fourMatGradeSelect'],
+        ['feedbackTypeClassSelect', 'feedbackTypeGradeSelect'],
+        ['studentProfileClassSelect', 'studentProfileGradeSelect'],
+        ['studentBehaviorPerformanceClassSelect', 'studentBehaviorPerformanceGradeSelect'],
+        ['studentRiskClassSelect', 'studentRiskGradeSelect'],
+        ['practiceInnovationClassSelect', 'practiceInnovationGradeSelect']
+      ];
+
+      function globalSubjectV64() { return document.getElementById('globalSubjectSelect')?.value || 'all'; }
+      function globalGradeV64() {
+        const value = document.getElementById('globalGradeSelect')?.value || 'school';
+        return value === 'all' ? 'school' : value;
+      }
+      function normalizeGradeV64(value) {
+        if (!value || value === 'all') return 'school';
+        return value;
+      }
+      function panelGradeV64(gradeId) {
+        const globalGrade = globalGradeV64();
+        if (globalGrade !== 'school') return globalGrade;
+        const local = normalizeGradeV64(document.getElementById(gradeId)?.value || 'school');
+        return local || 'school';
+      }
+      function classOptionsHtmlV64(grade, selected) {
+        const names = CLASS_OPTIONS_V64[grade] || CLASS_OPTIONS_V64.school || [];
+        const options = [['all', '全部班级']].concat(names.map((name, index) => [`class${index + 1}`, name]));
+        const safe = options.some(([value]) => value === selected) ? selected : 'all';
+        return options.map(([value, label]) => `<option value="${value}"${value === safe ? ' selected' : ''}>${label}</option>`).join('');
+      }
+      function ensureClassSelectV64(classId, gradeId) {
+        const gradeSelect = document.getElementById(gradeId);
+        if (!gradeSelect) return null;
+        let select = document.getElementById(classId);
+        if (!select) {
+          select = document.createElement('select');
+          select.id = classId;
+          gradeSelect.insertAdjacentElement('afterend', select);
+        }
+        select.className = Array.from(new Set(((select.className || '') + ' chart-select class-filter').split(/\s+/).filter(Boolean))).join(' ');
+        select.dataset.classFilter = 'true';
+        select.title = '班级筛选';
+        const grade = panelGradeV64(gradeId);
+        const oldValue = select.value || 'all';
+        const html = classOptionsHtmlV64(grade, oldValue);
+        if (select.innerHTML !== html) select.innerHTML = html;
+        select.value = Array.from(select.options).some(option => option.value === oldValue) ? oldValue : 'all';
+        select.dataset.gradeScope = grade;
+        select.style.display = 'inline-block';
+        const filterBox = select.closest('.panel-filters');
+        if (filterBox) {
+          filterBox.classList.remove('filters-empty-v63');
+          filterBox.style.display = 'flex';
+        }
+        return select;
+      }
+      function syncClassFiltersV64() {
+        REQUIRED_CLASS_FILTERS_V64.forEach(([classId, gradeId]) => ensureClassSelectV64(classId, gradeId));
+      }
+      function classOffsetV64(classId) {
+        const value = document.getElementById(classId)?.value || 'all';
+        if (value === 'all') return 0;
+        const match = value.match(/\d+/);
+        return match ? Number(match[0]) - 3 : 0;
+      }
+      function gradeSeedV64(grade) {
+        return ({ school: 0, grade1: -5, grade2: -4, grade3: -3, grade4: -2, grade5: -1, grade6: 0, grade7: -1, grade8: 1, grade9: 2, grade10: 1, grade11: 2, grade12: 3 }[grade] || 0);
+      }
+      function filterSeedV64(subject, grade, classId) {
+        const subjectSeed = subject === 'all' ? 0 : ((SUBJECTS_V64.indexOf(subject) - 2) || 0);
+        const timeSeed = typeof getTimeSeed === 'function' ? getTimeSeed() : 0;
+        return subjectSeed + gradeSeedV64(grade) + classOffsetV64(classId) + timeSeed;
+      }
+
+      function ensureKnowledgeWarningV64() {
+        const layout = document.querySelector('#knowledgeGraphPanel .knowledge-map-layout');
+        if (!layout) return null;
+        let tip = layout.querySelector('.knowledge-subject-warning');
+        if (!tip) {
+          tip = document.createElement('div');
+          tip.className = 'knowledge-subject-warning';
+          tip.textContent = '温馨提示：请选择具体学科后查看知识图谱！';
+          layout.appendChild(tip);
+        }
+        return layout;
+      }
+      function updateKnowledgeGraphVisibilityV64() {
+        const layout = ensureKnowledgeWarningV64();
+        if (!layout) return false;
+        const isAllSubject = globalSubjectV64() === 'all';
+        layout.classList.toggle('has-subject-warning', isAllSubject);
+        const canvas = document.getElementById('subjectKnowledgeGraph');
+        if (isAllSubject && canvas) {
+          const ctx = canvas.getContext('2d');
+          if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+        return !isAllSubject;
+      }
+      function setKnowledgeSubjectToGlobalV64() {
+        const subject = globalSubjectV64();
+        const select = document.getElementById('knowledgeGraphSubjectSelect');
+        if (select && subject !== 'all' && Array.from(select.options).some(option => option.value === subject)) select.value = subject;
+      }
+      function wrapKnowledgeDrawV64(name) {
+        const original = window[name] || (typeof globalThis[name] === 'function' ? globalThis[name] : null);
+        if (typeof original !== 'function' || original.__v64KnowledgeWrapped) return;
+        const wrapped = function () {
+          ensureKnowledgeWarningV64();
+          if (!updateKnowledgeGraphVisibilityV64()) return;
+          setKnowledgeSubjectToGlobalV64();
+          return original.apply(this, arguments);
+        };
+        wrapped.__v64KnowledgeWrapped = true;
+        window[name] = wrapped;
+        try { globalThis[name] = wrapped; } catch (e) {}
+      }
+      ['drawKnowledgeGraphByTextbook','drawKnowledgeGraphFiltered','drawKnowledgeGraphV227','drawKnowledgeGraph'].forEach(wrapKnowledgeDrawV64);
+
+      function drawTeacherSubjectDistributionV64() {
+        const grade = (typeof scopedGrade === 'function') ? scopedGrade('teacherSubjectDist') : panelGradeV64('teacherSubjectDistGradeSelect');
+        const subject = globalSubjectV64();
+        const seed = filterSeedV64(subject, grade, 'teacherSubjectDistClassSelect');
+        const labels = SUBJECTS_V64;
+        const base = grade === 'grade7'
+          ? [18, 20, 17, 0, 0, 10]
+          : grade === 'grade8'
+            ? [17, 19, 18, 11, 0, 9]
+            : grade === 'grade9'
+              ? [16, 18, 17, 12, 10, 8]
+              : [51, 57, 52, 23, 10, 27];
+        let rows = labels.map((label, index) => ({ label, value: base[index] <= 0 ? 0 : Math.max(1, base[index] + seed - (index % 2)) }))
+          .filter(row => row.value > 0);
+        if (subject !== 'all') rows = rows.filter(row => row.label === subject);
+        if (!rows.length) rows = [{ label: subject === 'all' ? '暂无数据' : subject, value: 0 }];
+        if (typeof drawDonut === 'function') drawDonut('teacherSubjectDonut', rows.map(row => row.label), rows.map(row => row.value), [colors.cyan, colors.blue, colors.purple, colors.green, colors.yellow, colors.red]);
+        if (typeof attachCanvasTip === 'function') attachCanvasTip('teacherSubjectDonut', `学科教师分布：当前范围 ${typeof getTimeLabel === 'function' ? getTimeLabel() : '全部数据'} · ${GRADE_LABEL_V64[grade] || '全部年级'} · ${subject === 'all' ? '全部学科' : subject}。`);
+      }
+      window.drawTeacherSubjectDistribution = drawTeacherSubjectDistributionV64;
+      try { drawTeacherSubjectDistribution = drawTeacherSubjectDistributionV64; } catch (e) {}
+
+      function renderResourceTopWithClassV64() {
+        const box = document.getElementById('resourceContributionTopList');
+        if (!box) return;
+        syncClassFiltersV64();
+        const subject = globalSubjectV64();
+        const grade = panelGradeV64('resourceTopGradeSelect');
+        const classText = document.getElementById('resourceTopClassSelect')?.selectedOptions?.[0]?.text || '全部班级';
+        const seed = filterSeedV64(subject, grade, 'resourceTopClassSelect');
+        const names = ['张老师','李老师','王老师','赵老师','陈老师','刘老师','周老师','吴老师','郑老师','孙老师'];
+        const values = [126,112,104,93,86,79,73,68,62,58].map((v, i) => Math.max(20, v + seed - Math.floor(i / 2)));
+        const max = Math.max(...values, 1);
+        const scope = `${typeof getTimeLabel === 'function' ? getTimeLabel() : '全部数据'} · ${GRADE_LABEL_V64[grade] || '全部年级'} · ${classText} · ${subject === 'all' ? '全部学科' : subject}`;
+        box.innerHTML = names.map((name, index) => {
+          const width = Math.max(24, Math.round(values[index] / max * 100));
+          return `<div class="resource-top-item" style="--bar-width:${width}%;" data-tip="教学资源建设\n${scope}\n${name}：${values[index]}个">
+            <div class="resource-top-rank">${String(index + 1).padStart(2, '0')}</div>
+            <div><div class="resource-top-name">${name}</div><div class="resource-top-meta">${values[index]}个 · ${scope}</div></div>
+          </div>`;
+        }).join('');
+      }
+
+      const originalRenderProcessChartsV64 = window.renderProcessCharts || (typeof renderProcessCharts === 'function' ? renderProcessCharts : null);
+      window.renderProcessCharts = function () {
+        syncClassFiltersV64();
+        if (originalRenderProcessChartsV64) originalRenderProcessChartsV64.apply(this, arguments);
+        syncClassFiltersV64();
+        const subject = globalSubjectV64();
+        const funnelGrade = panelGradeV64('processFunnelGradeSelect');
+        const funnelSeed = filterSeedV64(subject, funnelGrade, 'processFunnelClassSelect');
+        if (typeof drawFunnel === 'function') drawFunnel('processFunnel', ['布置', '提交', '批改', '平均得分率'], [100, 92.4 + funnelSeed * 0.25, 96.8 + funnelSeed * 0.18, 82.3 + funnelSeed * 0.35].map(v => Math.max(0, Math.min(100, Number(v.toFixed ? v.toFixed(1) : v)))));
+        renderResourceTopWithClassV64();
+      };
+      try { renderProcessCharts = window.renderProcessCharts; } catch (e) {}
+
+      const originalRenderQualityChartsV64 = window.renderQualityCharts || (typeof renderQualityCharts === 'function' ? renderQualityCharts : null);
+      window.renderQualityCharts = function () {
+        syncClassFiltersV64();
+        ensureKnowledgeWarningV64();
+        if (originalRenderQualityChartsV64) originalRenderQualityChartsV64.apply(this, arguments);
+        syncClassFiltersV64();
+        updateKnowledgeGraphVisibilityV64();
+      };
+      try { renderQualityCharts = window.renderQualityCharts; } catch (e) {}
+
+      const originalRenderStudentChartsV64 = window.renderStudentChartsV25 || window.renderStudentCharts || (typeof renderStudentChartsV25 === 'function' ? renderStudentChartsV25 : null);
+      window.renderStudentChartsV25 = function () {
+        syncClassFiltersV64();
+        if (originalRenderStudentChartsV64) originalRenderStudentChartsV64.apply(this, arguments);
+        syncClassFiltersV64();
+        if (typeof window.renderStudentRiskGridV25 === 'function') window.renderStudentRiskGridV25();
+      };
+      try { renderStudentChartsV25 = window.renderStudentChartsV25; } catch (e) {}
+
+      const originalRenderTeacherChartsV64 = window.renderTeacherCharts || (typeof renderTeacherCharts === 'function' ? renderTeacherCharts : null);
+      window.renderTeacherCharts = function () {
+        syncClassFiltersV64();
+        if (originalRenderTeacherChartsV64) originalRenderTeacherChartsV64.apply(this, arguments);
+        drawTeacherSubjectDistributionV64();
+      };
+      try { renderTeacherCharts = window.renderTeacherCharts; } catch (e) {}
+
+      function rerenderV64() {
+        syncClassFiltersV64();
+        ensureKnowledgeWarningV64();
+        updateKnowledgeGraphVisibilityV64();
+        try { if (typeof window.renderQualityCharts === 'function') window.renderQualityCharts(); } catch (e) {}
+        try { if (typeof window.renderProcessCharts === 'function') window.renderProcessCharts(); } catch (e) {}
+        try { if (typeof window.renderStudentChartsV25 === 'function') window.renderStudentChartsV25(); } catch (e) {}
+        try { if (typeof window.renderTeacherCharts === 'function') window.renderTeacherCharts(); } catch (e) {}
+      }
+      function scheduleV64() {
+        [0, 60, 180, 420, 900].forEach(delay => setTimeout(rerenderV64, delay));
+      }
+
+      document.addEventListener('change', function (event) {
+        const target = event.target;
+        if (!target) return;
+        if (
+          target.dataset?.classFilter === 'true' ||
+          target.classList?.contains('page-global-select') ||
+          ['globalStageSelect','globalGradeSelect','globalSubjectSelect','globalTimeSelect'].includes(target.id) ||
+          REQUIRED_CLASS_FILTERS_V64.some(([, gradeId]) => target.id === gradeId)
+        ) {
+          scheduleV64();
+        }
+      }, true);
+      document.addEventListener('click', function (event) {
+        if (event.target?.classList?.contains('global-filter-reset-btn') || event.target?.classList?.contains('nav-btn')) scheduleV64();
+      }, true);
+      document.addEventListener('DOMContentLoaded', scheduleV64);
+      window.addEventListener('load', scheduleV64);
+      window.addEventListener('resize', () => setTimeout(rerenderV64, 120));
+      scheduleV64();
+    })();
+  </script>
+
+
+  <style>
+    /* === V6.5 用户反馈补丁：知识图谱精简、学段班级联动、资源榜样式恢复、教师模块筛选 === */
+    #knowledgeGraphSubjectSelect,
+    #knowledgeGraphGradeSelect {
+      display: none !important;
+    }
+
+    #knowledgeGraphPanel.knowledge-warning-mode-v65.full-row {
+      min-height: 240px !important;
+    }
+    #knowledgeGraphPanel.knowledge-warning-mode-v65 .panel-body {
+      min-height: 176px !important;
+      padding: 16px !important;
+    }
+    #knowledgeGraphPanel.knowledge-warning-mode-v65 .knowledge-map-layout {
+      height: 150px !important;
+      min-height: 150px !important;
+      grid-template-columns: 1fr !important;
+    }
+    #knowledgeGraphPanel.knowledge-warning-mode-v65 .knowledge-subject-warning {
+      min-height: 130px !important;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 22px 28px;
+      font-size: 18px;
+      line-height: 1.7;
+      border-radius: 18px;
+      background:
+        radial-gradient(circle at 50% 0%, rgba(53,221,255,0.16), transparent 48%),
+        rgba(5, 13, 31, 0.58);
+    }
+    #knowledgeGraphPanel.knowledge-warning-mode-v65 .knowledge-subject-warning::before {
+      content: "ⓘ";
+      display: inline-grid;
+      place-items: center;
+      width: 28px;
+      height: 28px;
+      margin-right: 10px;
+      border-radius: 50%;
+      color: #06142f;
+      background: linear-gradient(135deg, var(--cyan), var(--green));
+      box-shadow: 0 0 18px rgba(53,221,255,0.35);
+      font-size: 16px;
+      font-weight: 900;
+    }
+
+    #resourceNewTrendTypeSelect,
+    #resourceUseTrendTypeSelect {
+      display: inline-block !important;
+    }
+
+    #resourceContributionTopList.digital-resource-list {
+      gap: 13px;
+    }
+  </style>
+
+  <script>
+    /* === V6.5 用户反馈补丁：按学段筛班级、恢复资源建设榜、教师发展全量筛选 === */
+    (function () {
+      const SUBJECTS_V65 = ['语文','数学','英语','物理','化学','道法'];
+      const STAGE_LABEL_V65 = { all: '全部学段', primary: '小学', middle: '初中', high: '高中' };
+      const GRADE_STAGE_V65 = {
+        grade1: 'primary', grade2: 'primary', grade3: 'primary', grade4: 'primary', grade5: 'primary', grade6: 'primary',
+        grade7: 'middle', grade8: 'middle', grade9: 'middle',
+        grade10: 'high', grade11: 'high', grade12: 'high'
+      };
+      const GRADE_LABEL_V65 = {
+        school: '全部年级', all: '全部年级',
+        grade1: '一年级', grade2: '二年级', grade3: '三年级', grade4: '四年级', grade5: '五年级', grade6: '六年级',
+        grade7: '七年级', grade8: '八年级', grade9: '九年级',
+        grade10: '高一', grade11: '高二', grade12: '高三'
+      };
+      const CLASSES_BY_GRADE_V65 = {
+        grade1: ['一年级 1 班','一年级 2 班','一年级 3 班','一年级 4 班'],
+        grade2: ['二年级 1 班','二年级 2 班','二年级 3 班','二年级 4 班'],
+        grade3: ['三年级 1 班','三年级 2 班','三年级 3 班','三年级 4 班'],
+        grade4: ['四年级 1 班','四年级 2 班','四年级 3 班','四年级 4 班'],
+        grade5: ['五年级 1 班','五年级 2 班','五年级 3 班','五年级 4 班'],
+        grade6: ['六年级 1 班','六年级 2 班','六年级 3 班','六年级 4 班'],
+        grade7: ['七年级 1 班','七年级 2 班','七年级 3 班','七年级 4 班','七年级 5 班','七年级 6 班'],
+        grade8: ['八年级 1 班','八年级 2 班','八年级 3 班','八年级 4 班','八年级 5 班','八年级 6 班'],
+        grade9: ['九年级 1 班','九年级 2 班','九年级 3 班','九年级 4 班','九年级 5 班','九年级 6 班'],
+        grade10: ['高一 1 班','高一 2 班','高一 3 班','高一 4 班'],
+        grade11: ['高二 1 班','高二 2 班','高二 3 班','高二 4 班'],
+        grade12: ['高三 1 班','高三 2 班','高三 3 班','高三 4 班']
+      };
+      const GRADES_BY_STAGE_V65 = {
+        all: ['grade1','grade2','grade3','grade4','grade5','grade6','grade7','grade8','grade9','grade10','grade11','grade12'],
+        primary: ['grade1','grade2','grade3','grade4','grade5','grade6'],
+        middle: ['grade7','grade8','grade9'],
+        high: ['grade10','grade11','grade12']
+      };
+
+      const STAGE_CLASS_FILTER_IDS_V65 = [
+        ['scoreDistClassSelect', 'scoreDistGradeSelect'],
+        ['levelTrendClassSelect', 'levelTrendGradeSelect'],
+        ['scoreTrendClassSelect', 'scoreTrendGradeSelect'],
+        ['studentDevClassSelect', 'studentDevGradeSelect'],
+        ['knowledgeGraphClassSelect', 'knowledgeGraphGradeSelect'],
+        ['processFunnelClassSelect', 'processFunnelGradeSelect'],
+        ['resourceTopClassSelect', 'resourceTopGradeSelect'],
+        ['teachingTypeClassSelect', 'teachingTypeGradeSelect'],
+        ['fourMatClassSelect', 'fourMatGradeSelect'],
+        ['feedbackTypeClassSelect', 'feedbackTypeGradeSelect'],
+        ['studentProfileClassSelect', 'studentProfileGradeSelect'],
+        ['studentBehaviorPerformanceClassSelect', 'studentBehaviorPerformanceGradeSelect'],
+        ['studentRiskClassSelect', 'studentRiskGradeSelect'],
+        ['practiceInnovationClassSelect', 'practiceInnovationGradeSelect']
+      ];
+
+      function globalStageV65() {
+        return document.getElementById('globalStageSelect')?.value
+          || document.querySelector('.top-global-filters .page-global-select[data-filter="stage"]')?.value
+          || 'all';
+      }
+      function globalGradeV65() {
+        const value = document.getElementById('globalGradeSelect')?.value
+          || document.querySelector('.top-global-filters .page-global-select[data-filter="grade"]')?.value
+          || 'school';
+        return value === 'all' ? 'school' : value;
+      }
+      function globalSubjectV65() {
+        return document.getElementById('globalSubjectSelect')?.value
+          || document.querySelector('.top-global-filters .page-global-select[data-filter="subject"]')?.value
+          || 'all';
+      }
+      function scopeGradeKeyV65(localGradeId) {
+        const globalGrade = globalGradeV65();
+        if (globalGrade !== 'school') return globalGrade;
+        const local = document.getElementById(localGradeId)?.value || 'school';
+        return local === 'all' ? 'school' : local;
+      }
+      function currentScopeLabelV65(localGradeId, classId) {
+        const grade = scopeGradeKeyV65(localGradeId);
+        const stage = globalStageV65();
+        const gradeText = grade !== 'school' ? (GRADE_LABEL_V65[grade] || grade) : (STAGE_LABEL_V65[stage] || '全部学段');
+        const classText = document.getElementById(classId)?.selectedOptions?.[0]?.text || '全部班级';
+        const subject = globalSubjectV65();
+        return `${gradeText} · ${classText} · ${subject === 'all' ? '全部学科' : subject}`;
+      }
+      function classNamesForScopeV65(localGradeId) {
+        const globalGrade = globalGradeV65();
+        if (globalGrade !== 'school') return CLASSES_BY_GRADE_V65[globalGrade] || [];
+        const localGrade = document.getElementById(localGradeId)?.value || 'school';
+        if (localGrade !== 'school' && localGrade !== 'all') return CLASSES_BY_GRADE_V65[localGrade] || [];
+        const stage = globalStageV65();
+        const grades = GRADES_BY_STAGE_V65[stage] || GRADES_BY_STAGE_V65.all;
+        return grades.flatMap(grade => CLASSES_BY_GRADE_V65[grade] || []);
+      }
+      function optionHtmlV65(names, selected) {
+        const options = [['all', '全部班级']].concat(names.map((name, index) => [`class${index + 1}`, name]));
+        const valueSet = new Set(options.map(([value]) => value));
+        const safe = valueSet.has(selected) ? selected : 'all';
+        return options.map(([value, label]) => `<option value="${value}"${value === safe ? ' selected' : ''}>${label}</option>`).join('');
+      }
+      function ensureClassSelectV65(classId, gradeId) {
+        let gradeSelect = document.getElementById(gradeId);
+        let select = document.getElementById(classId);
+        if (!gradeSelect && classId === 'knowledgeGraphClassSelect') {
+          const filters = document.querySelector('#knowledgeGraphPanel .panel-filters');
+          if (filters && !select) {
+            select = document.createElement('select');
+            select.id = classId;
+            filters.insertBefore(select, document.getElementById('knowledgeFullscreenBtn') || null);
+          }
+        }
+        if (!select && gradeSelect) {
+          select = document.createElement('select');
+          select.id = classId;
+          gradeSelect.insertAdjacentElement('afterend', select);
+        }
+        if (!select) return;
+        select.className = Array.from(new Set(((select.className || '') + ' chart-select class-filter').split(/\s+/).filter(Boolean))).join(' ');
+        select.dataset.classFilter = 'true';
+        select.title = '班级筛选';
+        const old = select.value || 'all';
+        const names = classNamesForScopeV65(gradeId);
+        const html = optionHtmlV65(names, old);
+        if (select.innerHTML !== html) select.innerHTML = html;
+        select.value = [...select.options].some(option => option.value === old) ? old : 'all';
+        select.dataset.stageScope = globalStageV65();
+        select.dataset.gradeScope = scopeGradeKeyV65(gradeId);
+        select.style.display = 'inline-block';
+        const box = select.closest('.panel-filters');
+        if (box) box.style.display = 'flex';
+      }
+      function syncStageClassFiltersV65() {
+        STAGE_CLASS_FILTER_IDS_V65.forEach(([classId, gradeId]) => ensureClassSelectV65(classId, gradeId));
+      }
+
+      function updateKnowledgeGraphV65() {
+        const panel = document.getElementById('knowledgeGraphPanel');
+        const layout = panel?.querySelector('.knowledge-map-layout');
+        if (!panel || !layout) return;
+        document.getElementById('knowledgeGraphSubjectSelect')?.setAttribute('aria-hidden', 'true');
+        document.getElementById('knowledgeGraphGradeSelect')?.setAttribute('aria-hidden', 'true');
+        const isAll = globalSubjectV65() === 'all';
+        panel.classList.toggle('knowledge-warning-mode-v65', isAll);
+        layout.classList.toggle('has-subject-warning', isAll);
+        let tip = layout.querySelector('.knowledge-subject-warning');
+        if (!tip) {
+          tip = document.createElement('div');
+          tip.className = 'knowledge-subject-warning';
+          tip.textContent = '温馨提示：请选择具体学科后查看知识图谱！';
+          layout.appendChild(tip);
+        }
+        tip.textContent = '温馨提示：请选择具体学科后查看知识图谱！';
+      }
+
+      function classOffsetV65(classId) {
+        const value = document.getElementById(classId)?.value || 'all';
+        if (value === 'all') return 0;
+        const match = value.match(/\d+/);
+        return match ? (Number(match[0]) % 6) - 2 : 0;
+      }
+      function seedV65(localGradeId, classId) {
+        const subject = globalSubjectV65();
+        const subjectSeed = subject === 'all' ? 0 : SUBJECTS_V65.indexOf(subject) - 2;
+        const grade = scopeGradeKeyV65(localGradeId);
+        const gradeSeed = grade === 'school' ? 0 : (Number(String(grade).replace('grade','')) % 4) - 1;
+        return subjectSeed + gradeSeed + classOffsetV65(classId);
+      }
+
+      function renderResourceContributionTopV65() {
+        const box = document.getElementById('resourceContributionTopList');
+        if (!box) return;
+        const scope = currentScopeLabelV65('resourceTopGradeSelect', 'resourceTopClassSelect');
+        const names = ['张老师','李老师','王老师','赵老师','陈老师','刘老师'];
+        const offset = seedV65('resourceTopGradeSelect', 'resourceTopClassSelect');
+        const values = [126,112,103,92,84,80].map((v, i) => Math.max(18, v + offset - Math.floor(i / 3)));
+        const max = Math.max(...values, 1);
+        box.className = 'digital-resource-list';
+        box.innerHTML = names.map((name, index) => {
+          const width = Math.max(10, Math.round(values[index] / max * 100));
+          return `<div class="digital-resource-item" data-tip="教学资源建设\n${scope}\n${name}：${values[index]}次">
+            <div class="digital-resource-rank">${index + 1}</div>
+            <div class="digital-resource-main">
+              <div class="digital-resource-name-row"><span class="digital-resource-name">${name}</span><span class="digital-resource-value">${values[index]}次</span></div>
+              <div class="digital-resource-track"><div class="digital-resource-fill" style="width:${width}%"></div></div>
+            </div>
+          </div>`;
+        }).join('');
+      }
+
+      function keepResourceTypeSelectsV65() {
+        ['resourceNewTrendTypeSelect', 'resourceUseTrendTypeSelect'].forEach(id => {
+          const select = document.getElementById(id);
+          if (!select) return;
+          select.style.display = 'inline-block';
+          select.disabled = false;
+          select.title = '资源类型筛选';
+        });
+      }
+
+      function renderTeacherListV65(id, rows, unit, gradeId, classId) {
+        const box = document.getElementById(id);
+        if (!box) return;
+        const scope = currentScopeLabelV65(gradeId, classId || gradeId);
+        const max = Math.max(...rows.map(row => row.value), 1);
+        box.className = 'digital-resource-list';
+        box.innerHTML = rows.map((row, index) => {
+          const width = Math.max(10, Math.round(row.value / max * 100));
+          return `<div class="digital-resource-item" data-tip="${scope}\n${row.name}：${row.value}${unit}">
+            <div class="digital-resource-rank">${index + 1}</div>
+            <div class="digital-resource-main">
+              <div class="digital-resource-name-row"><span class="digital-resource-name">${row.name}</span><span class="digital-resource-value">${row.value}${unit}</span></div>
+              <div class="digital-resource-track"><div class="digital-resource-fill" style="width:${width}%"></div></div>
+            </div>
+          </div>`;
+        }).join('');
+      }
+      function filteredSubjectRowsV65(baseMap) {
+        const subject = globalSubjectV65();
+        const entries = SUBJECTS_V65.map(subjectName => ({ label: subjectName, value: baseMap[subjectName] || 0 })).filter(row => row.value > 0);
+        return subject === 'all' ? entries : entries.filter(row => row.label === subject);
+      }
+      function renderTeacherChartsFilteredV65() {
+        const subject = globalSubjectV65();
+        const grade = scopeGradeKeyV65('teacherSubjectDistGradeSelect');
+        const offset = seedV65('teacherSubjectDistGradeSelect', 'teacherSubjectDistClassSelect');
+        const subjectCountsBase = grade === 'grade7'
+          ? { 语文:18, 数学:20, 英语:17, 道法:10 }
+          : grade === 'grade8'
+            ? { 语文:17, 数学:19, 英语:18, 物理:11, 道法:9 }
+            : grade === 'grade9'
+              ? { 语文:16, 数学:18, 英语:17, 物理:12, 化学:10, 道法:8 }
+              : { 语文:51, 数学:57, 英语:52, 物理:23, 化学:10, 道法:27 };
+        const subjectRows = filteredSubjectRowsV65(Object.fromEntries(Object.entries(subjectCountsBase).map(([key, value], index) => [key, Math.max(1, value + offset - (index % 2))])));
+        if (typeof drawDonut === 'function') {
+          drawDonut('teacherSubjectDonut', subjectRows.map(row => row.label), subjectRows.map(row => row.value), [colors.cyan, colors.blue, colors.purple, colors.green, colors.yellow, colors.red]);
+        }
+
+        const titleSeed = seedV65('teacherTitleGradeSelect', 'teacherTitleClassSelect');
+        const titleTotal = Math.max(12, subjectRows.reduce((sum, row) => sum + row.value, 0) || 42);
+        const titleValues = [Math.round(titleTotal * 0.28), Math.round(titleTotal * 0.34), Math.round(titleTotal * 0.24), Math.max(1, Math.round(titleTotal * 0.14) + titleSeed)];
+        if (typeof drawDonut === 'function') {
+          drawDonut('teacherDonut', ['正高级','高级','一级','二级'], titleValues, [colors.green, colors.cyan, colors.blue, colors.purple]);
+        }
+
+        const effectBase = { 语文:88, 数学:91, 英语:86, 物理:84, 化学:85, 道法:89 };
+        const effectRows = filteredSubjectRowsV65(effectBase).map((row, index) => ({ label: row.label, value: Math.max(60, Math.min(99, row.value + offset - index)) }));
+        if (typeof drawBar === 'function') {
+          drawBar('teacherBar', effectRows.map(row => row.label), effectRows.map(row => row.value), 100, false);
+        }
+
+        const resourceRows = (subject === 'all'
+          ? ['张老师','李老师','王老师','赵老师','陈老师','刘老师']
+          : [`${subject}教研组`, `${subject}备课组`, `${subject}骨干教师`, `${subject}青年教师`])
+          .map((name, index) => ({ name, value: Math.max(18, [136,124,113,98,86,78][index] + seedV65('teacherResourceGradeSelect', 'teacherResourceClassSelect')) }));
+        renderTeacherListV65('teacherResourceTopList', resourceRows, '次', 'teacherResourceGradeSelect', 'teacherResourceClassSelect');
+
+        const typeName = document.getElementById('teacherLevelRankTypeSelect')?.selectedOptions?.[0]?.text || '待提升';
+        const levelRows = (subject === 'all'
+          ? SUBJECTS_V65
+          : [`${subject}1班`, `${subject}2班`, `${subject}3班`, `${subject}4班`, `${subject}5班`])
+          .map((name, index) => ({ name: subject === 'all' ? `${name}·${typeName}` : `${name}·${typeName}`, value: Math.max(8, [42,38,35,31,28,25][index] + seedV65('teacherLevelRankGradeSelect', 'teacherLevelRankClassSelect')) }));
+        renderTeacherListV65('teacherLevelTopList', levelRows, '%', 'teacherLevelRankGradeSelect', 'teacherLevelRankClassSelect');
+      }
+
+      function renderAllV65() {
+        syncStageClassFiltersV65();
+        updateKnowledgeGraphV65();
+        keepResourceTypeSelectsV65();
+        renderResourceContributionTopV65();
+        renderTeacherChartsFilteredV65();
+      }
+
+      const previousProcessV65 = window.renderProcessCharts;
+      window.renderProcessCharts = function () {
+        if (typeof previousProcessV65 === 'function') previousProcessV65.apply(this, arguments);
+        renderAllV65();
+      };
+      try { renderProcessCharts = window.renderProcessCharts; } catch (e) {}
+
+      const previousTeacherV65 = window.renderTeacherCharts;
+      window.renderTeacherCharts = function () {
+        if (typeof previousTeacherV65 === 'function') previousTeacherV65.apply(this, arguments);
+        renderAllV65();
+      };
+      try { renderTeacherCharts = window.renderTeacherCharts; } catch (e) {}
+
+      const previousQualityV65 = window.renderQualityCharts;
+      window.renderQualityCharts = function () {
+        if (typeof previousQualityV65 === 'function') previousQualityV65.apply(this, arguments);
+        renderAllV65();
+      };
+      try { renderQualityCharts = window.renderQualityCharts; } catch (e) {}
+
+      const previousStudentV65 = window.renderStudentChartsV25 || window.renderStudentCharts;
+      window.renderStudentChartsV25 = function () {
+        if (typeof previousStudentV65 === 'function') previousStudentV65.apply(this, arguments);
+        renderAllV65();
+      };
+      try { renderStudentChartsV25 = window.renderStudentChartsV25; } catch (e) {}
+
+      function scheduleV65() {
+        [0, 80, 180, 400, 900].forEach(delay => setTimeout(renderAllV65, delay));
+      }
+      document.addEventListener('change', function (event) {
+        const target = event.target;
+        if (!target) return;
+        if (
+          target.classList?.contains('page-global-select') ||
+          target.dataset?.classFilter === 'true' ||
+          target.classList?.contains('teacher-filter') ||
+          target.classList?.contains('quality-filter') ||
+          target.classList?.contains('process-filter') ||
+          target.classList?.contains('student-filter') ||
+          ['globalStageSelect','globalGradeSelect','globalSubjectSelect','globalTimeSelect','teacherLevelRankTypeSelect','resourceNewTrendTypeSelect','resourceUseTrendTypeSelect'].includes(target.id)
+        ) {
+          scheduleV65();
+        }
+      }, true);
+      document.addEventListener('click', function (event) {
+        if (event.target?.classList?.contains('nav-btn') || event.target?.classList?.contains('global-filter-reset-btn')) scheduleV65();
+      }, true);
+      document.addEventListener('DOMContentLoaded', scheduleV65);
+      window.addEventListener('load', scheduleV65);
+      window.addEventListener('resize', () => setTimeout(renderAllV65, 140));
+      scheduleV65();
+    })();
+  </script>
+
+  <script>
+    /* === V2.66 模块内图表/KPI 拖拽换位 === */
+    (function () {
+      const SORTABLE_CONTAINER_SELECTOR = [
+        '.page .kpi-grid',
+        '.page .layout-2',
+        '.page .layout-3',
+        '.page .overview-side-column'
+      ].join(',');
+      const ITEM_SELECTOR = ':scope > .panel, :scope > .kpi-card';
+      const STORAGE_KEY_PREFIX = 'zhdx_dashboard_drag_order_v266:';
+      let activeItem = null;
+      let activeContainer = null;
+
+      function getDirectItems(container) {
+        return Array.from(container.querySelectorAll(ITEM_SELECTOR));
+      }
+
+      function getContainerKey(container, index) {
+        const page = container.closest('.page');
+        const pageId = page?.id || 'page';
+        const role = container.classList.contains('kpi-grid') ? 'kpi'
+          : container.classList.contains('overview-side-column') ? Array.from(container.classList).find(name => name.includes('column')) || 'overview-column'
+          : Array.from(container.classList).filter(name => /^layout-|resource-layout|trend-layout|student-|teacher-/.test(name)).join('.') || 'layout';
+        return `${pageId}:${role}:${index}`;
+      }
+
+      function itemBaseName(item, index) {
+        const title = item.querySelector('.panel-title, .kpi-label')?.textContent?.trim();
+        return item.id || title || `item-${index + 1}`;
+      }
+
+      function prepareItemId(item, index, containerKey) {
+        if (!item.dataset.dragItemId) {
+          item.dataset.dragItemId = `${containerKey}:${itemBaseName(item, index).replace(/\s+/g, '')}`;
+        }
+        return item.dataset.dragItemId;
+      }
+
+      function saveOrder(container) {
+        const key = container.dataset.dragContainerKey;
+        if (!key) return;
+        const ids = getDirectItems(container).map(item => item.dataset.dragItemId).filter(Boolean);
+        try {
+          localStorage.setItem(STORAGE_KEY_PREFIX + key, JSON.stringify(ids));
+        } catch (e) {}
+      }
+
+      function restoreOrder(container) {
+        const key = container.dataset.dragContainerKey;
+        if (!key) return;
+        let saved = null;
+        try { saved = JSON.parse(localStorage.getItem(STORAGE_KEY_PREFIX + key) || 'null'); } catch (e) {}
+        if (!Array.isArray(saved) || !saved.length) return;
+        const items = getDirectItems(container);
+        const byId = new Map(items.map(item => [item.dataset.dragItemId, item]));
+        saved.forEach(id => {
+          const item = byId.get(id);
+          if (item && item.parentElement === container) container.appendChild(item);
+        });
+      }
+
+      function makeHandle(item) {
+        let handle = item.querySelector(':scope > .drag-sort-handle');
+        if (!handle) {
+          handle = document.createElement('button');
+          handle.type = 'button';
+          handle.className = 'drag-sort-handle';
+          handle.innerHTML = '↕';
+          handle.title = '按住拖拽，可在当前区域内与其他图表/指标卡交换位置';
+          handle.setAttribute('aria-label', '拖拽调整位置');
+          handle.setAttribute('draggable', 'true');
+          item.insertBefore(handle, item.firstChild);
+        }
+        return handle;
+      }
+
+      function clearDragState() {
+        document.querySelectorAll('.drag-sortable-item.is-dragging, .drag-sortable-item.is-drag-over')
+          .forEach(item => item.classList.remove('is-dragging', 'is-drag-over'));
+        activeItem = null;
+        activeContainer = null;
+      }
+
+      function swapElements(a, b) {
+        if (!a || !b || a === b || a.parentNode !== b.parentNode) return false;
+        const parent = a.parentNode;
+        const aNext = a.nextSibling;
+        const bNext = b.nextSibling;
+        if (aNext === b) {
+          parent.insertBefore(b, a);
+        } else if (bNext === a) {
+          parent.insertBefore(a, b);
+        } else {
+          parent.insertBefore(a, bNext);
+          parent.insertBefore(b, aNext);
+        }
+        return true;
+      }
+
+      function scheduleChartRedraw() {
+        const callIfReady = name => {
+          try { if (typeof window[name] === 'function') window[name](); } catch (e) {}
+        };
+        const redraw = () => {
+          ['renderOverviewCharts','renderQualityCharts','renderProcessCharts','renderStudentChartsV25','renderStudentCharts','renderTeacherCharts','renderSystemCharts','renderCharts'].forEach(callIfReady);
+          window.dispatchEvent(new Event('resize'));
+        };
+        requestAnimationFrame(redraw);
+        setTimeout(redraw, 160);
+      }
+
+      function bindItem(item) {
+        if (item.dataset.dragSortableReady === 'true') return;
+        item.dataset.dragSortableReady = 'true';
+        item.classList.add('drag-sortable-item');
+        const handle = makeHandle(item);
+
+        handle.addEventListener('dragstart', function (event) {
+          activeItem = item;
+          activeContainer = item.parentElement;
+          item.classList.add('is-dragging');
+          event.dataTransfer.effectAllowed = 'move';
+          event.dataTransfer.setData('text/plain', item.dataset.dragItemId || 'dashboard-item');
+        });
+
+        handle.addEventListener('dragend', clearDragState);
+
+        item.addEventListener('dragover', function (event) {
+          if (!activeItem || !activeContainer || item === activeItem || item.parentElement !== activeContainer) return;
+          event.preventDefault();
+          event.dataTransfer.dropEffect = 'move';
+          document.querySelectorAll('.drag-sortable-item.is-drag-over').forEach(node => {
+            if (node !== item) node.classList.remove('is-drag-over');
+          });
+          item.classList.add('is-drag-over');
+        });
+
+        item.addEventListener('dragleave', function (event) {
+          if (!item.contains(event.relatedTarget)) item.classList.remove('is-drag-over');
+        });
+
+        item.addEventListener('drop', function (event) {
+          if (!activeItem || !activeContainer || item === activeItem || item.parentElement !== activeContainer) return;
+          event.preventDefault();
+          const first = activeItem;
+          const second = item;
+          if (swapElements(first, second)) {
+            [first, second].forEach(node => {
+              node.classList.remove('is-drag-over', 'is-dragging');
+              node.classList.add('is-swap-flash');
+              setTimeout(() => node.classList.remove('is-swap-flash'), 420);
+            });
+            saveOrder(activeContainer);
+            scheduleChartRedraw();
+          }
+          clearDragState();
+        });
+      }
+
+      function initDashboardDragSort() {
+        const containers = Array.from(document.querySelectorAll(SORTABLE_CONTAINER_SELECTOR));
+        containers.forEach((container, index) => {
+          const items = getDirectItems(container);
+          if (items.length < 2) return;
+          const key = getContainerKey(container, index);
+          container.dataset.dragContainerKey = key;
+          items.forEach((item, itemIndex) => prepareItemId(item, itemIndex, key));
+          restoreOrder(container);
+          getDirectItems(container).forEach(bindItem);
+        });
+      }
+
+      document.addEventListener('DOMContentLoaded', initDashboardDragSort);
+      window.addEventListener('load', initDashboardDragSort);
+      document.addEventListener('click', function (event) {
+        if (event.target?.classList?.contains('nav-btn')) setTimeout(initDashboardDragSort, 80);
+      }, true);
+      setTimeout(initDashboardDragSort, 0);
+    })();
+  </script>
+
+
+  <script>
+    /* === PRD 全屏文档弹窗交互 === */
+    (function () {
+      function openPrdModal() {
+        const modal = document.getElementById('prdModal');
+        if (!modal) return;
+        modal.classList.add('is-open');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('prd-modal-open');
+        setTimeout(() => document.getElementById('prdCloseBtn')?.focus(), 0);
+      }
+      function closePrdModal() {
+        const modal = document.getElementById('prdModal');
+        if (!modal) return;
+        modal.classList.remove('is-open');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('prd-modal-open');
+        document.getElementById('prdOpenBtn')?.focus();
+      }
+      document.addEventListener('click', function (event) {
+        if (event.target?.id === 'prdOpenBtn') openPrdModal();
+        if (event.target?.id === 'prdCloseBtn') closePrdModal();
+      }, true);
+      document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape' && document.getElementById('prdModal')?.classList.contains('is-open')) closePrdModal();
+      });
+    })();
+  </script>
+
+
+  <script>
+    /* === 用户需求补丁：系统运维显示精简全局筛选 === */
+    (function () {
+      function activePageIdSystemFilterPatch() {
+        return document.querySelector('.page.active')?.id || 'overview';
+      }
+      function applySystemFilterPatch() {
+        const activePage = activePageIdSystemFilterPatch();
+        const filters = document.querySelector('.top-global-filters');
+        if (!filters) return;
+        if (activePage === 'system') {
+          filters.classList.remove('is-hidden');
+          filters.querySelectorAll('.page-global-select[data-filter="subject"], .page-global-select[data-filter="grade"]').forEach(select => {
+            select.classList.add('overview-global-filter-hide');
+            select.disabled = true;
+          });
+          filters.querySelectorAll('.page-global-select[data-filter="stage"], .page-global-select[data-filter="time"]').forEach(select => {
+            select.classList.remove('overview-global-filter-hide');
+            select.disabled = false;
+          });
+          document.querySelectorAll('.global-filter-reset-btn').forEach(btn => { btn.style.display = ''; });
+        }
+      }
+      document.addEventListener('click', function (event) {
+        if (event.target?.classList?.contains('nav-btn') || event.target?.classList?.contains('global-filter-reset-btn')) {
+          [0, 80, 180, 320].forEach(delay => setTimeout(applySystemFilterPatch, delay));
+        }
+      }, true);
+      document.addEventListener('change', function (event) {
+        if (event.target?.classList?.contains('page-global-select')) {
+          [0, 80, 180].forEach(delay => setTimeout(applySystemFilterPatch, delay));
+        }
+      }, true);
+      document.addEventListener('DOMContentLoaded', () => [0, 120, 300].forEach(delay => setTimeout(applySystemFilterPatch, delay)));
+      window.addEventListener('load', () => [0, 120, 300].forEach(delay => setTimeout(applySystemFilterPatch, delay)));
+      applySystemFilterPatch();
     })();
   </script>
 
